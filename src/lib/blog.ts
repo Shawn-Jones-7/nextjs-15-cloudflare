@@ -14,7 +14,6 @@ export interface Post {
 
 async function loadPosts(): Promise<Post[]> {
   try {
-    // eslint-disable-next-line n/no-missing-import
     const { posts } = await import('#velite');
     return posts as Post[];
   } catch {

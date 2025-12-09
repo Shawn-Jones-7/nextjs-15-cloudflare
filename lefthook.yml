@@ -1,4 +1,7 @@
 commit-msg:
+  commands:
+    commitlint:
+      run: pnpm commitlint --edit {1}
   scripts:
     'commit_check':
       runner: bash

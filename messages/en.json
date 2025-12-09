@@ -165,6 +165,11 @@
     "description": "Explore our comprehensive range of industrial equipment and solutions.",
     "getQuote": "Get Quote"
   },
+  "WhatsApp": {
+    "defaultMessage": "Hi, I'm interested in learning more about your products and services.",
+    "productInquiry": "Hi, I'm interested in {productName}. Can you provide more details and pricing?",
+    "buttonLabel": "Chat on WhatsApp"
+  },
   "Products": {
     "specs": {
       "flowRate": "Flow Rate",

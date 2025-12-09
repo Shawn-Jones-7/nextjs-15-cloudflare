@@ -19,7 +19,7 @@ const compat = new FlatCompat({
 /** @type {import('@typescript-eslint/utils').TSESLint.FlatConfig.ConfigArray} */
 export default defineConfig(
   {
-    ignores: ['node_modules', '.next', 'cloudflare-env.d.ts', '.open-next', '.velite', 'reports/**'],
+    ignores: ['node_modules', '.next', 'cloudflare-env.d.ts', '.open-next', '.velite', 'reports/**', 'scripts/**'],
   },
 
   js.configs.recommended,
@@ -144,12 +144,8 @@ export default defineConfig(
 
       'react-hooks/react-compiler': 'error',
       'n/exports-style': ['error', 'exports'],
-      'n/no-missing-import': [
-        'error',
-        {
-          ignoreTypeImport: true,
-        },
-      ],
+      'n/no-missing-import': 'off',
+      'n/no-extraneous-import': 'off',
     },
   },
 

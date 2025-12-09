@@ -165,6 +165,11 @@
     "description": "Explore nuestra amplia gama de equipos y soluciones industriales.",
     "getQuote": "Solicitar Cotización"
   },
+  "WhatsApp": {
+    "defaultMessage": "Hola, estoy interesado en conocer más sobre sus productos y servicios.",
+    "productInquiry": "Hola, estoy interesado en {productName}. ¿Puede proporcionar más detalles y precios?",
+    "buttonLabel": "Chat en WhatsApp"
+  },
   "Products": {
     "specs": {
       "flowRate": "Caudal",

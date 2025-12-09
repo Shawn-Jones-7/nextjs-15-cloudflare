@@ -14,13 +14,15 @@
 | WP-06 | Form System | P1 | WP-01 | ✅ Done |
 | WP-07 | SEO Optimization | P2 | WP-04, WP-05 | ✅ Done |
 | WP-08 | Acceptance & Deployment | P2 | All | 🟡 95% |
+| WP-09 | Site Enhancements Suite | P1 | WP-07 | 🔵 New |
 
 ### Progress Summary (Last Updated: 2025-12-09)
 
-**Overall Progress: ~98%**
+**Overall Progress: ~95%**
 
 - **Completed**: WP-01 through WP-07 (Environment, Quality, CI/CD, i18n, Pages, Forms, SEO)
 - **In Progress**: WP-08 Acceptance (quality suite passes, build passes, deploy pending)
+- **New**: WP-09 Site Enhancements (Quality tools, README, WhatsApp integration)
 - **Remaining**: Cloudflare deployment and production verification
 
 ---
@@ -338,3 +340,164 @@ Final validation and production deployment.
 
 ### Rollback
 - Rollback via Cloudflare dashboard to previous deployment
+
+---
+
+## WP-09: Site Enhancements Suite
+
+### Objective
+Align quality tools with tucsenberg-web-frontier, create comprehensive README documentation, and integrate WhatsApp Business API for lead conversion.
+
+### Inputs
+- tucsenberg-web-frontier comparison analysis
+- WhatsApp Business API best practices (Context7 research)
+- Existing project structure
+
+### Tasks
+
+#### Phase 1: Quality Tools Alignment (P0)
+
+- [ ] T001 [P] Install madge for circular dependency detection
+  - `pnpm add -D madge`
+  - Add script: `"circular:check": "madge --circular --extensions ts,tsx src/"`
+- [ ] T002 [P] Install and configure commitlint
+  - `pnpm add -D @commitlint/cli @commitlint/config-conventional`
+  - Create `commitlint.config.js` with conventional commit rules
+  - Update `lefthook.yml` with commit-msg hook
+- [ ] T003 Create translation validation script
+  - Create `scripts/validate-translations.ts`
+  - Validate all locale keys match en.json baseline
+  - Add script: `"validate:translations": "tsx scripts/validate-translations.ts"`
+- [ ] T004 Update CI workflow with new quality checks
+  - Add `pnpm circular:check` step
+  - Add `pnpm validate:translations` step
+
+#### Phase 2: README Documentation (P0)
+
+- [ ] T005 Create comprehensive README.md (tucsenberg style)
+  - Features section (tech stack, i18n, Cloudflare)
+  - Environment requirements (Node.js, pnpm, Cloudflare)
+  - Environment variables configuration
+  - Configuration-driven features
+  - Quick start guide
+  - Project structure documentation
+  - Available scripts reference
+  - Content management (Blog MDX, Products JSON)
+  - Technical stack details
+  - Deployment guide (Cloudflare Workers)
+  - License
+
+#### Phase 3: WhatsApp Business API Integration (P1)
+
+- [ ] T006 Create feature flags module
+  - Create `src/lib/feature-flags.ts`
+  - `ENABLE_WHATSAPP_CHAT` based on `NEXT_PUBLIC_WHATSAPP_NUMBER`
+- [ ] T007 [P] Create WhatsApp icon component
+  - Create `src/components/whatsapp/whatsapp-icon.tsx`
+- [ ] T008 Create WhatsApp floating button component
+  - Create `src/components/whatsapp/whatsapp-button.tsx`
+  - Support position prop (bottom-right default)
+  - Support prefilled message from translations
+  - RTL-aware positioning
+- [ ] T009 [P] Add WhatsApp translations to all 4 locales
+  - Add `WhatsApp` namespace to `messages/en.json`
+  - Add `WhatsApp` namespace to `messages/zh.json`
+  - Add `WhatsApp` namespace to `messages/es.json`
+  - Add `WhatsApp` namespace to `messages/ar.json`
+  - Keys: `defaultMessage`, `productInquiry`, `buttonLabel`
+- [ ] T010 Integrate WhatsApp button into locale layout
+  - Update `src/app/[locale]/layout.tsx`
+  - Conditional render based on feature flag
+- [ ] T011 Add WhatsApp CTA to product detail page
+  - Update `src/app/[locale]/products/[slug]/page.tsx`
+  - Add "Chat on WhatsApp" button with product-specific message
+- [ ] T012 Update setup-secrets.sh with WhatsApp configuration
+  - Add `NEXT_PUBLIC_WHATSAPP_NUMBER` documentation
+  - Add example prefilled message configuration
+
+#### Phase 4: Validation
+
+- [ ] T013 Verify all quality checks pass
+  - `pnpm circular:check` passes (0 circular dependencies)
+  - `pnpm validate:translations` passes (4 locales consistent)
+  - `pnpm lint` passes
+  - `pnpm typecheck` passes
+  - `pnpm build` passes
+- [ ] T014 Test WhatsApp integration
+  - Floating button visible on all pages
+  - Correct WhatsApp link generation
+  - Product inquiry button works on product pages
+  - RTL layout correct for Arabic
+
+### Outputs
+- Quality tools: madge, commitlint, translation validation
+- README.md (~13KB comprehensive documentation)
+- WhatsApp floating button with i18n support
+- Product page WhatsApp CTA
+
+### Acceptance Criteria
+- [ ] `pnpm circular:check` returns 0 circular dependencies
+- [ ] `pnpm validate:translations` reports all 4 locales consistent
+- [ ] README.md ≥10KB with all sections complete
+- [ ] WhatsApp button renders on all pages (when configured)
+- [ ] WhatsApp link format: `https://wa.me/{number}?text={encodedMessage}`
+- [ ] All 4 locales have WhatsApp translations
+- [ ] CI pipeline includes new quality checks
+
+### Rollback
+- Remove WhatsApp components (site works without them)
+- Revert quality tool additions if breaking CI
+
+---
+
+## Dependencies & Execution Order
+
+### Work Package Dependencies
+
+```
+WP-01 ─┬─> WP-02 ──> WP-03
+       │
+       ├─> WP-04 ──> WP-05 ──> WP-07 ──> WP-09
+       │              │
+       └─> WP-06 ─────┘
+                      │
+              All ────┴─> WP-08 (Deployment)
+```
+
+### WP-09 Internal Task Dependencies
+
+```
+Phase 1 (Quality Tools):
+  T001 ─┐
+  T002 ─┼─> T004 (CI Update)
+  T003 ─┘
+
+Phase 2 (README):
+  T005 (standalone)
+
+Phase 3 (WhatsApp):
+  T006 ─┬─> T010 (Layout)
+  T007 ─┤
+  T008 ─┤
+  T009 ─┘
+        │
+        └─> T011 (Product Page)
+        └─> T012 (Secrets Doc)
+
+Phase 4 (Validation):
+  T013, T014 (after all above)
+```
+
+### Parallel Opportunities
+
+```bash
+# Phase 1 - Quality Tools (all parallel):
+T001: Install madge
+T002: Install commitlint
+T003: Create translation validation
+
+# Phase 3 - WhatsApp Components (parallel):
+T007: WhatsApp icon
+T008: WhatsApp button
+T009: Add translations (4 files parallel)
+```

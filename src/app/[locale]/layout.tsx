@@ -13,6 +13,8 @@ import { ProgressBar } from '@/components/common/progress-bar';
 import Footer from '@/components/layout/footer';
 import Header from '@/components/layout/header';
 import { OrganizationJsonLd } from '@/components/seo/structured-data';
+import { WhatsAppButton } from '@/components/whatsapp';
+import { FEATURE_FLAGS } from '@/lib/feature-flags';
 import { isRtl, type Locale } from '@/lib/i18n/config';
 import { buildPageMetadata } from '@/lib/i18n/metadata';
 import { routing } from '@/lib/i18n/routing';
@@ -68,6 +70,7 @@ export default async function LocaleLayout({ children, params }: Properties) {
             <main className="flex-1">{children}</main>
             <Footer />
             <BackToTop />
+            {FEATURE_FLAGS.ENABLE_WHATSAPP_CHAT && <WhatsAppButton />}
           </NextIntlClientProvider>
         </ThemeProvider>
       </body>
