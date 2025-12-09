@@ -9,20 +9,6 @@ void initOpenNextCloudflareForDev();
 
 const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
 
-const nextConfig: NextConfig = {
-  reactStrictMode: true,
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
-  typescript: {
-    ignoreBuildErrors: true,
-  },
-  webpack: (config: { plugins: { push: (plugin: VeliteWebpackPlugin) => void } }) => {
-    config.plugins.push(new VeliteWebpackPlugin());
-    return config;
-  },
-};
-
 class VeliteWebpackPlugin {
   static started = false;
   apply(compiler: {
@@ -41,5 +27,17 @@ class VeliteWebpackPlugin {
     });
   }
 }
+
+const nextConfig: NextConfig = {
+  reactStrictMode: true,
+  poweredByHeader: false,
+  images: {
+    unoptimized: true,
+  },
+  webpack: (config: { plugins: { push: (plugin: VeliteWebpackPlugin) => void } }) => {
+    config.plugins.push(new VeliteWebpackPlugin());
+    return config;
+  },
+};
 
 export default withNextIntl(nextConfig);

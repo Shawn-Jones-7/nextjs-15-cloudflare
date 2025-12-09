@@ -142,7 +142,6 @@ export default defineConfig(
         },
       ],
 
-      'react-hooks/react-compiler': 'error',
       'n/exports-style': ['error', 'exports'],
       'n/no-missing-import': 'off',
       'n/no-extraneous-import': 'off',
