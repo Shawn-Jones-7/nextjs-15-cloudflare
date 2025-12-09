@@ -33,7 +33,8 @@
     "test:watch": "vitest --browser.headless",
     "typecheck": "tsc",
     "upload": "opennextjs-cloudflare build && opennextjs-cloudflare upload",
-    "validate:translations": "tsx scripts/validate-translations.ts"
+    "validate:translations": "tsx scripts/validate-translations.ts",
+    "velite": "velite"
   },
   "commitlint": {
     "extends": [
