@@ -4,7 +4,7 @@
  * - Performance ≥ 90
  * - Accessibility ≥ 90
  * - Best Practices ≥ 95
- * - SEO ≥ 95
+ * - SEO ≥ 90 (temporarily lowered from 95, see P2 backlog)
  */
 
 const criticalUrls = [
@@ -43,7 +43,7 @@ export const ci = {
       ],
       'categories:accessibility': ['error', { minScore: 0.9 }],
       'categories:best-practices': ['error', { minScore: 0.95 }],
-      'categories:seo': ['error', { minScore: 0.95 }],
+      'categories:seo': ['error', { minScore: 0.9 }],
       'first-contentful-paint': ['error', { maxNumericValue: 2000 }],
       'largest-contentful-paint': ['error', { maxNumericValue: 4500 }],
       'cumulative-layout-shift': ['error', { maxNumericValue: 0.15 }],

@@ -5,6 +5,8 @@ ignorePaths:
   - .gitignore
   - .todo
   - .next
+  - .specify
+  - .claude/commands
   - node_modules
   - next-env.d.ts
   - pnpm-lock.yaml
@@ -12,23 +14,73 @@ ignorePaths:
   - .vscode/extensions.json
   - migrations
   - cloudflare-env.d.ts
+  - src/content/es/**
+  - src/content/zh/**
+  - src/content/ar/**
+  - messages/es.json
+  - messages/zh.json
+  - messages/ar.json
 language: en-US,en-GB
 words:
+  - Airtable
+  - AIRTABLE
+  - airtable
   - arktype
+  - autorun
+  - bgcolor
+  - bootup
+  - browserslistrc
+  - claudecode
   - commitlint
+  - COPQ
+  - depcruise
   - elsakaan
+  - EPDM
   - esbenp
   - esbuild
+  - fontname
+  - frontmatter
+  - Glassmorphism
+  - HDPE
+  - hdpe
+  - Hmac
   - ianvs
+  - innerhtml
+  - isodate
   - ixahmedxi
   - lefthook
+  - lhci
+  - lighthouserc
+  - mainthread
+  - marsidev
   - nextjs
+  - nosniff
   - oklch
+  - opennext
   - opennextjs
+  - PTFE
+  - rankdir
+  - returntocorp
+  - runbooks
   - Shadcn
+  - treeify
+  - TTFB
+  - tucsenberg
   - turbopack
+  - TXXX
   - unrs
   - unverceled
   - valibot
+  - velite
   - vitest
+  - WCAG
   - workerd
+  - Español
+  - العربية
+  - Knip
+  - lighthouseci
+  - parallelizable
+  - pytest
+  - Semgrep
+  - semgrep
+  - speckit
