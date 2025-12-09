@@ -29,7 +29,7 @@
 - [x] T007 [P] Create hreflang utility buildAlternates() in src/lib/i18n/metadata.ts
 - [x] T008 Update root layout with progress bar, back-to-top, hreflang in src/app/[locale]/layout.tsx
 - [x] T009 [P] Create product data configuration in src/data/products.ts
-- [x] T010 [P] Add navigation translations in messages/*.json (4 languages)
+- [x] T010 [P] Add navigation translations in messages/\*.json (4 languages)
 
 **Checkpoint**: ✓ Foundation infrastructure complete
 
@@ -46,7 +46,7 @@
 - [x] T013 [P] Create contact modal wrapper in src/components/forms/contact-modal.tsx
 - [x] T014 Update submit-lead action with new fields in src/actions/submit-lead.ts
 - [x] T015 [P] Create D1 migration for leads table in migrations/001-add-lead-columns.sql
-- [x] T016 [P] Add form translations (inquiryType, modal) in messages/*.json
+- [x] T016 [P] Add form translations (inquiryType, modal) in messages/\*.json
 - [x] T017 [P] Update header with desktop NavigationMenu in src/components/layout/header.tsx
 - [x] T018 [P] Update header with mobile Sheet navigation in src/components/layout/header.tsx
 
@@ -67,7 +67,7 @@
 - [x] T021 [P] [US1] Create product-grid server component in src/components/products/product-grid.tsx
 - [x] T022 [US1] Create products listing page with generateMetadata in src/app/[locale]/products/page.tsx
 - [x] T023 [US1] Create product detail page with CTA Modal in src/app/[locale]/products/[slug]/page.tsx
-- [x] T024 [P] [US1] Add product translations (ProductsPage.*, Products.items.*) in messages/*.json
+- [x] T024 [P] [US1] Add product translations (ProductsPage._, Products.items._) in messages/\*.json
 - [x] T025 [P] [US1] Add placeholder product images (5 categories) in public/products/
 
 **Checkpoint**: ✓ Product browsing fully functional with inquiry modal
@@ -106,7 +106,7 @@
 - [ ] T034 [US3] Create blog listing page with generateMetadata in src/app/[locale]/blog/page.tsx
 - [ ] T035 [US3] Create blog detail page with MDX rendering in src/app/[locale]/blog/[slug]/page.tsx
 - [ ] T036 [P] [US3] Create sample MDX articles (1 per language) in src/content/blog/
-- [ ] T037 [P] [US3] Add blog translations (BlogPage.*) in messages/*.json
+- [ ] T037 [P] [US3] Add blog translations (BlogPage._) in messages/_.json
 
 **Checkpoint**: Blog system fully functional with multi-language support
 
@@ -123,7 +123,7 @@
 - [x] T038 [P] [US4] Create hero-cta client component in src/components/sections/hero-cta.tsx
 - [x] T039 [P] [US4] Create hero server component (2-column grid) in src/components/sections/hero.tsx
 - [x] T040 [US4] Update homepage with Hero + CTA Modal in src/app/[locale]/page.tsx
-- [x] T041 [P] [US4] Add homepage translations (HomePage.hero.*) in messages/*.json
+- [x] T041 [P] [US4] Add homepage translations (HomePage.hero._) in messages/_.json
 
 **Checkpoint**: ✓ Homepage and company info pages complete
 
@@ -140,7 +140,7 @@
 - [ ] T042 [US5] Verify locale switcher preserves current page path
 - [ ] T043 [US5] Verify RTL layout for Arabic (dir="rtl", logical properties)
 - [ ] T044 [US5] Verify all pages have correct hreflang tags
-- [ ] T045 [P] [US5] Review and complete missing translations in messages/*.json
+- [ ] T045 [P] [US5] Review and complete missing translations in messages/\*.json
 
 **Checkpoint**: Full i18n support verified
 
@@ -172,7 +172,7 @@
 
 - [ ] T051 [P] Delete News pages directory: src/app/[locale]/news/
 - [ ] T052 [P] Delete Cases pages directory: src/app/[locale]/cases/
-- [ ] T053 Clean unused translation keys (NewsPage, CasesPage) in messages/*.json
+- [ ] T053 Clean unused translation keys (NewsPage, CasesPage) in messages/\*.json
 - [ ] T054 Run pnpm lint:unused and fix issues
 - [ ] T055 Update sitemap with all localized routes in src/app/sitemap.ts
 
@@ -222,14 +222,14 @@ Phase 1 (Setup) ──► Phase 2 (Foundational) ──┬──► Phase 3 (US1
 
 ### User Story Dependencies
 
-| Story | Can Start After | Dependencies on Other Stories |
-|-------|----------------|-------------------------------|
-| US1 (Products) | Phase 2 | None - fully independent |
-| US2 (Inquiry) | Phase 2 | Uses ContactModal (Phase 2) |
-| US3 (Blog) | Phase 2 | None - fully independent |
-| US4 (Homepage) | Phase 2 | Uses ContactModal (Phase 2) |
-| US5 (i18n) | Phase 2 | Verify all pages from other stories |
-| US6/7 | Phase 1 | ✓ Already complete |
+| Story          | Can Start After | Dependencies on Other Stories       |
+| -------------- | --------------- | ----------------------------------- |
+| US1 (Products) | Phase 2         | None - fully independent            |
+| US2 (Inquiry)  | Phase 2         | Uses ContactModal (Phase 2)         |
+| US3 (Blog)     | Phase 2         | None - fully independent            |
+| US4 (Homepage) | Phase 2         | Uses ContactModal (Phase 2)         |
+| US5 (i18n)     | Phase 2         | Verify all pages from other stories |
+| US6/7          | Phase 1         | ✓ Already complete                  |
 
 ### Parallel Opportunities
 
@@ -266,18 +266,18 @@ Phase 6 (US4) ─────────────────────►
 
 ## Progress Summary
 
-| Phase | Total | Pending | Complete | % |
-|-------|-------|---------|----------|---|
-| Phase 1: Setup | 10 | 0 | 10 | 100% |
-| Phase 2: Foundational | 8 | 0 | 8 | 100% |
-| Phase 3: US1 Products | 7 | 7 | 0 | 0% |
-| Phase 4: US2 Inquiry | 4 | 4 | 0 | 0% |
-| Phase 5: US3 Blog | 8 | 8 | 0 | 0% |
-| Phase 6: US4 Homepage | 4 | 4 | 0 | 0% |
-| Phase 7: US5 i18n | 4 | 4 | 0 | 0% |
-| Phase 8: US6+7 UX | 5 | 0 | 5 | 100% |
-| Phase 9: Polish | 18 | 18 | 0 | 0% |
-| **Total** | **68** | **45** | **23** | **34%** |
+| Phase                 | Total  | Pending | Complete | %       |
+| --------------------- | ------ | ------- | -------- | ------- |
+| Phase 1: Setup        | 10     | 0       | 10       | 100%    |
+| Phase 2: Foundational | 8      | 0       | 8        | 100%    |
+| Phase 3: US1 Products | 7      | 7       | 0        | 0%      |
+| Phase 4: US2 Inquiry  | 4      | 4       | 0        | 0%      |
+| Phase 5: US3 Blog     | 8      | 8       | 0        | 0%      |
+| Phase 6: US4 Homepage | 4      | 4       | 0        | 0%      |
+| Phase 7: US5 i18n     | 4      | 4       | 0        | 0%      |
+| Phase 8: US6+7 UX     | 5      | 0       | 5        | 100%    |
+| Phase 9: Polish       | 18     | 18      | 0        | 0%      |
+| **Total**             | **68** | **45**  | **23**   | **34%** |
 
 ---
 

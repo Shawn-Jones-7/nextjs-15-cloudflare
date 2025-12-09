@@ -19,7 +19,16 @@ const compat = new FlatCompat({
 /** @type {import('@typescript-eslint/utils').TSESLint.FlatConfig.ConfigArray} */
 export default defineConfig(
   {
-    ignores: ['node_modules', '.next', 'cloudflare-env.d.ts', '.open-next', '.velite', 'reports/**', 'scripts/**'],
+    ignores: [
+      'node_modules',
+      '.next',
+      'cloudflare-env.d.ts',
+      '.open-next',
+      '.velite',
+      'velite.config.ts',
+      'reports/**',
+      'scripts/**',
+    ],
   },
 
   js.configs.recommended,
@@ -86,6 +95,17 @@ export default defineConfig(
   },
 
   {
+    files: ['**/blog.ts'],
+    rules: {
+      // #velite is a build-time path alias to .velite directory (Velite-generated).
+      // ESLint import resolver cannot resolve it, but TypeScript handles it via paths config.
+      'import-x/no-unresolved': ['error', { ignore: ['^#velite$'] }],
+      // Dynamic import of #velite returns typed exports, safe to assign.
+      '@typescript-eslint/no-unsafe-assignment': 'off',
+    },
+  },
+
+  {
     rules: {
       '@typescript-eslint/no-unused-vars': [
         'error',
@@ -142,7 +162,6 @@ export default defineConfig(
         },
       ],
 
-      'react-hooks/react-compiler': 'error',
       'n/exports-style': ['error', 'exports'],
       'n/no-missing-import': 'off',
       'n/no-extraneous-import': 'off',

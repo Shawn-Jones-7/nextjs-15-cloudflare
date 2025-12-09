@@ -9,22 +9,22 @@
 
 ## 0) 背景与依据（为什么这样做）
 
-* **Cloudflare 官方路线**：在 Cloudflare 上运行 Next.js，**推荐使用 OpenNext 的 Cloudflare 适配器**（而非 next-on-pages）。官方博文已明确“使用 Cloudflare adapter 现为首选”。([The Cloudflare Blog][1])
-* **Workers 的 Node 能力**：在 Workers 里启用 **`nodejs_compat`** 并将 **`compatibility_date` ≥ 2024-09-23** 才能使用内建 Node API；这是 Next.js＋OpenNext 在 Workers 上运行的基础前提。([Cloudflare Docs][2])
-* **Cloudflare 官方 Next.js 指南**：Workers 指南示例也直接要求 `nodejs_compat`，并给出较新的 `compatibility_date` 示例（例如 `2025-03-25`）。([Cloudflare Docs][3])
-* **OpenNext 官方入门**：OpenNext 的 Cloudflare 文档强调本地/预览/部署流程，并要求 **Wrangler ≥ 3.99.0**。([opennext.js.org][4])
-* **Spec-Kit 的作用**：Spec-Kit 提供一组 **/speckit.*** 工作流命令（constitution → specify → plan → tasks → implement），把“规范 → 架构 → 任务 → 实现”连成闭环，适配 Claude Code 等代理。([GitHub][5])
-* **Unverceled Next.js 模板**：一个 Next 15 起步模版，默认部署到 Cloudflare，适合做我们的底座。([GitHub][6])
-* **严格质量套件来源**：`tucsenberg-web-frontier` 仓库根目录含 `.dependency-cruiser.js`、`.jscpd.json`、`.knip.json(c)`、`semgrep.yml`、`lighthouserc.js`、`.browserslistrc` 等，可直接迁入。([GitHub][7])
+- **Cloudflare 官方路线**：在 Cloudflare 上运行 Next.js，**推荐使用 OpenNext 的 Cloudflare 适配器**（而非 next-on-pages）。官方博文已明确“使用 Cloudflare adapter 现为首选”。([The Cloudflare Blog][1])
+- **Workers 的 Node 能力**：在 Workers 里启用 **`nodejs_compat`** 并将 **`compatibility_date` ≥ 2024-09-23** 才能使用内建 Node API；这是 Next.js＋OpenNext 在 Workers 上运行的基础前提。([Cloudflare Docs][2])
+- **Cloudflare 官方 Next.js 指南**：Workers 指南示例也直接要求 `nodejs_compat`，并给出较新的 `compatibility_date` 示例（例如 `2025-03-25`）。([Cloudflare Docs][3])
+- **OpenNext 官方入门**：OpenNext 的 Cloudflare 文档强调本地/预览/部署流程，并要求 **Wrangler ≥ 3.99.0**。([opennext.js.org][4])
+- **Spec-Kit 的作用**：Spec-Kit 提供一组 **/speckit.\*** 工作流命令（constitution → specify → plan → tasks → implement），把“规范 → 架构 → 任务 → 实现”连成闭环，适配 Claude Code 等代理。([GitHub][5])
+- **Unverceled Next.js 模板**：一个 Next 15 起步模版，默认部署到 Cloudflare，适合做我们的底座。([GitHub][6])
+- **严格质量套件来源**：`tucsenberg-web-frontier` 仓库根目录含 `.dependency-cruiser.js`、`.jscpd.json`、`.knip.json(c)`、`semgrep.yml`、`lighthouserc.js`、`.browserslistrc` 等，可直接迁入。([GitHub][7])
 
 ---
 
 ## 1) 前置检查（一次性）
 
-* Node ≥ 22、pnpm ≥ 9（自备）。
-* **Wrangler ≥ 3.99.0**（OpenNext 要求）：`wrangler -v`。([opennext.js.org][4])
-* Cloudflare 账号可登录：`wrangler login`。
-* 可选：使用 **C3** 快速脚手架（`npm create cloudflare@latest -- my-next-app --framework=next`；框架=next 时会配置为 Cloudflare 环境）。([Cloudflare Docs][3])
+- Node ≥ 22、pnpm ≥ 9（自备）。
+- **Wrangler ≥ 3.99.0**（OpenNext 要求）：`wrangler -v`。([opennext.js.org][4])
+- Cloudflare 账号可登录：`wrangler login`。
+- 可选：使用 **C3** 快速脚手架（`npm create cloudflare@latest -- my-next-app --framework=next`；框架=next 时会配置为 Cloudflare 环境）。([Cloudflare Docs][3])
 
 ---
 
@@ -39,7 +39,7 @@
 若命令失败，请在同阶段给出修复建议并重试至通过。
 ```
 
-> 说明：Spec-Kit 的 **/speckit.*** 命令即面向 AI 代理（Copilot、Claude Code 等）的工作流接口，用以生成“宪章/规格/计划/任务/实现”。([GitHub][5])
+> 说明：Spec-Kit 的 **/speckit.\*** 命令即面向 AI 代理（Copilot、Claude Code 等）的工作流接口，用以生成“宪章/规格/计划/任务/实现”。([GitHub][5])
 
 ---
 
@@ -190,33 +190,33 @@ pnpm audit:seo
 
 **环境/运行时**
 
-* [ ] Wrangler ≥ **3.99.0**；`wrangler login` 成功。([opennext.js.org][4])
-* [ ] `wrangler.toml` 启用 **`nodejs_compat`**；`compatibility_date` 为近期且 **≥ 2024-09-23**（官方示例含 `2025-03-25`）。([Cloudflare Docs][2])
+- [ ] Wrangler ≥ **3.99.0**；`wrangler login` 成功。([opennext.js.org][4])
+- [ ] `wrangler.toml` 启用 **`nodejs_compat`**；`compatibility_date` 为近期且 **≥ 2024-09-23**（官方示例含 `2025-03-25`）。([Cloudflare Docs][2])
 
 **规范与计划**
 
-* [ ] `docs/spec/constitution.md` 提交并评审通过。([GitHub][5])
-* [ ] `specs/001-b2b-website/` 内含规格/计划/任务。([DeepWiki][8])
+- [ ] `docs/spec/constitution.md` 提交并评审通过。([GitHub][5])
+- [ ] `specs/001-b2b-website/` 内含规格/计划/任务。([DeepWiki][8])
 
 **质量套件**
 
-* [ ] 根目录存在：`.dependency-cruiser.js`、`.jscpd.json`、`.knip.json(c)`、`semgrep.yml`、`lighthouserc.js`、`.browserslistrc`。([GitHub][7])
-* [ ] `package.json` 含并可执行：`lint:unused`、`lint:dup`、`lint:deps`、`lint:security`、`audit:seo`。
-* [ ] `/.github/workflows/quality.yml` 与 `lighthouse` 作业生效（Lighthouse CI 亦可）。([Cloudflare Docs][3])
+- [ ] 根目录存在：`.dependency-cruiser.js`、`.jscpd.json`、`.knip.json(c)`、`semgrep.yml`、`lighthouserc.js`、`.browserslistrc`。([GitHub][7])
+- [ ] `package.json` 含并可执行：`lint:unused`、`lint:dup`、`lint:deps`、`lint:security`、`audit:seo`。
+- [ ] `/.github/workflows/quality.yml` 与 `lighthouse` 作业生效（Lighthouse CI 亦可）。([Cloudflare Docs][3])
 
 **统一配置**
 
-* [ ] **单一** ESLint 入口（Flat Config）；Prettier 单一来源；TS 已加严项。
-* [ ] dep-cruise 违规 **0**；Knip 未使用 **0**；jscpd ≤ **1%**；Semgrep 高/中危 **0**。
+- [ ] **单一** ESLint 入口（Flat Config）；Prettier 单一来源；TS 已加严项。
+- [ ] dep-cruise 违规 **0**；Knip 未使用 **0**；jscpd ≤ **1%**；Semgrep 高/中危 **0**。
 
 **运行与审计**
 
-* [ ] `pnpm build && pnpm preview` 成功；
-* [ ] Lighthouse：Performance ≥ 90 / Accessibility ≥ 90 / Best Practices ≥ 95 / SEO ≥ 95（CI 通过）。
+- [ ] `pnpm build && pnpm preview` 成功；
+- [ ] Lighthouse：Performance ≥ 90 / Accessibility ≥ 90 / Best Practices ≥ 95 / SEO ≥ 95（CI 通过）。
 
 **部署**
 
-* [ ] `pnpm deploy` 成功并可访问首页；`robots.txt`/`sitemap.xml` 可访问。
+- [ ] `pnpm deploy` 成功并可访问首页；`robots.txt`/`sitemap.xml` 可访问。
 
 ---
 
@@ -256,22 +256,22 @@ TOML
 
 ## 13) 常见问题与自愈指引
 
-* **报 Node/Edge API 不可用** → 提升 `compatibility_date` 到近期、确认 `nodejs_compat` 已开启（Workers/Next.js 官方说明）。([Cloudflare Docs][2])
-* **构建后找不到 `.open-next/worker`** → 按 OpenNext 文档用 `opennextjs-cloudflare` 生成 Worker 产物后，再用 Wrangler 预览/部署。([opennext.js.org][9])
-* **如何一键创建项目** → `npm create cloudflare@latest -- my-next-app --framework=next`（C3 会初始化 Next 官方脚手架并配置 Cloudflare）。([Cloudflare Docs][3])
-* **为什么更推荐 OpenNext 而非 next-on-pages** → Cloudflare 官方已说明 Cloudflare adapter 为首选。([The Cloudflare Blog][1])
+- **报 Node/Edge API 不可用** → 提升 `compatibility_date` 到近期、确认 `nodejs_compat` 已开启（Workers/Next.js 官方说明）。([Cloudflare Docs][2])
+- **构建后找不到 `.open-next/worker`** → 按 OpenNext 文档用 `opennextjs-cloudflare` 生成 Worker 产物后，再用 Wrangler 预览/部署。([opennext.js.org][9])
+- **如何一键创建项目** → `npm create cloudflare@latest -- my-next-app --framework=next`（C3 会初始化 Next 官方脚手架并配置 Cloudflare）。([Cloudflare Docs][3])
+- **为什么更推荐 OpenNext 而非 next-on-pages** → Cloudflare 官方已说明 Cloudflare adapter 为首选。([The Cloudflare Blog][1])
 
 ---
 
 ## 14) 参考与溯源（精选）
 
-* **Spec-Kit**：GitHub 仓库（含 `/speckit.constitution`、`/speckit.specify` 等工作流）与官网。([GitHub][5])
-* **Spec-Kit 快速上手/教程**（演示全流程命令；亦含 CLI 指南）。([DeepWiki][8])
-* **OpenNext × Cloudflare：Get Started / Dev-Deploy / 特性索引**。([opennext.js.org][4])
-* **Cloudflare 官方：Next.js on Workers、Node 兼容层与日期说明**。([Cloudflare Docs][3])
-* **Cloudflare 官方博文**（明确“Cloudflare adapter 现为首选”）。([The Cloudflare Blog][1])
-* **Unverceled Next.js 模板**（Next 15 Starter，Cloudflare 部署）。([GitHub][6])
-* **tucsenberg-web-frontier**（质量配置文件清单与命名）。([GitHub][7])
+- **Spec-Kit**：GitHub 仓库（含 `/speckit.constitution`、`/speckit.specify` 等工作流）与官网。([GitHub][5])
+- **Spec-Kit 快速上手/教程**（演示全流程命令；亦含 CLI 指南）。([DeepWiki][8])
+- **OpenNext × Cloudflare：Get Started / Dev-Deploy / 特性索引**。([opennext.js.org][4])
+- **Cloudflare 官方：Next.js on Workers、Node 兼容层与日期说明**。([Cloudflare Docs][3])
+- **Cloudflare 官方博文**（明确“Cloudflare adapter 现为首选”）。([The Cloudflare Blog][1])
+- **Unverceled Next.js 模板**（Next 15 Starter，Cloudflare 部署）。([GitHub][6])
+- **tucsenberg-web-frontier**（质量配置文件清单与命名）。([GitHub][7])
 
 ---
 
@@ -279,13 +279,13 @@ TOML
 
 这份文档把 **Spec-Kit 的规范驱动流程** 与 **OpenNext（Workers Node 兼容层）** 的官方要求对齐，并把 **tucsenberg** 的严格质量门槛变成 **可执行脚本 + CI Gate**。将全文放入仓库后，直接把“启动提示”发给 **Claude Code**，即可按步骤完成**从规范到落地**的整套基础搭建。
 
-[1]: https://blog.cloudflare.com/deploying-nextjs-apps-to-cloudflare-workers-with-the-opennext-adapter/?utm_source=chatgpt.com "Deploy your Next.js app to Cloudflare Workers with the Cloudflare ..."
-[2]: https://developers.cloudflare.com/workers/runtime-apis/nodejs/?utm_source=chatgpt.com "Node.js compatibility · Cloudflare Workers docs"
-[3]: https://developers.cloudflare.com/workers/framework-guides/web-apps/nextjs/?utm_source=chatgpt.com "Next.js · Cloudflare Workers docs"
-[4]: https://opennext.js.org/cloudflare/get-started?utm_source=chatgpt.com "Get Started - OpenNext"
-[5]: https://github.com/github/spec-kit?utm_source=chatgpt.com "GitHub - github/spec-kit: Toolkit to help you get started with Spec ..."
-[6]: https://github.com/ixahmedxi/unverceled-nextjs?utm_source=chatgpt.com "GitHub - ixahmedxi/unverceled-nextjs: A Next.js 15 Starter Kit Deployed ..."
-[7]: https://github.com/Shawn-Jones-7/tucsenberg-web-frontier "GitHub - Shawn-Jones-7/tucsenberg-web-frontier"
-[8]: https://deepwiki.com/github/spec-kit/2.2-quick-start-tutorial?utm_source=chatgpt.com "Quick Start Tutorial | github/spec-kit | DeepWiki"
-[9]: https://opennext.js.org/cloudflare/howtos/dev-deploy?utm_source=chatgpt.com "Dev Deploy - OpenNext"
-[10]: https://github.com/ixahmedxi/unverceled-nextjs/blob/main/README.md?utm_source=chatgpt.com "unverceled-nextjs/README.md at main · ixahmedxi/unverceled-nextjs · GitHub"
+[1]: https://blog.cloudflare.com/deploying-nextjs-apps-to-cloudflare-workers-with-the-opennext-adapter/?utm_source=chatgpt.com 'Deploy your Next.js app to Cloudflare Workers with the Cloudflare ...'
+[2]: https://developers.cloudflare.com/workers/runtime-apis/nodejs/?utm_source=chatgpt.com 'Node.js compatibility · Cloudflare Workers docs'
+[3]: https://developers.cloudflare.com/workers/framework-guides/web-apps/nextjs/?utm_source=chatgpt.com 'Next.js · Cloudflare Workers docs'
+[4]: https://opennext.js.org/cloudflare/get-started?utm_source=chatgpt.com 'Get Started - OpenNext'
+[5]: https://github.com/github/spec-kit?utm_source=chatgpt.com 'GitHub - github/spec-kit: Toolkit to help you get started with Spec ...'
+[6]: https://github.com/ixahmedxi/unverceled-nextjs?utm_source=chatgpt.com 'GitHub - ixahmedxi/unverceled-nextjs: A Next.js 15 Starter Kit Deployed ...'
+[7]: https://github.com/Shawn-Jones-7/tucsenberg-web-frontier 'GitHub - Shawn-Jones-7/tucsenberg-web-frontier'
+[8]: https://deepwiki.com/github/spec-kit/2.2-quick-start-tutorial?utm_source=chatgpt.com 'Quick Start Tutorial | github/spec-kit | DeepWiki'
+[9]: https://opennext.js.org/cloudflare/howtos/dev-deploy?utm_source=chatgpt.com 'Dev Deploy - OpenNext'
+[10]: https://github.com/ixahmedxi/unverceled-nextjs/blob/main/README.md?utm_source=chatgpt.com 'unverceled-nextjs/README.md at main · ixahmedxi/unverceled-nextjs · GitHub'

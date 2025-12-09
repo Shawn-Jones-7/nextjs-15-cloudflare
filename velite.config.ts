@@ -1,6 +1,6 @@
-import { defineConfig, defineCollection, s } from 'velite';
+import { defineCollection, defineConfig, s } from 'velite'
 
-const locales = ['en', 'zh', 'es', 'ar'] as const;
+const locales = ['en', 'zh', 'es', 'ar'] as const
 
 const posts = defineCollection({
   name: 'Post',
@@ -17,16 +17,18 @@ const posts = defineCollection({
       content: s.mdx(),
     })
     .transform((data, { meta }) => {
-      const pathSegments = meta.path.split('/');
-      const localeSegment = pathSegments.find((seg) => locales.includes(seg as (typeof locales)[number]));
-      const locale = (localeSegment ?? 'en') as (typeof locales)[number];
+      const pathSegments = meta.path.split('/')
+      const localeSegment = pathSegments.find((seg) =>
+        locales.includes(seg as (typeof locales)[number]),
+      )
+      const locale = (localeSegment ?? 'en') as (typeof locales)[number]
       return {
         ...data,
         locale,
         url: `/${locale}/blog/${data.slug}`,
-      };
+      }
     }),
-});
+})
 
 export default defineConfig({
   root: 'src/content',
@@ -42,4 +44,4 @@ export default defineConfig({
     remarkPlugins: [],
     rehypePlugins: [],
   },
-});
+})

@@ -56,6 +56,7 @@ Arabic locale uses RTL. Use Tailwind RTL variants:
 ## Responsive Design
 
 Mobile-first with breakpoints:
+
 - `sm`: 640px
 - `md`: 768px
 - `lg`: 1024px
@@ -74,7 +75,7 @@ Mobile-first with breakpoints:
 Lucide React, import individually:
 
 ```typescript
-import { Globe, Menu, X } from 'lucide-react';
+import { Globe, Menu, X } from 'lucide-react'
 ```
 
 ## Dark Mode
@@ -82,9 +83,9 @@ import { Globe, Menu, X } from 'lucide-react';
 Uses `next-themes`:
 
 ```typescript
-import { useTheme } from 'next-themes';
+import { useTheme } from 'next-themes'
 
-const { theme, setTheme } = useTheme();
+const { theme, setTheme } = useTheme()
 ```
 
 Theme toggle in Footer, uses `mounted` state for hydration safety.

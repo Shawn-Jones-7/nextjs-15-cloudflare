@@ -1,7 +1,10 @@
 import { expect, test } from '@playwright/test'
 
-test('has hello world', async ({ page }) => {
-  await page.goto('/')
+test('homepage loads with brand name', async ({ page }) => {
+  await page.goto('/en')
 
-  await expect(page.getByText(/hello world/i)).toBeVisible()
+  // Check header logo link contains brand name
+  await expect(
+    page.getByRole('link', { name: 'GlobalTrade' }).first(),
+  ).toBeVisible()
 })

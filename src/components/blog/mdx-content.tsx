@@ -1,11 +1,12 @@
-'use client';
+'use client'
 
-import * as runtime from 'react/jsx-runtime';
-import { useMemo } from 'react';
+import { useMemo } from 'react'
+
+import * as runtime from 'react/jsx-runtime'
 
 interface MDXContentProperties {
-  code: string;
-  className?: string;
+  code: string
+  className?: string
 }
 
 export function MDXContent({ code, className }: MDXContentProperties) {
@@ -13,16 +14,16 @@ export function MDXContent({ code, className }: MDXContentProperties) {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const Component = useMemo(() => {
     // eslint-disable-next-line @typescript-eslint/no-implied-eval
-    const mdxFunction = new Function(code);
+    const mdxFunction = new Function(code)
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-assignment
-    const { default: MDXComponent } = mdxFunction(runtime);
+    const { default: MDXComponent } = mdxFunction(runtime)
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    return MDXComponent;
-  }, [code]);
+    return MDXComponent
+  }, [code])
 
   return (
     <div className={className}>
       <Component />
     </div>
-  );
+  )
 }

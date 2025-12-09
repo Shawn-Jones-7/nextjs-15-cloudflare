@@ -1,107 +1,118 @@
-import type { Metadata } from 'next';
-import Image from 'next/image';
-import { notFound } from 'next/navigation';
-import { getTranslations, setRequestLocale } from 'next-intl/server';
+import Image from 'next/image'
+import { notFound } from 'next/navigation'
 
-import { ProductActions } from '@/components/products/product-actions';
+import type { Locale } from '@/lib/i18n/config'
+import type { Metadata } from 'next'
+
+import { getTranslations, setRequestLocale } from 'next-intl/server'
+
+import { ProductActions } from '@/components/products/product-actions'
 import {
   getAllProducts,
   getCategoryBySlug,
   getProductBySlug,
-} from '@/data/products';
-import { locales, type Locale } from '@/lib/i18n/config';
-import { buildAlternates } from '@/lib/i18n/metadata';
+} from '@/data/products'
+import { locales } from '@/lib/i18n/config'
+import { buildAlternates } from '@/lib/i18n/metadata'
 
 interface Properties {
-  params: Promise<{ locale: Locale; slug: string }>;
+  params: Promise<{ locale: Locale; slug: string }>
 }
 
 export function generateStaticParams() {
-  const products = getAllProducts();
+  const products = getAllProducts()
   return locales.flatMap((locale) =>
     products.map((product) => ({
       locale,
       slug: product.slug,
-    }))
-  );
+    })),
+  )
 }
 
-export async function generateMetadata({ params }: Properties): Promise<Metadata> {
-  const { locale, slug } = await params;
-  const product = getProductBySlug(slug);
+export async function generateMetadata({
+  params,
+}: Properties): Promise<Metadata> {
+  const { locale, slug } = await params
+  const product = getProductBySlug(slug)
 
   if (!product) {
-    return {};
+    return {}
   }
 
-  const t = await getTranslations({ locale, namespace: 'Products.items' });
+  const t = await getTranslations({ locale, namespace: 'Products.items' })
 
   return {
     title: t(`${slug}.name`),
     description: t(`${slug}.description`),
     alternates: buildAlternates(locale, `/products/${slug}`),
-  };
+  }
 }
 
 export default async function ProductDetailPage({ params }: Properties) {
-  const { locale, slug } = await params;
-  setRequestLocale(locale);
+  const { locale, slug } = await params
+  setRequestLocale(locale)
 
-  const product = getProductBySlug(slug);
+  const product = getProductBySlug(slug)
 
   if (!product) {
-    notFound();
+    notFound()
   }
 
-  const t = await getTranslations({ locale, namespace: 'Products.items' });
-  const tSpecs = await getTranslations({ locale, namespace: 'Products.specs' });
-  const tNav = await getTranslations({ locale, namespace: 'Navigation.categories' });
-  const tPage = await getTranslations({ locale, namespace: 'ProductsPage' });
+  const t = await getTranslations({ locale, namespace: 'Products.items' })
+  const tSpecs = await getTranslations({ locale, namespace: 'Products.specs' })
+  const tNav = await getTranslations({
+    locale,
+    namespace: 'Navigation.categories',
+  })
+  const tPage = await getTranslations({ locale, namespace: 'ProductsPage' })
 
-  const category = getCategoryBySlug(product.categorySlug);
-  const categoryName = category ? tNav(category.i18nKey) : product.categorySlug;
-  const productName = t(`${product.slug}.name`);
+  const category = getCategoryBySlug(product.categorySlug)
+  const categoryName = category ? tNav(category.i18nKey) : product.categorySlug
+  const productName = t(`${product.slug}.name`)
 
   return (
-    <div className="container ms-auto me-auto py-16 ps-4 pe-4 sm:ps-6 sm:pe-6 lg:ps-8 lg:pe-8">
-      <div className="grid gap-12 lg:grid-cols-2">
-        <div className="relative aspect-square w-full overflow-hidden rounded-lg border bg-muted lg:aspect-[4/3]">
+    <div className='container ms-auto me-auto py-16 ps-4 pe-4 sm:ps-6 sm:pe-6 lg:ps-8 lg:pe-8'>
+      <div className='grid gap-12 lg:grid-cols-2'>
+        <div className='bg-muted relative aspect-square w-full overflow-hidden rounded-lg border lg:aspect-[4/3]'>
           <Image
             src={product.image}
             alt={productName}
             fill
-            className="object-cover"
-            sizes="(max-width: 1024px) 100vw, 50vw"
+            className='object-cover'
+            sizes='(max-width: 1024px) 100vw, 50vw'
             priority
           />
         </div>
 
-        <div className="flex flex-col">
-          <div className="mb-4">
-            <span className="inline-flex items-center rounded-full border bg-secondary ps-2.5 pe-2.5 py-0.5 text-xs font-semibold text-secondary-foreground">
+        <div className='flex flex-col'>
+          <div className='mb-4'>
+            <span className='bg-secondary text-secondary-foreground inline-flex items-center rounded-full border py-0.5 ps-2.5 pe-2.5 text-xs font-semibold'>
               {categoryName}
             </span>
           </div>
 
-          <h1 className="mb-4 text-4xl font-bold tracking-tight lg:text-5xl">
+          <h1 className='mb-4 text-4xl font-bold tracking-tight lg:text-5xl'>
             {productName}
           </h1>
 
-          <div className="mb-8 max-w-none">
-            <p className="text-lg leading-relaxed text-muted-foreground">
+          <div className='mb-8 max-w-none'>
+            <p className='text-muted-foreground text-lg leading-relaxed'>
               {t(`${product.slug}.description`)}
             </p>
           </div>
 
-          <div className="mb-10 overflow-hidden rounded-lg border">
-            <table className="w-full text-sm">
-              <tbody className="divide-y">
+          <div className='mb-10 overflow-hidden rounded-lg border'>
+            <table className='w-full text-sm'>
+              <tbody className='divide-y'>
                 {product.specKeys.map((specKey) => (
-                  <tr key={specKey} className="group transition-colors hover:bg-muted/50">
-                    <td className="w-1/3 p-4 font-medium text-muted-foreground bg-muted/20">
+                  <tr
+                    key={specKey}
+                    className='group hover:bg-muted/50 transition-colors'
+                  >
+                    <td className='text-muted-foreground bg-muted/20 w-1/3 p-4 font-medium'>
                       {tSpecs(specKey)}
                     </td>
-                    <td className="p-4 font-medium">
+                    <td className='p-4 font-medium'>
                       {t(`${product.slug}.specs.${specKey}`)}
                     </td>
                   </tr>
@@ -110,7 +121,7 @@ export default async function ProductDetailPage({ params }: Properties) {
             </table>
           </div>
 
-          <div className="mt-auto">
+          <div className='mt-auto'>
             <ProductActions
               product={{ slug: product.slug, name: productName }}
               label={tPage('getQuote')}
@@ -119,5 +130,5 @@ export default async function ProductDetailPage({ params }: Properties) {
         </div>
       </div>
     </div>
-  );
+  )
 }

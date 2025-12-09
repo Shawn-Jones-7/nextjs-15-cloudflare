@@ -26,14 +26,17 @@ rules:
       - pattern: eval($ARG)
       - pattern: Function($ARG)
       - pattern: new Function($ARG)
+    paths:
+      exclude:
+        # MDX content is pre-compiled by Velite at build time, not user input
+        - '**/src/components/blog/mdx-content.tsx'
     message: '避免使用eval()或Function构造器，存在代码注入风险'
     languages: [typescript, javascript]
     severity: ERROR
     metadata:
       category: security
       technology: [nodejs]
-      cwe:
-        'CWE-95: Improper Neutralization of Directives in Dynamically Evaluated Code'
+      cwe: 'CWE-95: Improper Neutralization of Directives in Dynamically Evaluated Code'
       owasp: 'A03:2021 - Injection'
 
   - id: nextjs-unsafe-redirect
@@ -49,10 +52,10 @@ rules:
     severity: WARNING
     paths:
       exclude:
-        - "**/__tests__/**"
-        - "**/*.test.*"
-        - "**/*.spec.*"
-        - "**/src/app/page.tsx"
+        - '**/__tests__/**'
+        - '**/*.test.*'
+        - '**/*.spec.*'
+        - '**/src/app/page.tsx'
     metadata:
       category: security
       technology: [nextjs]
@@ -64,20 +67,19 @@ rules:
       - pattern: Math.random()
     paths:
       exclude:
-        - "**/__tests__/**"
-        - "**/*.test.*"
-        - "**/*.spec.*"
-        - "**/scripts/**"
-        - "**/tests/**"
-        - "**/content/**"
+        - '**/__tests__/**'
+        - '**/*.test.*'
+        - '**/*.spec.*'
+        - '**/scripts/**'
+        - '**/tests/**'
+        - '**/content/**'
     message: '避免使用不安全的随机数生成方法，使用crypto.randomBytes()或crypto.getRandomValues()'
     languages: [typescript, javascript]
     severity: WARNING
     metadata:
       category: security
       technology: [nodejs]
-      cwe:
-        'CWE-338: Use of Cryptographically Weak Pseudo-Random Number Generator'
+      cwe: 'CWE-338: Use of Cryptographically Weak Pseudo-Random Number Generator'
       owasp: 'A02:2021 - Cryptographic Failures'
 
   - id: nextjs-unsafe-html-injection
@@ -91,9 +93,9 @@ rules:
     severity: ERROR
     paths:
       exclude:
-        - "**/__tests__/**"
-        - "**/*.test.*"
-        - "**/*.spec.*"
+        - '**/__tests__/**'
+        - '**/*.test.*'
+        - '**/*.spec.*'
     metadata:
       category: security
       technology: [nextjs, react]
@@ -145,8 +147,7 @@ rules:
     metadata:
       category: security
       technology: [nextjs]
-      cwe:
-        'CWE-95: Improper Neutralization of Directives in Dynamically Evaluated Code'
+      cwe: 'CWE-95: Improper Neutralization of Directives in Dynamically Evaluated Code'
       owasp: 'A03:2021 - Injection'
 
   - id: environment-variable-exposure
@@ -172,7 +173,7 @@ rules:
       - pattern-not: $OBJ[$NUM]
       - metavariable-regex:
           metavariable: $NUM
-          regex: "^[0-9]+$"
+          regex: '^[0-9]+$'
       # Exclude for-loop index patterns
       - pattern-not-inside: |
           for (let $VAR = 0; $VAR < $OBJ.length; $VAR += 1) {
@@ -180,24 +181,24 @@ rules:
           }
     paths:
       exclude:
-        - "**/__tests__/**"
-        - "**/*.test.*"
-        - "**/*.spec.*"
-        - "**/scripts/**"
-        - "**/src/components/ui/**"
-        - "**/components/ui/**"
-        - "**/src/lib/security/object-guards.ts"
-        - "**/src/lib/security-headers.ts"
-        - "**/src/lib/dev-tools-positioning.ts"
-        - "**/src/config/paths/utils.ts"
-        - "**/src/config/contact-form-config.ts"
-        - "**/src/services/**"
-        - "**/src/shared/utils.ts"
-        - "**/src/types/whatsapp-*/**"
-        - "**/src/lib/validations.ts"
-        - "**/src/lib/env.ts"
-        - "**/src/lib/locale-detection-hooks.ts"
-        - "**/src/testing/utils/theme-test-utilities.ts"
+        - '**/__tests__/**'
+        - '**/*.test.*'
+        - '**/*.spec.*'
+        - '**/scripts/**'
+        - '**/src/components/ui/**'
+        - '**/components/ui/**'
+        - '**/src/lib/security/object-guards.ts'
+        - '**/src/lib/security-headers.ts'
+        - '**/src/lib/dev-tools-positioning.ts'
+        - '**/src/config/paths/utils.ts'
+        - '**/src/config/contact-form-config.ts'
+        - '**/src/services/**'
+        - '**/src/shared/utils.ts'
+        - '**/src/types/whatsapp-*/**'
+        - '**/src/lib/validations.ts'
+        - '**/src/lib/env.ts'
+        - '**/src/lib/locale-detection-hooks.ts'
+        - '**/src/testing/utils/theme-test-utilities.ts'
     message: '检测到对象注入漏洞：避免使用用户输入作为对象属性键，使用白名单验证或switch语句'
     languages: [typescript, javascript]
     severity: ERROR
@@ -216,33 +217,37 @@ rules:
               Object.assign($TARGET, $VAR)
     paths:
       exclude:
-        - "**/__tests__/**"
-        - "**/*.test.*"
-        - "**/*.spec.*"
-        - "**/scripts/**"
-        - "**/src/components/ui/**"
-        - "**/components/ui/**"
-        - "**/src/lib/performance-monitoring-core-config.ts"
-        - "**/src/lib/i18n-cache-types-advanced.ts"
-        - "**/src/lib/locale-storage-types-config/factory.ts"
-        - "**/src/lib/theme-analytics-core.ts"
-        - "**/src/lib/theme-analytics.ts"
-        - "**/src/lib/web-vitals/**"
-        - "**/src/templates/**"
-        - "**/src/config/contact-form-config.ts"
-        - "**/src/testing/utils/theme-test-utilities.ts"
-        - "**/src/types/whatsapp-api-config/utils.ts"
-        - "**/src/lib/performance-monitoring-config-history.ts"
-        - "**/src/lib/performance-monitoring-config-modules.ts"
+        - '**/__tests__/**'
+        - '**/*.test.*'
+        - '**/*.spec.*'
+        - '**/scripts/**'
+        - '**/src/components/ui/**'
+        - '**/components/ui/**'
+        - '**/src/lib/performance-monitoring-core-config.ts'
+        - '**/src/lib/i18n-cache-types-advanced.ts'
+        - '**/src/lib/locale-storage-types-config/factory.ts'
+        - '**/src/lib/theme-analytics-core.ts'
+        - '**/src/lib/theme-analytics.ts'
+        - '**/src/lib/web-vitals/**'
+        - '**/src/templates/**'
+        - '**/src/config/contact-form-config.ts'
+        - '**/src/testing/utils/theme-test-utilities.ts'
+        - '**/src/types/whatsapp-api-config/utils.ts'
+        - '**/src/lib/performance-monitoring-config-history.ts'
+        - '**/src/lib/performance-monitoring-config-modules.ts'
         # UI-only spread patterns that have been manually reviewed and
         # documented as safe (see .augment/rules/security-implementation.md
         # "Semgrep 规则治理记录" section). These components only spread
         # controlled translation/label objects used for rendering and never
         # handle raw user input.
-        - "**/src/app/*/about/page.tsx"
-        - "**/src/app/*/products/*/page.tsx"
-        - "**/src/components/products/product-card.tsx"
-        - "**/src/components/products/product-specs.tsx"
+        - '**/src/app/*/about/page.tsx'
+        - '**/src/app/*/products/*/page.tsx'
+        - '**/src/components/products/product-card.tsx'
+        - '**/src/components/products/product-specs.tsx'
+        # Server action spreads Zod-validated data only
+        - '**/src/actions/submit-lead.ts'
+        # Metadata helper spreads controlled config objects
+        - '**/src/lib/i18n/metadata.ts'
     message: '检测到潜在的对象注入：使用扩展运算符或Object.assign时需验证输入对象的安全性'
     languages: [typescript, javascript]
     severity: WARNING
@@ -274,9 +279,9 @@ rules:
     severity: WARNING
     paths:
       exclude:
-        - "**/__tests__/**"
-        - "**/*.test.*"
-        - "**/*.spec.*"
+        - '**/__tests__/**'
+        - '**/*.test.*'
+        - '**/*.spec.*'
     metadata:
       category: security
       technology: [nodejs, react, nextjs]
@@ -290,6 +295,13 @@ rules:
         $TARGET[$KEY] = $VALUE
         ...
       }
+    paths:
+      exclude:
+        - '**/__tests__/**'
+        - '**/*.test.*'
+        - '**/*.spec.*'
+        # Sitemap iterates over validated locale constants, not user input
+        - '**/src/app/sitemap.ts'
     message: '检测到for-in循环中的对象注入：遍历对象属性时需要验证属性键的安全性'
     languages: [typescript, javascript]
     severity: WARNING
@@ -352,9 +364,9 @@ rules:
     severity: WARNING
     paths:
       exclude:
-        - "**/__tests__/**"
-        - "**/*.test.*"
-        - "**/*.spec.*"
+        - '**/__tests__/**'
+        - '**/*.test.*'
+        - '**/*.spec.*'
     metadata:
       category: security
       technology: [nodejs, react, nextjs]

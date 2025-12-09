@@ -38,6 +38,9 @@ jobs:
       - name: 🔧 Install Playwright Browsers
         run: pnpm playwright install --with-deps
 
+      - name: 📄 Generate Velite content
+        run: pnpm velite
+
       - name: 📝 Spellcheck
         run: pnpm spellcheck
 

@@ -1,5 +1,7 @@
 {
   "compilerOptions": {
+    "types": ["@cloudflare/workers-types", "node"],
+    "verbatimModuleSyntax": true,
     "strict": true,
     "strictNullChecks": true,
     "allowUnusedLabels": false,
@@ -48,7 +50,6 @@
     "next.config.ts",
     "open-next.config.ts",
     "vitest.config.ts",
-    "vitest.workspace.ts",
     "playwright.config.ts",
     "src/**/*.ts",
     "src/**/*.tsx",

@@ -1,15 +1,15 @@
-import type { Lead } from '@/lib/schemas/lead';
+import type { Lead } from '@/lib/schemas/lead'
 
 interface AirtableSyncOptions {
-  lead: Lead;
-  apiKey: string;
-  baseId: string;
-  tableName: string;
+  lead: Lead
+  apiKey: string
+  baseId: string
+  tableName: string
 }
 
 interface AirtableResponse {
-  id?: string;
-  error?: { type: string; message: string };
+  id?: string
+  error?: { type: string; message: string }
 }
 
 export async function syncLeadToAirtable({
@@ -17,7 +17,11 @@ export async function syncLeadToAirtable({
   apiKey,
   baseId,
   tableName,
-}: AirtableSyncOptions): Promise<{ success: boolean; recordId?: string; error?: string }> {
+}: AirtableSyncOptions): Promise<{
+  success: boolean
+  recordId?: string
+  error?: string
+}> {
   const fields: Record<string, string> = {
     'Lead ID': lead.id,
     Name: lead.name,
@@ -28,19 +32,19 @@ export async function syncLeadToAirtable({
     Locale: lead.locale,
     Status: lead.status,
     'Created At': new Date(lead.createdAt).toISOString(),
-  };
+  }
 
   if (lead.inquiryType) {
-    fields['Inquiry Type'] = lead.inquiryType;
+    fields['Inquiry Type'] = lead.inquiryType
   }
   if (lead.productName) {
-    fields['Product Name'] = lead.productName;
+    fields['Product Name'] = lead.productName
   }
   if (lead.productSlug) {
-    fields['Product Slug'] = lead.productSlug;
+    fields['Product Slug'] = lead.productSlug
   }
   if (lead.formPage) {
-    fields['Form Page'] = lead.formPage;
+    fields['Form Page'] = lead.formPage
   }
 
   const response = await fetch(
@@ -52,17 +56,17 @@ export async function syncLeadToAirtable({
         Authorization: `Bearer ${apiKey}`,
       },
       body: JSON.stringify({ fields }),
-    }
-  );
+    },
+  )
 
-  const result: AirtableResponse = await response.json();
+  const result: AirtableResponse = await response.json()
 
   if (!response.ok || result.error) {
     return {
       success: false,
       error: result.error?.message ?? 'Failed to sync to Airtable',
-    };
+    }
   }
 
-  return { success: true, recordId: result.id };
+  return { success: true, recordId: result.id }
 }

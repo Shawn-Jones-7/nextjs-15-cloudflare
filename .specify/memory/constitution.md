@@ -17,6 +17,7 @@ Follow-up TODOs: None
 ### I. Server Components First
 
 All pages and components MUST be Server Components by default. The `"use client"` directive is ONLY permitted when the component requires:
+
 - Browser APIs (window, document, localStorage)
 - React hooks (useState, useEffect, useRef)
 - Event handlers (onClick, onChange, onSubmit)
@@ -94,11 +95,11 @@ All code MUST pass CI pipeline before merge:
 
 ### Complexity Limits
 
-| Metric | Production | Test | Config |
-|--------|------------|------|--------|
-| File lines | ≤500 | ≤800 | ≤800 |
-| Function lines | ≤120 | ≤700 | ≤250 |
-| Cyclomatic complexity | ≤15 | ≤20 | ≤18 |
+| Metric                | Production | Test | Config |
+| --------------------- | ---------- | ---- | ------ |
+| File lines            | ≤500       | ≤800 | ≤800   |
+| Function lines        | ≤120       | ≤700 | ≤250   |
+| Cyclomatic complexity | ≤15        | ≤20  | ≤18    |
 
 ### Bundle Budgets
 

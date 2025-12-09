@@ -4,17 +4,17 @@
 
 ## Work Packages Overview
 
-| ID | Task | Priority | Dependencies | Status |
-|----|------|----------|--------------|--------|
-| WP-01 | Environment Setup | P0 | None | ✅ Done |
-| WP-02 | Quality Suite Integration | P0 | WP-01 | ✅ Done |
-| WP-03 | CI/CD Pipeline | P0 | WP-02 | ✅ Done |
-| WP-04 | i18n Skeleton | P1 | WP-01 | ✅ Done |
-| WP-05 | Page Layout Skeleton | P1 | WP-04 | ✅ Done |
-| WP-06 | Form System | P1 | WP-01 | ✅ Done |
-| WP-07 | SEO Optimization | P2 | WP-04, WP-05 | ✅ Done |
-| WP-08 | Acceptance & Deployment | P2 | All | 🟡 95% |
-| WP-09 | Site Enhancements Suite | P1 | WP-07 | 🔵 New |
+| ID    | Task                      | Priority | Dependencies | Status  |
+| ----- | ------------------------- | -------- | ------------ | ------- |
+| WP-01 | Environment Setup         | P0       | None         | ✅ Done |
+| WP-02 | Quality Suite Integration | P0       | WP-01        | ✅ Done |
+| WP-03 | CI/CD Pipeline            | P0       | WP-02        | ✅ Done |
+| WP-04 | i18n Skeleton             | P1       | WP-01        | ✅ Done |
+| WP-05 | Page Layout Skeleton      | P1       | WP-04        | ✅ Done |
+| WP-06 | Form System               | P1       | WP-01        | ✅ Done |
+| WP-07 | SEO Optimization          | P2       | WP-04, WP-05 | ✅ Done |
+| WP-08 | Acceptance & Deployment   | P2       | All          | 🟡 95%  |
+| WP-09 | Site Enhancements Suite   | P1       | WP-07        | 🔵 New  |
 
 ### Progress Summary (Last Updated: 2025-12-09)
 
@@ -30,9 +30,11 @@
 ## WP-01: Environment Setup
 
 ### Objective
+
 Configure wrangler.toml, TypeScript strict mode, and Cloudflare resources.
 
 ### Inputs
+
 - Unverceled template (initialized)
 - Cloudflare account credentials
 
@@ -56,15 +58,18 @@ Configure wrangler.toml, TypeScript strict mode, and Cloudflare resources.
 - [x] Create `src/env.ts` for environment validation
 
 ### Outputs
+
 - Configured wrangler.toml with real Cloudflare resource IDs
 - TypeScript strict mode enabled
 - D1 schema applied
 
 ### Acceptance Criteria
+
 - `pnpm typecheck` passes
 - `wrangler d1 list` shows created databases
 
 ### Rollback
+
 - Restore original wrangler.toml from template
 
 ---
@@ -72,9 +77,11 @@ Configure wrangler.toml, TypeScript strict mode, and Cloudflare resources.
 ## WP-02: Quality Suite Integration
 
 ### Objective
+
 Integrate quality tools from tucsenberg-web-frontier.
 
 ### Inputs
+
 - tucsenberg-web-frontier configuration files
 - Plan quality thresholds
 
@@ -89,15 +96,18 @@ Integrate quality tools from tucsenberg-web-frontier.
 - [x] Verify each tool runs without errors
 
 ### Outputs
+
 - `config/` directory with all quality tool configs
 - package.json with quality scripts
 
 ### Acceptance Criteria
+
 - `pnpm lint:unused` runs (may report issues to fix)
 - `pnpm lint:dup` runs with ≤1% threshold
 - `pnpm lint:deps` runs without crashes
 
 ### Rollback
+
 - Remove config files and dev dependencies
 
 ---
@@ -105,9 +115,11 @@ Integrate quality tools from tucsenberg-web-frontier.
 ## WP-03: CI/CD Pipeline
 
 ### Objective
+
 Setup GitHub Actions for quality gates and Lighthouse CI.
 
 ### Inputs
+
 - Quality scripts from WP-02
 - Constitution quality thresholds
 
@@ -123,14 +135,17 @@ Setup GitHub Actions for quality gates and Lighthouse CI.
   - Force pushes and deletions: disabled
 
 ### Outputs
+
 - CI workflows in `.github/workflows/`
 - Documented branch protection setup
 
 ### Acceptance Criteria
+
 - Push triggers CI pipeline
 - All quality checks appear in PR status
 
 ### Rollback
+
 - Delete workflow files
 
 ---
@@ -138,9 +153,11 @@ Setup GitHub Actions for quality gates and Lighthouse CI.
 ## WP-04: i18n Skeleton
 
 ### Objective
+
 Setup next-intl with locale routing and MDX content structure.
 
 ### Inputs
+
 - Plan i18n architecture
 - Spec locale requirements (en/zh/es/ar)
 
@@ -150,21 +167,24 @@ Setup next-intl with locale routing and MDX content structure.
 - [x] Create i18n configuration (config.ts, routing.ts, request.ts)
 - [x] Configure next.config.ts for MDX
 - [x] Create middleware.ts for locale detection
-- [x] Create messages/*.json for translations (en, zh, es, ar)
+- [x] Create messages/\*.json for translations (en, zh, es, ar)
 - [x] Setup `src/app/[locale]/layout.tsx` with locale provider, RTL, hreflang
 - [x] Create LocaleSwitcher component
 
 ### Outputs
+
 - Working locale routing (`/en/`, `/zh/`, etc.)
 - MDX content loading pipeline
 - LocaleSwitcher in header
 
 ### Acceptance Criteria
+
 - Navigate between `/en/` and `/ar/` switches language
 - Arabic layout is RTL
 - MDX content renders correctly
 
 ### Rollback
+
 - Revert to single-locale app structure
 
 ---
@@ -172,9 +192,11 @@ Setup next-intl with locale routing and MDX content structure.
 ## WP-05: Page Layout Skeleton
 
 ### Objective
+
 Create page components for all specified routes.
 
 ### Inputs
+
 - Spec page requirements
 - i18n skeleton from WP-04
 
@@ -182,7 +204,7 @@ Create page components for all specified routes.
 
 - [x] Create shared layout components (Header, Footer, Navigation)
 - [x] Create page routes (homepage, about, news, cases, contact, thank-you)
-- [x] Create translations for page content in messages/*.json
+- [x] Create translations for page content in messages/\*.json
 - [x] Setup generateStaticParams for dynamic routes
 - [x] Create Hero section component (src/components/sections/hero.tsx, hero-cta.tsx)
 - [x] Create Products module
@@ -192,7 +214,7 @@ Create page components for all specified routes.
   - ProductActions component (src/components/products/product-actions.tsx)
   - Products listing page (src/app/[locale]/products/page.tsx)
   - Product detail page (src/app/[locale]/products/[slug]/page.tsx)
-  - Products translations in messages/*.json (10 products with specs)
+  - Products translations in messages/\*.json (10 products with specs)
 - [x] Create Blog module with Velite MDX
   - Velite configuration (velite.config.ts)
   - Blog utilities (src/lib/blog.ts)
@@ -201,18 +223,21 @@ Create page components for all specified routes.
   - Blog listing page (src/app/[locale]/blog/page.tsx)
   - Blog detail page (src/app/[locale]/blog/[slug]/page.tsx)
   - Sample MDX articles in 4 locales (src/content/{en,zh,es,ar}/blog/)
-  - Blog translations in messages/*.json
+  - Blog translations in messages/\*.json
 
 ### Outputs
+
 - All page routes accessible
 - Basic layout with header/footer
 
 ### Acceptance Criteria
+
 - All routes return 200 status
 - Layout consistent across pages
 - Navigation works in all locales
 
 ### Rollback
+
 - Remove new page files
 
 ---
@@ -220,9 +245,11 @@ Create page components for all specified routes.
 ## WP-06: Form System
 
 ### Objective
+
 Implement contact form with Turnstile, D1, and async processing.
 
 ### Inputs
+
 - Plan form architecture
 - Cloudflare resources from WP-01
 
@@ -241,18 +268,21 @@ Implement contact form with Turnstile, D1, and async processing.
 - [x] Add rate limiting with KV (src/lib/rate-limit.ts)
 
 ### Outputs
+
 - Working contact form
 - Submissions stored in D1
 - Email notifications via Resend
 - Airtable sync working
 
 ### Acceptance Criteria
+
 - Form submission creates D1 record
 - Email sent within 30 seconds
 - Airtable record created
 - Rate limiting blocks abuse
 
 ### Rollback
+
 - Disable form, show "Coming Soon"
 
 ---
@@ -260,9 +290,11 @@ Implement contact form with Turnstile, D1, and async processing.
 ## WP-07: SEO Optimization
 
 ### Objective
+
 Implement sitemap, robots.txt, structured data, and OG tags.
 
 ### Inputs
+
 - Spec SEO requirements
 - Page routes from WP-05
 
@@ -282,16 +314,19 @@ Implement sitemap, robots.txt, structured data, and OG tags.
   - LCP: 772ms, CLS: 0.00, TTFB: 201ms
 
 ### Outputs
+
 - `/sitemap.xml` accessible
 - `/robots.txt` accessible
 - Structured data on all pages
 
 ### Acceptance Criteria
+
 - Google Rich Results Test passes
 - Sitemap includes all locale variants
 - OG tags render correctly in social shares
 
 ### Rollback
+
 - Remove SEO files (site still works)
 
 ---
@@ -299,9 +334,11 @@ Implement sitemap, robots.txt, structured data, and OG tags.
 ## WP-08: Acceptance & Deployment
 
 ### Objective
+
 Final validation and production deployment.
 
 ### Inputs
+
 - All previous work packages completed
 - Constitution acceptance criteria
 
@@ -324,11 +361,13 @@ Final validation and production deployment.
 - [ ] Document deployment process
 
 ### Outputs
+
 - Production site live
 - All quality gates passed
 - Deployment documentation
 
 ### Acceptance Criteria
+
 - [x] TypeScript strict mode passes
 - [x] ESLint 0 errors, 0 warnings
 - [x] Knip 0 unused (with proper configuration)
@@ -339,6 +378,7 @@ Final validation and production deployment.
 - [ ] Form submission works end-to-end
 
 ### Rollback
+
 - Rollback via Cloudflare dashboard to previous deployment
 
 ---
@@ -346,9 +386,11 @@ Final validation and production deployment.
 ## WP-09: Site Enhancements Suite
 
 ### Objective
+
 Align quality tools with tucsenberg-web-frontier, create comprehensive README documentation, and integrate WhatsApp Business API for lead conversion.
 
 ### Inputs
+
 - tucsenberg-web-frontier comparison analysis
 - WhatsApp Business API best practices (Context7 research)
 - Existing project structure
@@ -430,12 +472,14 @@ Align quality tools with tucsenberg-web-frontier, create comprehensive README do
   - RTL layout correct for Arabic
 
 ### Outputs
+
 - Quality tools: madge, commitlint, translation validation
 - README.md (~13KB comprehensive documentation)
 - WhatsApp floating button with i18n support
 - Product page WhatsApp CTA
 
 ### Acceptance Criteria
+
 - [ ] `pnpm circular:check` returns 0 circular dependencies
 - [ ] `pnpm validate:translations` reports all 4 locales consistent
 - [ ] README.md ≥10KB with all sections complete
@@ -445,6 +489,7 @@ Align quality tools with tucsenberg-web-frontier, create comprehensive README do
 - [ ] CI pipeline includes new quality checks
 
 ### Rollback
+
 - Remove WhatsApp components (site works without them)
 - Revert quality tool additions if breaking CI
 

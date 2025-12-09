@@ -1,6 +1,6 @@
-import type { MetadataRoute } from 'next';
+import type { MetadataRoute } from 'next'
 
-import { siteUrl } from '@/lib/i18n/metadata';
+import { siteUrl } from '@/lib/i18n/metadata'
 
 export default function robots(): MetadataRoute.Robots {
   return {
@@ -10,5 +10,5 @@ export default function robots(): MetadataRoute.Robots {
       disallow: ['/api/', '/_next/'],
     },
     sitemap: `${siteUrl}/sitemap.xml`,
-  };
+  }
 }

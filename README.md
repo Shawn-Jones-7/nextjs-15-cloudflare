@@ -236,7 +236,7 @@ pnpm test:e2e          # Playwright E2E tests
 pnpm audit:seo         # Lighthouse CI audit
 ```
 
-### Deployment
+### Deploy Commands
 
 ```bash
 pnpm deploy            # Build and deploy to Cloudflare
@@ -258,7 +258,6 @@ author: 'Author Name'
 tags: ['Trade', 'Export']
 coverImage: '/images/blog/cover.jpg'
 ---
-
 Article content in MDX format...
 ```
 
