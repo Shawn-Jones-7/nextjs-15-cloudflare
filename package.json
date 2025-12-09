@@ -15,7 +15,7 @@
     "format": "pnpm format:check --write",
     "format:check": "prettier \"**/*\" --ignore-unknown --list-different",
     "lint": "next lint --dir . --max-warnings=0",
-    "lint:md": "markdownlint-cli2 \"**/*.{md,markdown}\" \"!node_modules\" \"!.changeset\" \"!CHANGELOG.md\"",
+    "lint:md": "markdownlint-cli2 \"**/*.{md,markdown}\" \"!node_modules\" \"!.changeset\" \"!CHANGELOG.md\" \"!specs\" \"!docs\" \"!.claude\" \"!agent_docs\"",
     "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
     "release": "changeset tag && git push --follow-tags",
     "spellcheck": "cspell \"**\" --gitignore --dot --no-progress --unique",

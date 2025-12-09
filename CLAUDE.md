@@ -28,7 +28,7 @@ pnpm test:e2e  # Playwright E2E
 
 ### Structure
 
-```
+```text
 src/
 ├── app/[locale]/   # Pages + layouts
 ├── components/     # UI (layout/, forms/, i18n/)

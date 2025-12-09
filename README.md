@@ -236,7 +236,7 @@ pnpm test:e2e          # Playwright E2E tests
 pnpm audit:seo         # Lighthouse CI audit
 ```
 
-### Deployment
+### Deploy Commands
 
 ```bash
 pnpm deploy            # Build and deploy to Cloudflare
