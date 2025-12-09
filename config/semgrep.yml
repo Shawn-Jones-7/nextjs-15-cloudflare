@@ -26,6 +26,10 @@ rules:
       - pattern: eval($ARG)
       - pattern: Function($ARG)
       - pattern: new Function($ARG)
+    paths:
+      exclude:
+        # MDX content is pre-compiled by Velite at build time, not user input
+        - '**/src/components/blog/mdx-content.tsx'
     message: '避免使用eval()或Function构造器，存在代码注入风险'
     languages: [typescript, javascript]
     severity: ERROR
@@ -240,6 +244,10 @@ rules:
         - '**/src/app/*/products/*/page.tsx'
         - '**/src/components/products/product-card.tsx'
         - '**/src/components/products/product-specs.tsx'
+        # Server action spreads Zod-validated data only
+        - '**/src/actions/submit-lead.ts'
+        # Metadata helper spreads controlled config objects
+        - '**/src/lib/i18n/metadata.ts'
     message: '检测到潜在的对象注入：使用扩展运算符或Object.assign时需验证输入对象的安全性'
     languages: [typescript, javascript]
     severity: WARNING
@@ -287,6 +295,13 @@ rules:
         $TARGET[$KEY] = $VALUE
         ...
       }
+    paths:
+      exclude:
+        - '**/__tests__/**'
+        - '**/*.test.*'
+        - '**/*.spec.*'
+        # Sitemap iterates over validated locale constants, not user input
+        - '**/src/app/sitemap.ts'
     message: '检测到for-in循环中的对象注入：遍历对象属性时需要验证属性键的安全性'
     languages: [typescript, javascript]
     severity: WARNING
