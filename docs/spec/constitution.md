@@ -9,16 +9,16 @@
 
 ## 2. Runtime & Infrastructure
 
-| Component | Technology |
-|-----------|------------|
-| Framework | Next.js 15 (App Router) |
-| Runtime | Cloudflare Workers via `@opennextjs/cloudflare` |
-| Content | MDX static files (architected for CMS migration) |
-| Form Security | Cloudflare Turnstile |
-| Validation | Zod |
-| Persistence | Cloudflare D1 (Primary System of Record) |
-| Email | Resend (Transactional) |
-| CRM Sync | Airtable (Async background processing) |
+| Component     | Technology                                       |
+| ------------- | ------------------------------------------------ |
+| Framework     | Next.js 15 (App Router)                          |
+| Runtime       | Cloudflare Workers via `@opennextjs/cloudflare`  |
+| Content       | MDX static files (architected for CMS migration) |
+| Form Security | Cloudflare Turnstile                             |
+| Validation    | Zod                                              |
+| Persistence   | Cloudflare D1 (Primary System of Record)         |
+| Email         | Resend (Transactional)                           |
+| CRM Sync      | Airtable (Async background processing)           |
 
 ### Wrangler Configuration Requirements
 
@@ -33,21 +33,21 @@ All code changes **must pass** before merging:
 
 ### Lighthouse CI
 
-| Metric | Threshold |
-|--------|-----------|
-| Performance | ≥ 90 |
-| Accessibility | ≥ 90 |
-| Best Practices | ≥ 95 |
-| SEO | ≥ 95 |
+| Metric         | Threshold |
+| -------------- | --------- |
+| Performance    | ≥ 90      |
+| Accessibility  | ≥ 90      |
+| Best Practices | ≥ 95      |
+| SEO            | ≥ 95      |
 
 ### Static Analysis
 
-| Tool | Threshold |
-|------|-----------|
-| Semgrep | 0 high/medium severity |
-| Knip | 0 unused exports |
-| dependency-cruiser | No layer violations |
-| jscpd | ≤ 1% duplication |
+| Tool               | Threshold              |
+| ------------------ | ---------------------- |
+| Semgrep            | 0 high/medium severity |
+| Knip               | 0 unused exports       |
+| dependency-cruiser | No layer violations    |
+| jscpd              | ≤ 1% duplication       |
 
 ## 4. Development Standards
 

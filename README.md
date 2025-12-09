@@ -258,7 +258,6 @@ author: 'Author Name'
 tags: ['Trade', 'Export']
 coverImage: '/images/blog/cover.jpg'
 ---
-
 Article content in MDX format...
 ```
 

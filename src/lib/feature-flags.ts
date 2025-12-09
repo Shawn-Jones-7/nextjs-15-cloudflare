@@ -11,17 +11,17 @@ export const FEATURE_FLAGS = {
    * Enabled when NEXT_PUBLIC_WHATSAPP_NUMBER is set.
    */
   ENABLE_WHATSAPP_CHAT:
-    typeof process.env.NEXT_PUBLIC_WHATSAPP_NUMBER === "string" &&
+    typeof process.env.NEXT_PUBLIC_WHATSAPP_NUMBER === 'string' &&
     process.env.NEXT_PUBLIC_WHATSAPP_NUMBER.length > 0,
-} as const;
+} as const
 
 /**
  * Get the configured WhatsApp number.
  * Returns undefined if not configured or empty.
  */
 export function getWhatsAppNumber(): string | undefined {
-  const value = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER?.trim();
-  return value && value.length > 0 ? value : undefined;
+  const value = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER?.trim()
+  return value && value.length > 0 ? value : undefined
 }
 
 /**
@@ -34,21 +34,21 @@ export function getWhatsAppNumber(): string | undefined {
  */
 export function buildWhatsAppUrl(
   phoneNumber: string,
-  message?: string
+  message?: string,
 ): string | undefined {
   // Normalize: trim and strip all non-digit characters
-  const cleanNumber = phoneNumber.trim().replaceAll(/\D/g, "");
+  const cleanNumber = phoneNumber.trim().replaceAll(/\D/g, '')
 
   if (!/^\d{10,}$/.test(cleanNumber)) {
-    return undefined;
+    return undefined
   }
 
-  const baseUrl = `https://wa.me/${cleanNumber}`;
+  const baseUrl = `https://wa.me/${cleanNumber}`
 
   if (message) {
-    const encodedMessage = encodeURIComponent(message);
-    return `${baseUrl}?text=${encodedMessage}`;
+    const encodedMessage = encodeURIComponent(message)
+    return `${baseUrl}?text=${encodedMessage}`
   }
 
-  return baseUrl;
+  return baseUrl
 }

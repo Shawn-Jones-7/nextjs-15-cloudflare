@@ -1,23 +1,24 @@
-import type { Metadata } from 'next';
+import type { Metadata } from 'next'
+import type { Locale } from './config'
 
-import { defaultLocale, type Locale } from './config';
+import { defaultLocale } from './config'
 
 const rawSiteUrl =
   process.env.NEXT_PUBLIC_SITE_URL ??
   process.env.NEXT_PUBLIC_BASE_URL ??
-  'https://globaltrade.com';
-export const siteUrl = rawSiteUrl.replace(/\/$/, '');
+  'https://globaltrade.com'
+export const siteUrl = rawSiteUrl.replace(/\/$/, '')
 
-export const siteName = 'GlobalTrade';
+export const siteName = 'GlobalTrade'
 
 export function buildAlternates(
   locale: Locale,
-  pathname: string
+  pathname: string,
 ): Metadata['alternates'] {
-  const normalizedPath = pathname.startsWith('/') ? pathname : `/${pathname}`;
-  const localizedPath = normalizedPath === '/' ? '' : normalizedPath;
+  const normalizedPath = pathname.startsWith('/') ? pathname : `/${pathname}`
+  const localizedPath = normalizedPath === '/' ? '' : normalizedPath
 
-  const buildUrl = (loc: string) => `${siteUrl}/${loc}${localizedPath}`;
+  const buildUrl = (loc: string) => `${siteUrl}/${loc}${localizedPath}`
 
   const languages = {
     'x-default': buildUrl(defaultLocale),
@@ -25,27 +26,27 @@ export function buildAlternates(
     zh: buildUrl('zh'),
     es: buildUrl('es'),
     ar: buildUrl('ar'),
-  } as const;
+  } as const
 
-  const canonical = buildUrl(locale);
+  const canonical = buildUrl(locale)
 
   return {
     canonical,
     languages,
-  };
+  }
 }
 
 export interface PageMetadataOptions {
-  title: string;
-  description: string;
-  locale: Locale;
-  pathname: string;
-  image?: string;
-  type?: 'website' | 'article';
-  publishedTime?: string;
-  modifiedTime?: string;
-  authors?: string[];
-  tags?: string[];
+  title: string
+  description: string
+  locale: Locale
+  pathname: string
+  image?: string
+  type?: 'website' | 'article'
+  publishedTime?: string
+  modifiedTime?: string
+  authors?: string[]
+  tags?: string[]
 }
 
 export function buildPageMetadata(options: PageMetadataOptions): Metadata {
@@ -60,9 +61,9 @@ export function buildPageMetadata(options: PageMetadataOptions): Metadata {
     modifiedTime,
     authors,
     tags,
-  } = options;
+  } = options
 
-  const url = `${siteUrl}/${locale}${pathname === '/' ? '' : pathname}`;
+  const url = `${siteUrl}/${locale}${pathname === '/' ? '' : pathname}`
 
   return {
     title,
@@ -96,5 +97,5 @@ export function buildPageMetadata(options: PageMetadataOptions): Metadata {
       description,
       images: [image],
     },
-  };
+  }
 }

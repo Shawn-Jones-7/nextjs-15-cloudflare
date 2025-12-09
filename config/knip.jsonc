@@ -12,7 +12,7 @@
     "src/components/seo/**/*.tsx",
     "src/lib/blog.ts",
     "src/lib/i18n/routing.ts",
-    "src/lib/schemas/lead.ts"
+    "src/lib/schemas/lead.ts",
   ],
   "project": ["src/**/*.{ts,tsx}"],
   "ignore": [
@@ -20,7 +20,7 @@
     "src/**/__tests__/**",
     "src/tests/**",
     "e2e/**",
-    "src/components/ui/**"
+    "src/components/ui/**",
   ],
   "ignoreDependencies": [
     "@next/eslint-plugin-next",
@@ -38,15 +38,15 @@
     "tw-animate-css",
     "markdownlint",
     "@radix-ui/react-dropdown-menu",
-    "sonner"
+    "sonner",
   ],
   "ignoreBinaries": ["semgrep"],
   "ignoreExportsUsedInFile": {
     "interface": true,
-    "type": true
+    "type": true,
   },
   "rules": {
     "exports": "off",
-    "types": "off"
-  }
+    "types": "off",
+  },
 }

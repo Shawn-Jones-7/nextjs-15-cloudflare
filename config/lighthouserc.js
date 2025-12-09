@@ -11,7 +11,7 @@ const criticalUrls = [
   'http://localhost:3000',
   'http://localhost:3000/en',
   'http://localhost:3000/zh',
-];
+]
 
 const allUrls = [
   ...criticalUrls,
@@ -23,9 +23,9 @@ const allUrls = [
   'http://localhost:3000/zh/news',
   'http://localhost:3000/en/cases',
   'http://localhost:3000/zh/cases',
-];
+]
 
-const isDaily = process.env.CI_DAILY === 'true';
+const isDaily = process.env.CI_DAILY === 'true'
 
 export const ci = {
   collect: {
@@ -59,4 +59,4 @@ export const ci = {
   upload: {
     target: 'temporary-public-storage',
   },
-};
+}

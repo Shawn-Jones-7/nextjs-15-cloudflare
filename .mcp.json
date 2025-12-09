@@ -1,8 +1,8 @@
 {
-    "mcpServers": {
-      "CC-nc": {
-        "type": "http",
-        "url": "http://localhost:8000/mcp/CC-nc"
-      }
+  "mcpServers": {
+    "CC-nc": {
+      "type": "http",
+      "url": "http://localhost:8000/mcp/CC-nc"
     }
   }
+}

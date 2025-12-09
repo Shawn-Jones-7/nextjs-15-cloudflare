@@ -6,19 +6,19 @@
 
 These APIs **must be awaited** in Next.js 15:
 
-| API | Usage |
-|-----|-------|
-| `params` | `const { locale } = await params` |
+| API            | Usage                                  |
+| -------------- | -------------------------------------- |
+| `params`       | `const { locale } = await params`      |
 | `searchParams` | `const { query } = await searchParams` |
-| `cookies()` | `await cookies()` |
-| `headers()` | `await headers()` |
+| `cookies()`    | `await cookies()`                      |
+| `headers()`    | `await headers()`                      |
 
 ### Page Props Pattern
 
 ```typescript
 interface PageProps {
-  params: Promise<{ locale: string }>;
-  searchParams?: Promise<Record<string, string | undefined>>;
+  params: Promise<{ locale: string }>
+  searchParams?: Promise<Record<string, string | undefined>>
 }
 ```
 
@@ -52,17 +52,18 @@ src/app/
 
 ## Server vs Client Components
 
-| Server (default) | Client (`"use client"`) |
-|------------------|-------------------------|
-| Data fetching, SEO | Interactivity, hooks |
-| async/await | useState, useEffect |
-| Direct D1/KV access | onClick, browser APIs |
+| Server (default)    | Client (`"use client"`) |
+| ------------------- | ----------------------- |
+| Data fetching, SEO  | Interactivity, hooks    |
+| async/await         | useState, useEffect     |
+| Direct D1/KV access | onClick, browser APIs   |
 
 **Rule**: Push Client boundaries as low as possible.
 
 ### Data Serialization
 
 Server → Client props must be serializable:
+
 - ✅ string, number, boolean, plain objects, arrays
 - ❌ functions, class instances, Date objects
 
@@ -74,9 +75,9 @@ Server → Client props must be serializable:
 
 ## Key Files
 
-| File | Purpose |
-|------|---------|
-| `src/lib/i18n/routing.ts` | Locale config, pathnames |
-| `src/lib/i18n/config.ts` | Locale labels, RTL detection |
-| `src/middleware.ts` | next-intl middleware |
-| `wrangler.toml` | Cloudflare bindings |
+| File                      | Purpose                      |
+| ------------------------- | ---------------------------- |
+| `src/lib/i18n/routing.ts` | Locale config, pathnames     |
+| `src/lib/i18n/config.ts`  | Locale labels, RTL detection |
+| `src/middleware.ts`       | next-intl middleware         |
+| `wrangler.toml`           | Cloudflare bindings          |

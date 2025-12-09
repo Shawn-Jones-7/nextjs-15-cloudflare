@@ -21,15 +21,15 @@ Optimize Next.js 15 + Cloudflare Workers project configuration to restore build 
 
 ## Constitution Check
 
-*GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
+_GATE: Must pass before Phase 0 research. Re-check after Phase 1 design._
 
-| Principle | Status | Notes |
-|-----------|--------|-------|
-| I. Server Components First | ✅ PASS | Config changes only, no component impact |
-| II. i18n Completeness | ✅ PASS | P1-5 improves i18n loading, no translation changes |
-| III. Type Safety | ✅ PASS | Enhances type safety (verbatimModuleSyntax, workers-types) |
-| IV. Edge-First Architecture | ✅ PASS | Improves Edge compatibility (images.unoptimized) |
-| V. Quality Gates | ✅ PASS | Restores build-time checks (P0-1) |
+| Principle                   | Status  | Notes                                                      |
+| --------------------------- | ------- | ---------------------------------------------------------- |
+| I. Server Components First  | ✅ PASS | Config changes only, no component impact                   |
+| II. i18n Completeness       | ✅ PASS | P1-5 improves i18n loading, no translation changes         |
+| III. Type Safety            | ✅ PASS | Enhances type safety (verbatimModuleSyntax, workers-types) |
+| IV. Edge-First Architecture | ✅ PASS | Improves Edge compatibility (images.unoptimized)           |
+| V. Quality Gates            | ✅ PASS | Restores build-time checks (P0-1)                          |
 
 ## Project Structure
 
@@ -65,13 +65,13 @@ specs/002-config-optimization/
 
 See [research.md](./research.md) for full details.
 
-| Topic | Decision | Risk |
-|-------|----------|------|
-| React Compiler | Remove ESLint rule (not configured) | None |
-| Vitest projects | Migrate to inline `test.projects` config | Low |
-| verbatimModuleSyntax | Safe to enable (code already compliant) | Low |
-| @cloudflare/workers-types | Install latest version | None |
-| next-intl lazy loading | **Deferred to P2** (current size acceptable) | None |
+| Topic                     | Decision                                     | Risk |
+| ------------------------- | -------------------------------------------- | ---- |
+| React Compiler            | Remove ESLint rule (not configured)          | None |
+| Vitest projects           | Migrate to inline `test.projects` config     | Low  |
+| verbatimModuleSyntax      | Safe to enable (code already compliant)      | Low  |
+| @cloudflare/workers-types | Install latest version                       | None |
+| next-intl lazy loading    | **Deferred to P2** (current size acceptable) | None |
 
 ---
 
@@ -107,25 +107,31 @@ const nextConfig: NextConfig = {
 // AFTER: Class defined before nextConfig
 
 class VeliteWebpackPlugin {
-  static started = false;
-  apply(compiler: { hooks: { beforeCompile: { tapPromise: (name: string, callback: () => Promise<void>) => void } } }) {
+  static started = false
+  apply(compiler: {
+    hooks: {
+      beforeCompile: {
+        tapPromise: (name: string, callback: () => Promise<void>) => void
+      }
+    }
+  }) {
     compiler.hooks.beforeCompile.tapPromise('VeliteWebpackPlugin', async () => {
-      if (VeliteWebpackPlugin.started) return;
-      VeliteWebpackPlugin.started = true;
-      const development = process.env.NODE_ENV !== 'production';
-      const { build } = await import('velite');
-      await build({ watch: development, clean: !development });
-    });
+      if (VeliteWebpackPlugin.started) return
+      VeliteWebpackPlugin.started = true
+      const development = process.env.NODE_ENV !== 'production'
+      const { build } = await import('velite')
+      await build({ watch: development, clean: !development })
+    })
   }
 }
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   webpack: (config) => {
-    config.plugins.push(new VeliteWebpackPlugin());
-    return config;
+    config.plugins.push(new VeliteWebpackPlugin())
+    return config
   },
-};
+}
 ```
 
 ---
@@ -161,6 +167,7 @@ const nextConfig: NextConfig = {
 ```
 
 **Rationale**:
+
 - `poweredByHeader: false` - Security best practice
 - `images.unoptimized: true` - Cloudflare Workers doesn't support Next.js Image Optimization
 
@@ -169,6 +176,7 @@ const nextConfig: NextConfig = {
 ### P1-2: Add TypeScript Cloudflare Types
 
 **Commands**:
+
 ```bash
 pnpm add -D @cloudflare/workers-types
 ```
@@ -191,9 +199,9 @@ pnpm add -D @cloudflare/workers-types
 **File**: `vitest.config.ts`
 
 ```typescript
-import react from '@vitejs/plugin-react';
-import tsconfigPaths from 'vite-tsconfig-paths';
-import { defaultExclude, defineConfig } from 'vitest/config';
+import react from '@vitejs/plugin-react'
+import tsconfigPaths from 'vite-tsconfig-paths'
+import { defaultExclude, defineConfig } from 'vitest/config'
 
 export default defineConfig({
   plugins: [react(), tsconfigPaths()],
@@ -223,7 +231,7 @@ export default defineConfig({
       },
     ],
   },
-});
+})
 ```
 
 **Update**: `package.json` scripts
@@ -266,33 +274,34 @@ export default defineConfig({
 
 ### P2 Tasks (Future)
 
-| ID | Task | Notes |
-|----|------|-------|
-| P2-1 | Optimize Playwright CI install | Change to `chromium` only |
-| P2-2 | Document ESLint flat config status | Track @next/eslint-plugin-next native support |
-| P2-3 | Verify tw-animate-css v4 compatibility | Test and document |
-| P2-4 | Evaluate Zod vs Arktype | Analyze consolidation path |
+| ID   | Task                                   | Notes                                         |
+| ---- | -------------------------------------- | --------------------------------------------- |
+| P2-1 | Optimize Playwright CI install         | Change to `chromium` only                     |
+| P2-2 | Document ESLint flat config status     | Track @next/eslint-plugin-next native support |
+| P2-3 | Verify tw-animate-css v4 compatibility | Test and document                             |
+| P2-4 | Evaluate Zod vs Arktype                | Analyze consolidation path                    |
 
 ---
 
 ## Verification Checklist
 
-| Task | Command | Expected |
-|------|---------|----------|
-| P0-1 | `pnpm typecheck && pnpm lint` | Exit 0 |
-| P0-2 | `pnpm build` | Success |
-| P0-3 | `pnpm lint` | No react-compiler errors |
-| P1-1 | `pnpm build` | No image warnings |
-| P1-2 | `pnpm typecheck` | CloudflareEnv resolved |
-| P1-3 | `pnpm test` | All tests pass |
-| P1-4 | `pnpm typecheck` | No import errors |
-| **All** | **Full CI** | **All checks green** |
+| Task    | Command                       | Expected                 |
+| ------- | ----------------------------- | ------------------------ |
+| P0-1    | `pnpm typecheck && pnpm lint` | Exit 0                   |
+| P0-2    | `pnpm build`                  | Success                  |
+| P0-3    | `pnpm lint`                   | No react-compiler errors |
+| P1-1    | `pnpm build`                  | No image warnings        |
+| P1-2    | `pnpm typecheck`              | CloudflareEnv resolved   |
+| P1-3    | `pnpm test`                   | All tests pass           |
+| P1-4    | `pnpm typecheck`              | No import errors         |
+| **All** | **Full CI**                   | **All checks green**     |
 
 ---
 
 ## Complexity Tracking
 
 No constitution violations. All changes within limits:
+
 - File modifications: Config files only (<500 lines each)
 - No new runtime dependencies
 - No architectural changes

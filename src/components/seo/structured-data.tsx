@@ -1,10 +1,11 @@
-import type { Locale } from '@/lib/i18n/config';
-import { siteUrl } from '@/lib/i18n/metadata';
+import type { Locale } from '@/lib/i18n/config'
+
+import { siteUrl } from '@/lib/i18n/metadata'
 
 interface OrganizationJsonLdProperties {
-  name?: string;
-  url?: string;
-  logo?: string;
+  name?: string
+  url?: string
+  logo?: string
 }
 
 export function OrganizationJsonLd({
@@ -25,27 +26,30 @@ export function OrganizationJsonLd({
       areaServed: ['US', 'CN', 'ES', 'AE'],
       availableLanguage: ['en', 'zh', 'es', 'ar'],
     },
-  };
+  }
 
   return (
     <script
-      type="application/ld+json"
+      type='application/ld+json'
       dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
     />
-  );
+  )
 }
 
 interface BreadcrumbItem {
-  name: string;
-  href: string;
+  name: string
+  href: string
 }
 
 interface BreadcrumbJsonLdProperties {
-  items: BreadcrumbItem[];
-  locale: Locale;
+  items: BreadcrumbItem[]
+  locale: Locale
 }
 
-export function BreadcrumbJsonLd({ items, locale }: BreadcrumbJsonLdProperties) {
+export function BreadcrumbJsonLd({
+  items,
+  locale,
+}: BreadcrumbJsonLdProperties) {
   const schema = {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
@@ -57,24 +61,24 @@ export function BreadcrumbJsonLd({ items, locale }: BreadcrumbJsonLdProperties) 
         ? item.href
         : `${siteUrl}/${locale}${item.href}`,
     })),
-  };
+  }
 
   return (
     <script
-      type="application/ld+json"
+      type='application/ld+json'
       dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
     />
-  );
+  )
 }
 
 interface ArticleJsonLdProperties {
-  title: string;
-  description: string;
-  datePublished: string;
-  dateModified?: string;
-  locale: Locale;
-  slug: string;
-  section: 'news' | 'cases';
+  title: string
+  description: string
+  datePublished: string
+  dateModified?: string
+  locale: Locale
+  slug: string
+  section: 'news' | 'cases'
 }
 
 export function ArticleJsonLd({
@@ -109,12 +113,12 @@ export function ArticleJsonLd({
       '@type': 'WebPage',
       '@id': `${siteUrl}/${locale}/${section}/${slug}`,
     },
-  };
+  }
 
   return (
     <script
-      type="application/ld+json"
+      type='application/ld+json'
       dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
     />
-  );
+  )
 }

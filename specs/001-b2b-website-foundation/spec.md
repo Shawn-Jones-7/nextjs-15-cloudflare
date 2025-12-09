@@ -5,7 +5,7 @@
 **Status**: Draft
 **Input**: User description: "B2B 外贸企业官网模板，包含首页、产品、博客、关于、联系表单，支持多语言和全球加速"
 
-## User Scenarios & Testing *(mandatory)*
+## User Scenarios & Testing _(mandatory)_
 
 ### User Story 1 - 访客浏览产品目录 (Priority: P1)
 
@@ -138,7 +138,7 @@
 - **D1 写入失败**: 返回服务器错误提示，前端保留用户已填数据
 - **Thank You 页面**: 显示成功信息、预计响应时间、返回首页按钮
 
-## Requirements *(mandatory)*
+## Requirements _(mandatory)_
 
 ### Functional Requirements
 
@@ -167,13 +167,13 @@
 
 **表单字段验证规则**
 
-| 字段 | 类型 | 必填 | 验证规则 |
-|------|------|------|----------|
-| name | text | ✅ | 2-100 字符 |
-| email | email | ✅ | 有效邮箱格式 |
-| company | text | ❌ | 最长 200 字符 |
-| inquiryType | select | ❌ | 枚举：product/agency/other |
-| message | textarea | ❌ | 最长 5000 字符 |
+| 字段        | 类型     | 必填 | 验证规则                   |
+| ----------- | -------- | ---- | -------------------------- |
+| name        | text     | ✅   | 2-100 字符                 |
+| email       | email    | ✅   | 有效邮箱格式               |
+| company     | text     | ❌   | 最长 200 字符              |
+| inquiryType | select   | ❌   | 枚举：product/agency/other |
+| message     | textarea | ❌   | 最长 5000 字符             |
 
 **后端处理**
 
@@ -203,15 +203,15 @@
 
 **i18n URL 路由规则**
 
-| URL | 语言 | 说明 |
-|-----|------|------|
-| `/` | 检测 | 重定向到检测到的语言 |
-| `/en` | en | 英文首页 |
-| `/zh` | zh | 中文首页 |
-| `/es` | es | 西班牙语首页 |
-| `/ar` | ar | 阿拉伯语首页 (RTL) |
-| `/en/products/valve` | en | 产品详情（slug 不翻译） |
-| `/zh/products/valve` | zh | 同一产品中文版 |
+| URL                  | 语言 | 说明                    |
+| -------------------- | ---- | ----------------------- |
+| `/`                  | 检测 | 重定向到检测到的语言    |
+| `/en`                | en   | 英文首页                |
+| `/zh`                | zh   | 中文首页                |
+| `/es`                | es   | 西班牙语首页            |
+| `/ar`                | ar   | 阿拉伯语首页 (RTL)      |
+| `/en/products/valve` | en   | 产品详情（slug 不翻译） |
+| `/zh/products/valve` | zh   | 同一产品中文版          |
 
 **体验优化**
 
@@ -225,7 +225,7 @@
 - **Lead**: 线索实体，属性包括 id、name、email、company、inquiryType、message、productSlug、productName、formPage、locale、status、createdAt
 - **BlogPost**: 博客文章实体，属性包括 slug、title、excerpt、content、publishedAt、locale；数据来源为 MDX 文件
 
-## Success Criteria *(mandatory)*
+## Success Criteria _(mandatory)_
 
 ### Measurable Outcomes
 
@@ -240,7 +240,7 @@
 
 ---
 
-## Technical Notes *(for implementation reference)*
+## Technical Notes _(for implementation reference)_
 
 ### 组件结构
 

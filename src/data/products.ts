@@ -3,20 +3,20 @@ export type ProductCategorySlug =
   | 'valves'
   | 'pipes'
   | 'fittings'
-  | 'accessories';
+  | 'accessories'
 
 export interface Product {
-  slug: string;
-  categorySlug: ProductCategorySlug;
-  image: string;
-  specKeys: string[];
+  slug: string
+  categorySlug: ProductCategorySlug
+  image: string
+  specKeys: string[]
 }
 
 export interface ProductCategory {
-  slug: ProductCategorySlug;
-  i18nKey: string;
-  icon: string;
-  products: Product[];
+  slug: ProductCategorySlug
+  i18nKey: string
+  icon: string
+  products: Product[]
 }
 
 export const productCategories: ProductCategory[] = [
@@ -115,24 +115,24 @@ export const productCategories: ProductCategory[] = [
       },
     ],
   },
-];
+]
 
 export function getProductBySlug(slug: string): Product | undefined {
   for (const category of productCategories) {
-    const product = category.products.find((item) => item.slug === slug);
+    const product = category.products.find((item) => item.slug === slug)
     if (product) {
-      return product;
+      return product
     }
   }
-  return undefined;
+  return undefined
 }
 
 export function getCategoryBySlug(
-  slug: ProductCategorySlug
+  slug: ProductCategorySlug,
 ): ProductCategory | undefined {
-  return productCategories.find((category) => category.slug === slug);
+  return productCategories.find((category) => category.slug === slug)
 }
 
 export function getAllProducts(): Product[] {
-  return productCategories.flatMap((category) => category.products);
+  return productCategories.flatMap((category) => category.products)
 }

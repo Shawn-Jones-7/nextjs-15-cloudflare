@@ -1,13 +1,13 @@
 interface TurnstileVerifyResponse {
-  success: boolean;
-  'error-codes'?: string[];
-  challenge_ts?: string;
-  hostname?: string;
+  success: boolean
+  'error-codes'?: string[]
+  challenge_ts?: string
+  hostname?: string
 }
 
 export async function verifyTurnstile(
   token: string,
-  secretKey: string
+  secretKey: string,
 ): Promise<{ success: boolean; errorCodes?: string[] }> {
   try {
     const response = await fetch(
@@ -16,20 +16,20 @@ export async function verifyTurnstile(
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ secret: secretKey, response: token }),
-      }
-    );
+      },
+    )
 
     if (!response.ok) {
-      return { success: false, errorCodes: ['http_error'] };
+      return { success: false, errorCodes: ['http_error'] }
     }
 
-    const result: TurnstileVerifyResponse = await response.json();
+    const result: TurnstileVerifyResponse = await response.json()
     return {
       success: Boolean(result.success),
       errorCodes: result['error-codes'],
-    };
+    }
   } catch (error) {
-    console.error('Turnstile verification failed', error);
-    return { success: false, errorCodes: ['network_error'] };
+    console.error('Turnstile verification failed', error)
+    return { success: false, errorCodes: ['network_error'] }
   }
 }

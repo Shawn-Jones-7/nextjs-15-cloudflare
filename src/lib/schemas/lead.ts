@@ -1,7 +1,7 @@
-import { z } from 'zod';
+import { z } from 'zod'
 
-export const inquiryTypes = ['product', 'agency', 'other'] as const;
-export type InquiryType = (typeof inquiryTypes)[number];
+export const inquiryTypes = ['product', 'agency', 'other'] as const
+export type InquiryType = (typeof inquiryTypes)[number]
 
 export const leadSchema = z.object({
   name: z.string().min(2).max(100),
@@ -15,12 +15,12 @@ export const leadSchema = z.object({
   message: z.string().max(5000).optional().or(z.literal('')),
   locale: z.enum(['en', 'zh', 'es', 'ar']),
   turnstileToken: z.string().min(1),
-});
+})
 
-export type LeadInput = z.infer<typeof leadSchema>;
+export type LeadInput = z.infer<typeof leadSchema>
 
 export interface Lead extends Omit<LeadInput, 'turnstileToken'> {
-  id: string;
-  createdAt: number;
-  status: 'pending' | 'processed' | 'failed';
+  id: string
+  createdAt: number
+  status: 'pending' | 'processed' | 'failed'
 }

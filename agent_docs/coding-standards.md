@@ -3,6 +3,7 @@
 ## TypeScript
 
 ### Strict Mode
+
 - `strict: true`, `noImplicitAny: true`
 - **No `any`** — use `unknown` + type guards
 - Prefer `interface` over `type`
@@ -15,29 +16,31 @@
 
 ## Naming Conventions
 
-| Type | Convention | Example |
-|------|------------|---------|
-| Components | PascalCase | `ContactForm.tsx` |
-| Utilities | camelCase | `formatPrice.ts` |
-| Constants | SCREAMING_SNAKE | `MAX_ITEMS` |
-| Directories | kebab-case | `locale-switcher/` |
-| Booleans | `is/has/can/should` | `isLoading` |
-| Event handlers | `handle` prefix | `handleSubmit` |
+| Type           | Convention          | Example            |
+| -------------- | ------------------- | ------------------ |
+| Components     | PascalCase          | `ContactForm.tsx`  |
+| Utilities      | camelCase           | `formatPrice.ts`   |
+| Constants      | SCREAMING_SNAKE     | `MAX_ITEMS`        |
+| Directories    | kebab-case          | `locale-switcher/` |
+| Booleans       | `is/has/can/should` | `isLoading`        |
+| Event handlers | `handle` prefix     | `handleSubmit`     |
 
 ## Imports
 
 ### Path Aliases
+
 Always use `@/` alias. No deep relative imports.
 
 ```typescript
 // ✅ Good
-import { cn } from '@/lib/cn';
+import { cn } from '@/lib/cn'
 
 // ❌ Bad
-import { cn } from '../../../lib/cn';
+import { cn } from '../../../lib/cn'
 ```
 
 ### Import Order
+
 1. React/Next.js
 2. Third-party
 3. `@/` aliases
@@ -63,8 +66,8 @@ Types: `feat`, `fix`, `refactor`, `docs`, `test`, `chore`, `perf`
 
 ## Complexity Limits
 
-| Metric | Limit |
-|--------|-------|
-| File lines | ≤ 500 |
-| Function lines | ≤ 120 |
-| Cyclomatic complexity | ≤ 15 |
+| Metric                | Limit |
+| --------------------- | ----- |
+| File lines            | ≤ 500 |
+| Function lines        | ≤ 120 |
+| Cyclomatic complexity | ≤ 15  |

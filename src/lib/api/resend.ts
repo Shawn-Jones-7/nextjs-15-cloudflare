@@ -1,15 +1,15 @@
-import type { Lead } from '@/lib/schemas/lead';
+import type { Lead } from '@/lib/schemas/lead'
 
 interface SendEmailOptions {
-  lead: Lead;
-  apiKey: string;
-  fromEmail: string;
-  toEmail: string;
+  lead: Lead
+  apiKey: string
+  fromEmail: string
+  toEmail: string
 }
 
 interface ResendResponse {
-  id?: string;
-  error?: { message: string };
+  id?: string
+  error?: { message: string }
 }
 
 export async function sendLeadNotification({
@@ -44,15 +44,18 @@ export async function sendLeadNotification({
         <p style="color: #666; font-size: 12px; margin-top: 16px;">Lead ID: ${lead.id} | Submitted at: ${new Date(lead.createdAt).toISOString()}</p>
       `,
     }),
-  });
+  })
 
-  const result: ResendResponse = await response.json();
+  const result: ResendResponse = await response.json()
 
   if (!response.ok || result.error) {
-    return { success: false, error: result.error?.message ?? 'Failed to send email' };
+    return {
+      success: false,
+      error: result.error?.message ?? 'Failed to send email',
+    }
   }
 
-  return { success: true };
+  return { success: true }
 }
 
 function escapeHtml(text: string): string {
@@ -61,5 +64,5 @@ function escapeHtml(text: string): string {
     .replaceAll('<', '&lt;')
     .replaceAll('>', '&gt;')
     .replaceAll('"', '&quot;')
-    .replaceAll("'", '&#039;');
+    .replaceAll("'", '&#039;')
 }

@@ -56,6 +56,7 @@ config/             # Quality tools config
 ### Progressive Detail
 
 Read `agent_docs/` as needed:
+
 - `architecture.md` — Routing, async APIs, RSC
 - `i18n.md` — Translations, RTL
 - `coding-standards.md` — Naming, imports
@@ -69,8 +70,10 @@ Read `agent_docs/` as needed:
 Reply in Chinese. Technical terms stay in English.
 
 ## Active Technologies
+
 - TypeScript 5.8.3 + Next.js 15.3.2, Vitest 3.1.4, ESLint 9.27.0, Tailwind CSS 4.1.7, next-intl 4.5.8 (002-config-optimization)
 - D1 (Cloudflare), KV (Cloudflare) (002-config-optimization)
 
 ## Recent Changes
+
 - 002-config-optimization: Added TypeScript 5.8.3 + Next.js 15.3.2, Vitest 3.1.4, ESLint 9.27.0, Tailwind CSS 4.1.7, next-intl 4.5.8
