@@ -25,6 +25,7 @@ export default defineConfig(
       'cloudflare-env.d.ts',
       '.open-next',
       '.velite',
+      'velite.config.ts',
       'reports/**',
       'scripts/**',
     ],
@@ -90,6 +91,17 @@ export default defineConfig(
       // JSON-LD structured data requires dangerouslySetInnerHTML by design.
       // Content is safe: we control the schema objects and use JSON.stringify().
       '@eslint-react/dom/no-dangerously-set-innerhtml': 'off',
+    },
+  },
+
+  {
+    files: ['**/blog.ts'],
+    rules: {
+      // #velite is a build-time path alias to .velite directory (Velite-generated).
+      // ESLint import resolver cannot resolve it, but TypeScript handles it via paths config.
+      'import-x/no-unresolved': ['error', { ignore: ['^#velite$'] }],
+      // Dynamic import of #velite returns typed exports, safe to assign.
+      '@typescript-eslint/no-unsafe-assignment': 'off',
     },
   },
 
