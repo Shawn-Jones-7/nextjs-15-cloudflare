@@ -1,0 +1,47 @@
+name = "b2b-corporate-website"
+main = ".open-next/worker.js"
+compatibility_date = "2025-05-05"
+compatibility_flags = [
+  "nodejs_compat",
+  "nodejs_compat_populate_process_env",
+]
+minify = true
+
+[assets]
+binding = "ASSETS"
+directory = ".open-next/assets"
+
+[observability]
+enabled = true
+
+[placement]
+mode = "smart"
+
+[[services]]
+binding = "WORKER_SELF_REFERENCE"
+service = "b2b-corporate-website"
+
+[[kv_namespaces]]
+binding = "NEXT_INC_CACHE_KV"
+id = "892eb4389c4e4cdba183b137e821eaf0"
+
+[[d1_databases]]
+binding = "NEXT_TAG_CACHE_D1"
+database_name = "b2b-website-tag-cache"
+database_id = "dd41f722-87fd-4acc-be14-1f61bc5da828"
+
+[[d1_databases]]
+binding = "CONTACT_FORM_D1"
+database_name = "b2b-website-contact-forms"
+database_id = "1d0ebed6-ff77-4aeb-b8cd-e0be78b11b05"
+
+# Queue for async lead processing (requires Workers Paid plan)
+# Uncomment when upgrading to paid plan:
+# [[queues.producers]]
+# queue = "lead-notifications"
+# binding = "LEAD_QUEUE"
+#
+# [[queues.consumers]]
+# queue = "lead-notifications"
+# max_batch_size = 10
+# max_batch_timeout = 30

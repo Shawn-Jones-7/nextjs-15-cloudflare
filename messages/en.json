@@ -1,0 +1,284 @@
+{
+  "Site": {
+    "brandName": "GlobalTrade",
+    "contact": {
+      "address": "123 Business Avenue, Tech City, TC 90210",
+      "phone": "+1 (555) 123-4567",
+      "email": "contact@globaltrade.com"
+    },
+    "social": {
+      "linkedin": "LinkedIn",
+      "twitter": "Twitter",
+      "facebook": "Facebook",
+      "instagram": "Instagram"
+    }
+  },
+  "LocaleSwitcher": {
+    "label": "Select Language:"
+  },
+  "Common": {
+    "backToTop": "Back to top",
+    "language": "Language"
+  },
+  "Navigation": {
+    "home": "Home",
+    "about": "About",
+    "blog": "Blog",
+    "products": "Products",
+    "cases": "Case Studies",
+    "news": "News",
+    "contact": "Contact",
+    "openMenu": "Open main menu",
+    "closeMenu": "Close main menu",
+    "categories": {
+      "industrialPumps": "Industrial Pumps",
+      "valves": "Valves",
+      "pipes": "Pipes",
+      "fittings": "Fittings",
+      "accessories": "Accessories"
+    },
+    "categoryDescriptions": {
+      "industrialPumps": "High-performance pumps for industrial applications",
+      "valves": "Quality control valves and gate valves",
+      "pipes": "Stainless steel and HDPE pipes",
+      "fittings": "Pipe fittings and flanges",
+      "accessories": "Gauges, seals, and couplings"
+    }
+  },
+  "HomePage": {
+    "title": "B2B Global Trade",
+    "description": "Your trusted partner for international trade solutions. We connect businesses across the globe with efficiency and reliability.",
+    "cta": "Contact Us",
+    "hero": {
+      "title": "Industrial Solutions for Global Markets",
+      "subtitle": "We provide high-quality industrial pumps, valves, and piping systems to businesses worldwide. Partner with us for reliable products and exceptional service.",
+      "cta": "Get Started"
+    }
+  },
+  "AboutPage": {
+    "title": "About Us",
+    "description": "Learn more about our company and mission.",
+    "content": "We are a leading provider of international trade solutions, helping businesses expand their global reach since 2010. Our team of experts brings decades of combined experience in logistics, supply chain management, and cross-border commerce."
+  },
+  "NewsPage": {
+    "title": "Latest News",
+    "description": "Stay updated with our latest announcements and industry insights.",
+    "items": {
+      "expansion-2024": {
+        "title": "Global Expansion 2024",
+        "excerpt": "Announcing our expansion into new markets across Asia and Europe.",
+        "content": "We are excited to announce our strategic expansion into key markets across Asia and Europe. This growth initiative will enable us to better serve our global clients and strengthen our international trade network."
+      },
+      "partnership-announcement": {
+        "title": "Strategic Partnership Announcement",
+        "excerpt": "New partnership to enhance our logistics capabilities.",
+        "content": "We have formed a strategic partnership with leading logistics providers to enhance our service offerings. This collaboration will streamline operations and reduce delivery times for our clients."
+      },
+      "industry-award": {
+        "title": "Industry Excellence Award",
+        "excerpt": "Recognized for outstanding service in international trade.",
+        "content": "We are honored to receive the Industry Excellence Award for our contributions to international trade. This recognition reflects our commitment to quality and customer satisfaction."
+      }
+    }
+  },
+  "CasesPage": {
+    "title": "Case Studies",
+    "description": "Discover how we help businesses succeed in global trade.",
+    "industries": {
+      "logistics": "Logistics",
+      "manufacturing": "Manufacturing",
+      "retail": "Retail"
+    },
+    "items": {
+      "logistics-optimization": {
+        "title": "Logistics Optimization for Fortune 500",
+        "excerpt": "Reduced shipping costs by 30% through route optimization.",
+        "content": "By implementing our advanced logistics optimization solutions, we helped a Fortune 500 company reduce their international shipping costs by 30% while improving delivery times by 25%."
+      },
+      "supply-chain-integration": {
+        "title": "Supply Chain Integration",
+        "excerpt": "Seamless integration of multi-region supply chains.",
+        "content": "We designed and implemented a comprehensive supply chain integration solution that connected manufacturing facilities across three continents, resulting in improved inventory management and reduced lead times."
+      },
+      "global-expansion": {
+        "title": "Retail Global Expansion",
+        "excerpt": "Enabling rapid market entry into 15 new countries.",
+        "content": "Our team supported a major retail brand in their global expansion, helping them establish operations in 15 new countries within 18 months. The project included customs compliance, logistics setup, and local partner integration."
+      }
+    }
+  },
+  "ContactPage": {
+    "title": "Contact Us",
+    "description": "Get in touch with our team. We'd love to hear from you.",
+    "modal": {
+      "title": "Contact Us",
+      "titleWithProduct": "Inquire about {product}",
+      "description": "Fill out the form below and our team will get back to you within 24 hours."
+    },
+    "form": {
+      "name": "Name",
+      "email": "Email",
+      "phone": "Phone",
+      "company": "Company",
+      "inquiryType": "Inquiry Type",
+      "selectInquiryType": "Select an inquiry type",
+      "message": "Message (Optional)",
+      "submit": "Send Message",
+      "loading": "Sending...",
+      "success_message": "Thank you! Your message has been sent successfully.",
+      "types": {
+        "product": "Product Inquiry",
+        "agency": "Agency Partnership",
+        "other": "Other"
+      },
+      "errors": {
+        "validation_error": "Please check the form and try again.",
+        "rate_limited": "Too many requests. Please try again later.",
+        "turnstile_failed": "Security check failed. Please refresh and try again.",
+        "server_error": "Something went wrong. Please try again later."
+      }
+    }
+  },
+  "ThankYouPage": {
+    "title": "Thank You!",
+    "description": "Your message has been received. We will get back to you within 24-48 business hours."
+  },
+  "Footer": {
+    "description": "Your trusted partner for international trade solutions, connecting businesses across the globe with efficiency and reliability.",
+    "quickLinks": "Quick Links",
+    "contact": "Contact Us",
+    "followUs": "Follow Us",
+    "copyright": "All rights reserved.",
+    "themeToggle": "Toggle theme"
+  },
+  "BlogPage": {
+    "title": "Blog",
+    "description": "Industry insights, news, and best practices for manufacturing and global trade.",
+    "readMore": "Read more",
+    "backToBlog": "Back to Blog",
+    "returnToBlog": "Return to Blog",
+    "minRead": "min read",
+    "noPosts": "No articles available yet. Check back soon!"
+  },
+  "ProductsPage": {
+    "title": "Our Products",
+    "description": "Explore our comprehensive range of industrial equipment and solutions.",
+    "getQuote": "Get Quote"
+  },
+  "Products": {
+    "specs": {
+      "flowRate": "Flow Rate",
+      "head": "Head",
+      "power": "Power",
+      "stages": "Stages",
+      "motor": "Motor",
+      "pressureRating": "Pressure Rating",
+      "size": "Size",
+      "material": "Material",
+      "discMaterial": "Disc Material",
+      "seatMaterial": "Seat Material",
+      "diameter": "Diameter",
+      "schedule": "Schedule",
+      "pressureClass": "Pressure Class",
+      "coilLength": "Coil Length",
+      "radius": "Radius",
+      "connection": "Connection",
+      "range": "Range",
+      "caseMaterial": "Case Material",
+      "shaftSize": "Shaft Size",
+      "temperature": "Temperature"
+    },
+    "items": {
+      "centrifugal-pump-pro": {
+        "name": "Centrifugal Pump Pro",
+        "description": "High-efficiency centrifugal pump designed for demanding industrial applications. Features corrosion-resistant construction and variable speed control.",
+        "specs": {
+          "flowRate": "500-2000 m³/h",
+          "head": "Up to 150m",
+          "power": "15-200 kW"
+        }
+      },
+      "vertical-turbine-pump": {
+        "name": "Vertical Turbine Pump",
+        "description": "Multi-stage vertical turbine pump ideal for deep well applications and high-pressure water supply systems.",
+        "specs": {
+          "flowRate": "100-1500 m³/h",
+          "stages": "2-20 stages",
+          "motor": "5-500 kW"
+        }
+      },
+      "gate-valve-hd": {
+        "name": "Gate Valve HD",
+        "description": "Heavy-duty gate valve with excellent sealing performance for high-pressure pipeline applications.",
+        "specs": {
+          "pressureRating": "PN16-PN100",
+          "size": "DN50-DN600",
+          "material": "Cast Steel / Stainless Steel"
+        }
+      },
+      "butterfly-valve-xl": {
+        "name": "Butterfly Valve XL",
+        "description": "Extra-large butterfly valve with quick operation and reliable sealing for industrial flow control.",
+        "specs": {
+          "pressureRating": "PN10-PN25",
+          "discMaterial": "Stainless Steel 316",
+          "seatMaterial": "EPDM / PTFE"
+        }
+      },
+      "ss-welded-pipe": {
+        "name": "SS Welded Pipe",
+        "description": "Premium stainless steel welded pipe for sanitary and industrial applications with superior corrosion resistance.",
+        "specs": {
+          "diameter": "DN15-DN300",
+          "schedule": "SCH10-SCH40",
+          "material": "304 / 316L SS"
+        }
+      },
+      "hdpe-pressure-pipe": {
+        "name": "HDPE Pressure Pipe",
+        "description": "High-density polyethylene pipe for water supply and gas distribution with excellent flexibility and durability.",
+        "specs": {
+          "diameter": "DN20-DN1200",
+          "pressureClass": "PN6-PN25",
+          "coilLength": "50-500m"
+        }
+      },
+      "stainless-elbow-90": {
+        "name": "Stainless Elbow 90°",
+        "description": "Precision-engineered 90-degree stainless steel elbow for smooth flow transitions in piping systems.",
+        "specs": {
+          "diameter": "DN15-DN200",
+          "schedule": "SCH10-SCH80",
+          "radius": "Short / Long Radius"
+        }
+      },
+      "carbon-steel-flange": {
+        "name": "Carbon Steel Flange",
+        "description": "High-strength carbon steel flange for secure pipe connections in industrial and petrochemical applications.",
+        "specs": {
+          "pressureClass": "Class 150-2500",
+          "connection": "Weld Neck / Slip-On / Blind",
+          "material": "A105 / A350"
+        }
+      },
+      "pressure-gauge-industrial": {
+        "name": "Industrial Pressure Gauge",
+        "description": "Precision industrial pressure gauge with high accuracy and durability for process monitoring.",
+        "specs": {
+          "range": "0-600 bar",
+          "connection": "1/4\" - 1/2\" NPT/BSP",
+          "caseMaterial": "Stainless Steel"
+        }
+      },
+      "mechanical-seal-kit": {
+        "name": "Mechanical Seal Kit",
+        "description": "Complete mechanical seal kit for pumps and rotating equipment with multiple material options.",
+        "specs": {
+          "shaftSize": "12-100mm",
+          "material": "Carbon / SiC / TC",
+          "temperature": "-40°C to +250°C"
+        }
+      }
+    }
+  }
+}

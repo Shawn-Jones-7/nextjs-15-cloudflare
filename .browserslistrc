@@ -1,0 +1,13 @@
+# Production: modern browsers only (reduce polyfills)
+[production]
+chrome >= 112
+firefox >= 113
+safari >= 16
+ios >= 16
+edge >= 112
+not dead
+not op_mini all
+
+# Development: latest Chrome for fast refresh
+[development]
+last 1 chrome version

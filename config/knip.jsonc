@@ -1,0 +1,52 @@
+{
+  "$schema": "https://unpkg.com/knip@5/schema.json",
+  "entry": [
+    "src/app/[locale]/**/*.tsx",
+    "src/app/robots.ts",
+    "src/app/sitemap.ts",
+    "src/middleware.ts",
+    "src/actions/**/*.ts",
+    "src/queue/**/*.ts",
+    "src/env.ts",
+    "src/i18n/request.ts",
+    "src/components/seo/**/*.tsx",
+    "src/lib/blog.ts",
+    "src/lib/i18n/routing.ts",
+    "src/lib/schemas/lead.ts"
+  ],
+  "project": ["src/**/*.{ts,tsx}"],
+  "ignore": [
+    "src/**/*.{test,spec}.{ts,tsx}",
+    "src/**/__tests__/**",
+    "src/tests/**",
+    "e2e/**",
+    "src/components/ui/**"
+  ],
+  "ignoreDependencies": [
+    "@next/eslint-plugin-next",
+    "eslint-config-next",
+    "eslint-import-resolver-typescript",
+    "postcss",
+    "lefthook",
+    "@commitlint/cli",
+    "@mdx-js/react",
+    "@mdx-js/loader",
+    "@types/mdx",
+    "gray-matter",
+    "eslint-plugin-drizzle",
+    "tailwindcss",
+    "tw-animate-css",
+    "markdownlint",
+    "@radix-ui/react-dropdown-menu",
+    "sonner"
+  ],
+  "ignoreBinaries": ["semgrep"],
+  "ignoreExportsUsedInFile": {
+    "interface": true,
+    "type": true
+  },
+  "rules": {
+    "exports": "off",
+    "types": "off"
+  }
+}
