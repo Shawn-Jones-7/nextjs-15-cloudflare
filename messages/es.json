@@ -1,0 +1,289 @@
+{
+  "Site": {
+    "brandName": "GlobalTrade",
+    "contact": {
+      "address": "123 Business Avenue, Tech City, TC 90210",
+      "phone": "+1 (555) 123-4567",
+      "email": "contact@globaltrade.com"
+    },
+    "social": {
+      "linkedin": "LinkedIn",
+      "twitter": "Twitter",
+      "facebook": "Facebook",
+      "instagram": "Instagram"
+    }
+  },
+  "LocaleSwitcher": {
+    "label": "Seleccionar Idioma:"
+  },
+  "Common": {
+    "backToTop": "Volver arriba",
+    "language": "Idioma"
+  },
+  "Navigation": {
+    "home": "Inicio",
+    "about": "Nosotros",
+    "blog": "Blog",
+    "products": "Productos",
+    "cases": "Casos de Éxito",
+    "news": "Noticias",
+    "contact": "Contacto",
+    "openMenu": "Abrir menú principal",
+    "closeMenu": "Cerrar menú principal",
+    "categories": {
+      "industrialPumps": "Bombas Industriales",
+      "valves": "Válvulas",
+      "pipes": "Tuberías",
+      "fittings": "Accesorios de Tubería",
+      "accessories": "Accesorios"
+    },
+    "categoryDescriptions": {
+      "industrialPumps": "Bombas de alto rendimiento para aplicaciones industriales",
+      "valves": "Válvulas de control y compuertas de calidad",
+      "pipes": "Tuberías de acero inoxidable y HDPE",
+      "fittings": "Accesorios de tubería y bridas",
+      "accessories": "Manómetros, sellos y acoplamientos"
+    }
+  },
+  "HomePage": {
+    "title": "Comercio Global B2B",
+    "description": "Su socio de confianza para soluciones de comercio internacional. Conectamos empresas de todo el mundo con eficiencia y fiabilidad.",
+    "cta": "Contáctenos",
+    "hero": {
+      "title": "Soluciones Industriales para Mercados Globales",
+      "subtitle": "Proporcionamos bombas industriales, válvulas y sistemas de tuberías de alta calidad a empresas de todo el mundo. Asóciese con nosotros para productos confiables y un servicio excepcional.",
+      "cta": "Comenzar"
+    }
+  },
+  "AboutPage": {
+    "title": "Sobre Nosotros",
+    "description": "Conozca más sobre nuestra empresa y misión.",
+    "content": "Somos un proveedor líder de soluciones de comercio internacional, ayudando a las empresas a expandir su alcance global desde 2010. Nuestro equipo de expertos aporta décadas de experiencia combinada en logística, gestión de cadena de suministro y comercio transfronterizo."
+  },
+  "NewsPage": {
+    "title": "Últimas Noticias",
+    "description": "Manténgase actualizado con nuestros últimos anuncios y perspectivas de la industria.",
+    "items": {
+      "expansion-2024": {
+        "title": "Expansión Global 2024",
+        "excerpt": "Anunciamos nuestra expansión hacia nuevos mercados en Asia y Europa.",
+        "content": "Nos complace anunciar nuestra expansión estratégica hacia mercados clave en Asia y Europa. Esta iniciativa de crecimiento nos permitirá servir mejor a nuestros clientes globales y fortalecer nuestra red de comercio internacional."
+      },
+      "partnership-announcement": {
+        "title": "Anuncio de Alianza Estratégica",
+        "excerpt": "Nueva alianza para mejorar nuestras capacidades logísticas.",
+        "content": "Hemos formado una alianza estratégica con proveedores de logística líderes para mejorar nuestras ofertas de servicios. Esta colaboración optimizará las operaciones y reducirá los tiempos de entrega para nuestros clientes."
+      },
+      "industry-award": {
+        "title": "Premio a la Excelencia Industrial",
+        "excerpt": "Reconocidos por servicio destacado en comercio internacional.",
+        "content": "Nos honra recibir el Premio a la Excelencia Industrial por nuestras contribuciones al comercio internacional. Este reconocimiento refleja nuestro compromiso con la calidad y la satisfacción del cliente."
+      }
+    }
+  },
+  "CasesPage": {
+    "title": "Casos de Éxito",
+    "description": "Descubra cómo ayudamos a las empresas a tener éxito en el comercio global.",
+    "industries": {
+      "logistics": "Logística",
+      "manufacturing": "Manufactura",
+      "retail": "Retail"
+    },
+    "items": {
+      "logistics-optimization": {
+        "title": "Optimización Logística para Fortune 500",
+        "excerpt": "Reducción del 30% en costos de envío mediante optimización de rutas.",
+        "content": "Al implementar nuestras soluciones avanzadas de optimización logística, ayudamos a una empresa Fortune 500 a reducir sus costos de envío internacional en un 30% mientras mejoraba los tiempos de entrega en un 25%."
+      },
+      "supply-chain-integration": {
+        "title": "Integración de Cadena de Suministro",
+        "excerpt": "Integración perfecta de cadenas de suministro multi-región.",
+        "content": "Diseñamos e implementamos una solución integral de integración de cadena de suministro que conectó instalaciones de fabricación en tres continentes, resultando en una mejor gestión de inventario y tiempos de entrega reducidos."
+      },
+      "global-expansion": {
+        "title": "Expansión Global de Retail",
+        "excerpt": "Habilitando la entrada rápida a 15 nuevos países.",
+        "content": "Nuestro equipo apoyó a una importante marca de retail en su expansión global, ayudándoles a establecer operaciones en 15 nuevos países en 18 meses. El proyecto incluyó cumplimiento aduanero, configuración logística e integración de socios locales."
+      }
+    }
+  },
+  "ContactPage": {
+    "title": "Contáctenos",
+    "description": "Póngase en contacto con nuestro equipo. Nos encantaría saber de usted.",
+    "modal": {
+      "title": "Contáctenos",
+      "titleWithProduct": "Consultar sobre {product}",
+      "description": "Complete el formulario y nuestro equipo le responderá dentro de 24 horas."
+    },
+    "form": {
+      "name": "Nombre",
+      "email": "Correo electrónico",
+      "phone": "Teléfono",
+      "company": "Empresa",
+      "inquiryType": "Tipo de Consulta",
+      "selectInquiryType": "Seleccione un tipo de consulta",
+      "message": "Mensaje (Opcional)",
+      "submit": "Enviar Mensaje",
+      "loading": "Enviando...",
+      "success_message": "¡Gracias! Su mensaje ha sido enviado con éxito.",
+      "types": {
+        "product": "Consulta de Producto",
+        "agency": "Asociación de Agencia",
+        "other": "Otro"
+      },
+      "errors": {
+        "validation_error": "Por favor revise el formulario e intente de nuevo.",
+        "rate_limited": "Demasiadas solicitudes. Por favor intente más tarde.",
+        "turnstile_failed": "Verificación de seguridad fallida. Por favor actualice e intente de nuevo.",
+        "server_error": "Algo salió mal. Por favor intente más tarde."
+      }
+    }
+  },
+  "ThankYouPage": {
+    "title": "¡Gracias!",
+    "description": "Su mensaje ha sido recibido. Le responderemos dentro de 24-48 horas hábiles."
+  },
+  "Footer": {
+    "description": "Su socio de confianza para soluciones de comercio internacional, conectando empresas de todo el mundo con eficiencia y fiabilidad.",
+    "quickLinks": "Enlaces Rápidos",
+    "contact": "Contáctenos",
+    "followUs": "Síguenos",
+    "copyright": "Todos los derechos reservados.",
+    "themeToggle": "Cambiar tema"
+  },
+  "BlogPage": {
+    "title": "Blog",
+    "description": "Perspectivas de la industria, noticias y mejores prácticas para manufactura y comercio global.",
+    "readMore": "Leer más",
+    "backToBlog": "Volver al Blog",
+    "returnToBlog": "Regresar al Blog",
+    "minRead": "min de lectura",
+    "noPosts": "No hay artículos disponibles aún. ¡Vuelve pronto!"
+  },
+  "ProductsPage": {
+    "title": "Nuestros Productos",
+    "description": "Explore nuestra amplia gama de equipos y soluciones industriales.",
+    "getQuote": "Solicitar Cotización"
+  },
+  "WhatsApp": {
+    "defaultMessage": "Hola, estoy interesado en conocer más sobre sus productos y servicios.",
+    "productInquiry": "Hola, estoy interesado en {productName}. ¿Puede proporcionar más detalles y precios?",
+    "buttonLabel": "Chat en WhatsApp"
+  },
+  "Products": {
+    "specs": {
+      "flowRate": "Caudal",
+      "head": "Altura",
+      "power": "Potencia",
+      "stages": "Etapas",
+      "motor": "Motor",
+      "pressureRating": "Presión Nominal",
+      "size": "Tamaño",
+      "material": "Material",
+      "discMaterial": "Material del Disco",
+      "seatMaterial": "Material del Asiento",
+      "diameter": "Diámetro",
+      "schedule": "Espesor",
+      "pressureClass": "Clase de Presión",
+      "coilLength": "Longitud de Bobina",
+      "radius": "Radio",
+      "connection": "Conexión",
+      "range": "Rango",
+      "caseMaterial": "Material de Carcasa",
+      "shaftSize": "Tamaño del Eje",
+      "temperature": "Temperatura"
+    },
+    "items": {
+      "centrifugal-pump-pro": {
+        "name": "Bomba Centrífuga Pro",
+        "description": "Bomba centrífuga de alta eficiencia diseñada para aplicaciones industriales exigentes. Cuenta con construcción resistente a la corrosión y control de velocidad variable.",
+        "specs": {
+          "flowRate": "500-2000 m³/h",
+          "head": "Hasta 150m",
+          "power": "15-200 kW"
+        }
+      },
+      "vertical-turbine-pump": {
+        "name": "Bomba de Turbina Vertical",
+        "description": "Bomba de turbina vertical multietapa ideal para pozos profundos y sistemas de suministro de agua a alta presión.",
+        "specs": {
+          "flowRate": "100-1500 m³/h",
+          "stages": "2-20 etapas",
+          "motor": "5-500 kW"
+        }
+      },
+      "gate-valve-hd": {
+        "name": "Válvula de Compuerta HD",
+        "description": "Válvula de compuerta de servicio pesado con excelente rendimiento de sellado para aplicaciones de tuberías de alta presión.",
+        "specs": {
+          "pressureRating": "PN16-PN100",
+          "size": "DN50-DN600",
+          "material": "Acero Fundido / Acero Inoxidable"
+        }
+      },
+      "butterfly-valve-xl": {
+        "name": "Válvula Mariposa XL",
+        "description": "Válvula mariposa extra grande con operación rápida y sellado confiable para control de flujo industrial.",
+        "specs": {
+          "pressureRating": "PN10-PN25",
+          "discMaterial": "Acero Inoxidable 316",
+          "seatMaterial": "EPDM / PTFE"
+        }
+      },
+      "ss-welded-pipe": {
+        "name": "Tubería Soldada de Acero Inoxidable",
+        "description": "Tubería soldada de acero inoxidable premium para aplicaciones sanitarias e industriales con resistencia superior a la corrosión.",
+        "specs": {
+          "diameter": "DN15-DN300",
+          "schedule": "SCH10-SCH40",
+          "material": "304 / 316L SS"
+        }
+      },
+      "hdpe-pressure-pipe": {
+        "name": "Tubería de Presión HDPE",
+        "description": "Tubería de polietileno de alta densidad para suministro de agua y distribución de gas con excelente flexibilidad y durabilidad.",
+        "specs": {
+          "diameter": "DN20-DN1200",
+          "pressureClass": "PN6-PN25",
+          "coilLength": "50-500m"
+        }
+      },
+      "stainless-elbow-90": {
+        "name": "Codo de Acero Inoxidable 90°",
+        "description": "Codo de acero inoxidable de 90 grados de ingeniería de precisión para transiciones de flujo suaves en sistemas de tuberías.",
+        "specs": {
+          "diameter": "DN15-DN200",
+          "schedule": "SCH10-SCH80",
+          "radius": "Radio Corto / Largo"
+        }
+      },
+      "carbon-steel-flange": {
+        "name": "Brida de Acero al Carbono",
+        "description": "Brida de acero al carbono de alta resistencia para conexiones seguras de tuberías en aplicaciones industriales y petroquímicas.",
+        "specs": {
+          "pressureClass": "Clase 150-2500",
+          "connection": "Cuello Soldado / Deslizante / Ciega",
+          "material": "A105 / A350"
+        }
+      },
+      "pressure-gauge-industrial": {
+        "name": "Manómetro Industrial",
+        "description": "Manómetro industrial de precisión con alta exactitud y durabilidad para monitoreo de procesos.",
+        "specs": {
+          "range": "0-600 bar",
+          "connection": "1/4\" - 1/2\" NPT/BSP",
+          "caseMaterial": "Acero Inoxidable"
+        }
+      },
+      "mechanical-seal-kit": {
+        "name": "Kit de Sello Mecánico",
+        "description": "Kit completo de sello mecánico para bombas y equipos rotativos con múltiples opciones de materiales.",
+        "specs": {
+          "shaftSize": "12-100mm",
+          "material": "Carbono / SiC / TC",
+          "temperature": "-40°C a +250°C"
+        }
+      }
+    }
+  }
+}

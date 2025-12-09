@@ -1,0 +1,289 @@
+{
+  "Site": {
+    "brandName": "GlobalTrade",
+    "contact": {
+      "address": "123 Business Avenue, Tech City, TC 90210",
+      "phone": "+1 (555) 123-4567",
+      "email": "contact@globaltrade.com"
+    },
+    "social": {
+      "linkedin": "LinkedIn",
+      "twitter": "Twitter",
+      "facebook": "Facebook",
+      "instagram": "Instagram"
+    }
+  },
+  "LocaleSwitcher": {
+    "label": "选择语言："
+  },
+  "Common": {
+    "backToTop": "返回顶部",
+    "language": "语言"
+  },
+  "Navigation": {
+    "home": "首页",
+    "about": "关于我们",
+    "blog": "博客",
+    "products": "产品中心",
+    "cases": "案例分析",
+    "news": "新闻动态",
+    "contact": "联系我们",
+    "openMenu": "打开主菜单",
+    "closeMenu": "关闭主菜单",
+    "categories": {
+      "industrialPumps": "工业泵",
+      "valves": "阀门",
+      "pipes": "管道",
+      "fittings": "管件",
+      "accessories": "配件"
+    },
+    "categoryDescriptions": {
+      "industrialPumps": "高性能工业应用泵",
+      "valves": "优质控制阀和闸阀",
+      "pipes": "不锈钢和HDPE管道",
+      "fittings": "管件和法兰",
+      "accessories": "压力表、密封件和联轴器"
+    }
+  },
+  "HomePage": {
+    "title": "B2B 全球贸易",
+    "description": "您值得信赖的国际贸易解决方案合作伙伴。我们以高效可靠的方式连接全球企业。",
+    "cta": "联系我们",
+    "hero": {
+      "title": "面向全球市场的工业解决方案",
+      "subtitle": "我们为全球企业提供优质的工业泵、阀门和管道系统。与我们合作，享受可靠的产品和卓越的服务。",
+      "cta": "立即咨询"
+    }
+  },
+  "AboutPage": {
+    "title": "关于我们",
+    "description": "了解更多关于我们公司和使命的信息。",
+    "content": "我们是领先的国际贸易解决方案提供商，自2010年以来帮助企业拓展全球业务。我们的专家团队在物流、供应链管理和跨境商务领域拥有数十年的综合经验。"
+  },
+  "NewsPage": {
+    "title": "最新动态",
+    "description": "了解我们的最新公告和行业洞察。",
+    "items": {
+      "expansion-2024": {
+        "title": "2024全球扩张计划",
+        "excerpt": "宣布我们向亚洲和欧洲新市场的扩张。",
+        "content": "我们很高兴宣布向亚洲和欧洲关键市场的战略扩张。这一增长举措将使我们能够更好地服务全球客户，并加强我们的国际贸易网络。"
+      },
+      "partnership-announcement": {
+        "title": "战略合作公告",
+        "excerpt": "新合作伙伴关系将提升我们的物流能力。",
+        "content": "我们与领先的物流服务商建立了战略合作伙伴关系，以增强我们的服务能力。这一合作将简化运营并缩短客户的交付时间。"
+      },
+      "industry-award": {
+        "title": "行业卓越奖",
+        "excerpt": "国际贸易领域杰出服务获认可。",
+        "content": "我们很荣幸获得行业卓越奖，表彰我们对国际贸易的贡献。这一认可体现了我们对质量和客户满意度的承诺。"
+      }
+    }
+  },
+  "CasesPage": {
+    "title": "成功案例",
+    "description": "了解我们如何帮助企业在全球贸易中取得成功。",
+    "industries": {
+      "logistics": "物流",
+      "manufacturing": "制造业",
+      "retail": "零售"
+    },
+    "items": {
+      "logistics-optimization": {
+        "title": "世界500强物流优化",
+        "excerpt": "通过路线优化降低30%运输成本。",
+        "content": "通过实施我们先进的物流优化解决方案，我们帮助一家世界500强公司将国际运输成本降低了30%，同时将交付时间缩短了25%。"
+      },
+      "supply-chain-integration": {
+        "title": "供应链整合",
+        "excerpt": "多区域供应链的无缝整合。",
+        "content": "我们设计并实施了一个全面的供应链整合解决方案，连接了三大洲的制造工厂，改善了库存管理并缩短了交付周期。"
+      },
+      "global-expansion": {
+        "title": "零售全球扩张",
+        "excerpt": "助力快速进入15个新市场。",
+        "content": "我们的团队支持一家大型零售品牌的全球扩张，帮助他们在18个月内在15个新国家建立业务。项目包括海关合规、物流设置和当地合作伙伴整合。"
+      }
+    }
+  },
+  "ContactPage": {
+    "title": "联系我们",
+    "description": "与我们的团队取得联系，我们期待您的来信。",
+    "modal": {
+      "title": "联系我们",
+      "titleWithProduct": "咨询 {product}",
+      "description": "填写以下表单，我们的团队将在24小时内与您联系。"
+    },
+    "form": {
+      "name": "姓名",
+      "email": "电子邮箱",
+      "phone": "电话",
+      "company": "公司",
+      "inquiryType": "咨询类型",
+      "selectInquiryType": "请选择咨询类型",
+      "message": "留言（可选）",
+      "submit": "发送消息",
+      "loading": "发送中...",
+      "success_message": "感谢您！您的消息已成功发送。",
+      "types": {
+        "product": "产品咨询",
+        "agency": "代理合作",
+        "other": "其他"
+      },
+      "errors": {
+        "validation_error": "请检查表单后重试。",
+        "rate_limited": "请求过于频繁，请稍后再试。",
+        "turnstile_failed": "安全验证失败，请刷新页面后重试。",
+        "server_error": "系统异常，请稍后再试。"
+      }
+    }
+  },
+  "ThankYouPage": {
+    "title": "感谢您！",
+    "description": "您的留言已收到。我们将在24-48个工作小时内回复您。"
+  },
+  "Footer": {
+    "description": "您值得信赖的国际贸易解决方案合作伙伴，以高效可靠的方式连接全球企业。",
+    "quickLinks": "快速链接",
+    "contact": "联系我们",
+    "followUs": "关注我们",
+    "copyright": "版权所有。",
+    "themeToggle": "切换主题"
+  },
+  "BlogPage": {
+    "title": "博客",
+    "description": "行业洞察、新闻和制造业及全球贸易的最佳实践。",
+    "readMore": "阅读更多",
+    "backToBlog": "返回博客",
+    "returnToBlog": "返回博客",
+    "minRead": "分钟阅读",
+    "noPosts": "暂无文章，请稍后查看！"
+  },
+  "ProductsPage": {
+    "title": "产品中心",
+    "description": "探索我们全面的工业设备和解决方案。",
+    "getQuote": "获取报价"
+  },
+  "WhatsApp": {
+    "defaultMessage": "您好，我对贵公司的产品和服务很感兴趣，希望了解更多信息。",
+    "productInquiry": "您好，我对 {productName} 很感兴趣，能否提供更多详情和报价？",
+    "buttonLabel": "WhatsApp 咨询"
+  },
+  "Products": {
+    "specs": {
+      "flowRate": "流量",
+      "head": "扬程",
+      "power": "功率",
+      "stages": "级数",
+      "motor": "电机",
+      "pressureRating": "压力等级",
+      "size": "尺寸",
+      "material": "材质",
+      "discMaterial": "阀瓣材质",
+      "seatMaterial": "阀座材质",
+      "diameter": "直径",
+      "schedule": "壁厚",
+      "pressureClass": "压力等级",
+      "coilLength": "盘管长度",
+      "radius": "弯曲半径",
+      "connection": "连接方式",
+      "range": "量程",
+      "caseMaterial": "表壳材质",
+      "shaftSize": "轴径",
+      "temperature": "温度范围"
+    },
+    "items": {
+      "centrifugal-pump-pro": {
+        "name": "专业离心泵",
+        "description": "专为高要求工业应用设计的高效离心泵。具有耐腐蚀结构和变频调速控制。",
+        "specs": {
+          "flowRate": "500-2000 m³/h",
+          "head": "最高150m",
+          "power": "15-200 kW"
+        }
+      },
+      "vertical-turbine-pump": {
+        "name": "立式多级泵",
+        "description": "多级立式涡轮泵，适用于深井应用和高压供水系统���",
+        "specs": {
+          "flowRate": "100-1500 m³/h",
+          "stages": "2-20级",
+          "motor": "5-500 kW"
+        }
+      },
+      "gate-valve-hd": {
+        "name": "重型闸阀",
+        "description": "具有出色密封性能的重型闸阀，适用于高压管道应用。",
+        "specs": {
+          "pressureRating": "PN16-PN100",
+          "size": "DN50-DN600",
+          "material": "铸钢 / 不锈钢"
+        }
+      },
+      "butterfly-valve-xl": {
+        "name": "大口径蝶阀",
+        "description": "大口径蝶阀，快速操作，密封可靠，适用于工业流量控制。",
+        "specs": {
+          "pressureRating": "PN10-PN25",
+          "discMaterial": "316不锈钢",
+          "seatMaterial": "EPDM / PTFE"
+        }
+      },
+      "ss-welded-pipe": {
+        "name": "不锈钢焊管",
+        "description": "优质不锈钢焊管，适用于卫生级和工业应用，具有卓越的耐腐蚀性。",
+        "specs": {
+          "diameter": "DN15-DN300",
+          "schedule": "SCH10-SCH40",
+          "material": "304 / 316L 不锈钢"
+        }
+      },
+      "hdpe-pressure-pipe": {
+        "name": "HDPE给水管",
+        "description": "高密度聚乙烯管，用于供水和燃气输送，具有出色的柔韧性和耐久性。",
+        "specs": {
+          "diameter": "DN20-DN1200",
+          "pressureClass": "PN6-PN25",
+          "coilLength": "50-500m"
+        }
+      },
+      "stainless-elbow-90": {
+        "name": "不锈钢90°弯头",
+        "description": "精密加工的90度不锈钢弯头，确保管道系统流体平稳过渡。",
+        "specs": {
+          "diameter": "DN15-DN200",
+          "schedule": "SCH10-SCH80",
+          "radius": "短半径 / 长半径"
+        }
+      },
+      "carbon-steel-flange": {
+        "name": "碳钢法兰",
+        "description": "高强度碳钢法兰，用于工业和石化应用中的安全管道连接。",
+        "specs": {
+          "pressureClass": "Class 150-2500",
+          "connection": "对焊 / 平焊 / 盲板",
+          "material": "A105 / A350"
+        }
+      },
+      "pressure-gauge-industrial": {
+        "name": "工业压力表",
+        "description": "精密工业压力表，具有高精度和耐用性，用于过程监控。",
+        "specs": {
+          "range": "0-600 bar",
+          "connection": "1/4\" - 1/2\" NPT/BSP",
+          "caseMaterial": "不锈钢"
+        }
+      },
+      "mechanical-seal-kit": {
+        "name": "机械密封套件",
+        "description": "用于泵和旋转设备的完整机械密封套件，提供多种材质选择。",
+        "specs": {
+          "shaftSize": "12-100mm",
+          "material": "碳化硅 / SiC / TC",
+          "temperature": "-40°C 至 +250°C"
+        }
+      }
+    }
+  }
+}

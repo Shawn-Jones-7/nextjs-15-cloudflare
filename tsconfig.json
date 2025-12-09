@@ -1,0 +1,65 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "strictNullChecks": true,
+    "allowUnusedLabels": false,
+    "allowUnreachableCode": false,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noUncheckedIndexedAccess": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "isolatedModules": true,
+    "allowJs": true,
+    "checkJs": true,
+    "allowImportingTsExtensions": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "lib": ["dom", "dom.iterable", "es2023"],
+    "module": "esnext",
+    "target": "es2022",
+    "moduleResolution": "bundler",
+    "moduleDetection": "force",
+    "resolveJsonModule": true,
+    "noEmit": true,
+    "incremental": true,
+    "pretty": true,
+    "preserveWatchOutput": true,
+    "tsBuildInfoFile": "tsconfig.tsbuildinfo",
+    "baseUrl": ".",
+    "jsx": "preserve",
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@/*": ["./src/*"],
+      "#velite": ["./.velite"]
+    }
+  },
+  "include": [
+    "next-env.d.ts",
+    "reset.d.ts",
+    "cloudflare-env.d.ts",
+    "eslint-types.d.ts",
+    "next.config.ts",
+    "open-next.config.ts",
+    "vitest.config.ts",
+    "vitest.workspace.ts",
+    "playwright.config.ts",
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "*.js",
+    "*.cjs",
+    "*.mjs",
+    ".next/types/**/*.ts",
+    "e2e/**/*.ts",
+    "config/**/*.ts",
+    "config/**/*.js",
+    "config/**/*.cjs"
+  ],
+  "exclude": ["node_modules", "reports", "velite.config.ts"]
+}
