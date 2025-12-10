@@ -244,3 +244,534 @@ Stop after Phase 2 (P0 Critical) if time-constrained:
 - Vitest upgraded from 3.1.4 → 3.2.4 to enable inline `test.projects` config
 - Removed deprecated `vitest.workspace.ts` and `--workspace` CLI flags
 - All P1 tasks completed successfully
+
+---
+
+# Part 2: Test Coverage 85% Implementation
+
+**Date**: 2025-12-10 | **Target**: 85% global test coverage
+
+## Overview
+
+This part extends the configuration optimization to achieve 85% test coverage through:
+1. Test infrastructure setup (mocks, fixtures)
+2. Unit tests for lib/ modules
+3. Server Action tests
+4. Browser component tests
+5. CI integration with coverage gates
+
+**Reference Documents**:
+- `plan.md`: Test coverage strategy and file inventory
+- `research.md`: Testing patterns and best practices
+- `data-model.md`: Test fixtures and factories
+- `contracts/mocks.ts`: Mock interface definitions
+- `quickstart.md`: Test writing guide
+
+---
+
+## Phase 6: Test Infrastructure Setup (P1-12)
+
+**Purpose**: Create mock utilities and fixtures for Cloudflare bindings and external APIs
+
+### T030: Create test directory structure
+
+```bash
+mkdir -p src/tests/{mocks,fixtures,utils}
+```
+
+- [ ] T030 Create `src/tests/` directory structure with mocks/, fixtures/, utils/ subdirectories
+
+### T031: Implement Cloudflare KV mock
+
+**File**: `src/tests/mocks/cloudflare.ts`
+**Contract**: `specs/002-config-optimization/contracts/mocks.ts` - MockKVNamespace
+
+- [ ] T031 Create `createMockKV()` factory function implementing MockKVNamespace interface
+  - In-memory Map-based storage
+  - TTL expiration support
+  - vi.fn() mocks for get/put/delete/list
+  - _store and _clear test helpers
+
+### T032: Implement Cloudflare D1 mock
+
+**File**: `src/tests/mocks/cloudflare.ts`
+**Contract**: `specs/002-config-optimization/contracts/mocks.ts` - MockD1Database
+
+- [ ] T032 Create `createMockD1()` factory function implementing MockD1Database interface
+  - Chainable prepare().bind().run() pattern
+  - Configurable row results via _setRows()
+  - vi.fn() mocks for prepare/batch/exec
+
+### T033: Implement Cloudflare Env mock
+
+**File**: `src/tests/mocks/cloudflare.ts`
+**Contract**: `specs/002-config-optimization/contracts/mocks.ts` - MockCloudflareEnv
+
+- [ ] T033 Create `createMockEnv()` factory function
+  - Combines createMockD1() and createMockKV()
+  - Default test values for TURNSTILE_SECRET_KEY, RESEND_* configs
+  - Override support via partial object
+
+### T034: Implement Turnstile API mock
+
+**File**: `src/tests/mocks/turnstile.ts`
+**Contract**: `specs/002-config-optimization/contracts/mocks.ts` - TurnstileVerifyResponse
+
+- [ ] T034 Create `createTurnstileFetchMock()` factory
+  - Success/failure response scenarios
+  - Optional delay simulation
+  - Error throwing capability
+
+### T035: Implement Resend API mock
+
+**File**: `src/tests/mocks/resend.ts`
+**Contract**: `specs/002-config-optimization/contracts/mocks.ts` - ResendEmailResponse
+
+- [ ] T035 Create `createResendFetchMock()` factory
+  - Success response with email ID
+  - Error responses (rate limit, invalid key)
+  - Configurable HTTP status codes
+
+### T036: Create test fixtures
+
+**Files**: `src/tests/fixtures/leads.ts`, `src/tests/fixtures/forms.ts`
+**Reference**: `data-model.md`
+
+- [ ] T036 [P] Create Lead fixtures
+  - validLeadInput, createLeadInput(), createLead()
+  - invalidLeadInputs object with all failure scenarios
+- [ ] T037 [P] Create FormData fixtures
+  - createFormData() helper
+  - formDataScenarios (valid, missingName, invalidEmail, missingTurnstile)
+
+### T038: Create global test setup
+
+**File**: `src/tests/setup.ts`
+
+- [ ] T038 Create global setup file
+  - Mock next-intl for all tests
+  - Mock @opennextjs/cloudflare getCloudflareContext
+  - Configure vi.stubGlobal for fetch
+  - Wire setup file into vitest.config.ts (unit + browser setupFiles)
+
+### T038b: Create server action test helper
+
+**File**: `src/tests/utils/server-action.ts`
+
+- [ ] T038b Create server action test helper
+  - Provide mock Cloudflare env factory
+  - Helper to call server action with FormData
+  - Helper to reset mocks between tests
+
+**Checkpoint**: Test infrastructure complete - ready for unit tests
+
+---
+
+## Phase 7: Configure Coverage (P1-6)
+
+**Purpose**: Enable v8 coverage with 85/85/85/82 thresholds
+
+### T039: Update vitest.config.ts with coverage
+
+- [ ] T039 Add coverage configuration to vitest.config.ts:
+  ```typescript
+  coverage: {
+    provider: 'v8',
+    reporter: ['text', 'html', 'lcov'],
+    include: ['src/**/*.{ts,tsx}'],
+    exclude: [
+      'src/app/**/*',           // Pages/Server Components
+      'src/components/ui/**/*', // shadcn/ui (external)
+      '**/*.spec.{ts,tsx}',
+      '**/*.d.ts',
+      'src/middleware.ts',
+      'src/tests/**/*',
+      'src/env.ts',             // Env declarations only
+      'src/lib/blog.ts',        // Velite generated content
+      'src/lib/feature-flags.ts', // Simple config, low value
+      'src/lib/i18n/metadata.ts', // Metadata helpers (SSG)
+      'src/lib/i18n/routing.ts',  // next-intl routing config
+      'src/lib/api/airtable.ts',  // External API (P2 test)
+      'src/queue/**/*',         // Queue consumer (needs Workers env)
+    ],
+    thresholds: {
+      global: {
+        statements: 85,
+        lines: 85,
+        functions: 85,
+        branches: 82,
+      },
+      perFile: {
+        statements: 70,
+        lines: 70,
+        functions: 65,
+        branches: 65,
+      },
+    },
+  }
+  ```
+
+  **Exclusion Rationale**:
+  - `src/app/**/*`: Server Components/Pages tested via E2E
+  - `src/components/ui/**/*`: shadcn/ui external library
+  - `src/env.ts`: TypeScript env declarations
+  - `src/lib/blog.ts`: Velite-generated content accessor
+  - `src/lib/feature-flags.ts`: Simple boolean config
+  - `src/lib/i18n/metadata.ts`, `routing.ts`: Config re-exports
+  - `src/lib/api/airtable.ts`: Deferred to P2 (external API)
+  - `src/queue/**/*`: Requires Workers runtime
+
+### T040: Add coverage scripts to package.json
+
+- [ ] T040 Add `test:coverage` script: `vitest run --coverage`
+
+### T041: Verify coverage configuration
+
+- [ ] T041 Run `pnpm test:coverage --passWithNoTests` to verify coverage config works
+  - **Note**: Full baseline verification deferred to T055 after tests written
+  - Initial run may show 0% or very low coverage - this is expected
+
+**Checkpoint**: Coverage configured - ready for test writing
+
+---
+
+## Phase 8: Unit Tests for Pure Functions (P1-7, P1-8, P1-9)
+
+**Purpose**: Test lib/ modules with 90%+ coverage target
+
+### T042: Write cn.spec.ts
+
+**File**: `src/lib/cn.spec.ts`
+**Source**: `src/lib/cn.ts`
+**Cases**: 3-4 | **Complexity**: Very Low
+
+- [ ] T042 Write cn() tests:
+  - Merges class names
+  - Handles conditional classes (false, undefined, null)
+  - Merges Tailwind classes correctly (px-2 px-4 → px-4)
+  - Empty input returns empty string
+
+### T043: Write lead.spec.ts
+
+**File**: `src/lib/schemas/lead.spec.ts`
+**Source**: `src/lib/schemas/lead.ts`
+**Cases**: 8-10 | **Complexity**: Low
+
+- [ ] T043 Write leadSchema tests:
+  - Accepts valid complete input
+  - Accepts valid minimal input (required fields only)
+  - Rejects missing name (empty string)
+  - Rejects short name (< 2 chars)
+  - Rejects invalid email format
+  - Rejects missing email
+  - Rejects invalid locale
+  - Rejects message > 5000 chars
+  - Rejects phone > 20 chars
+  - Allows empty optional fields (phone, company, message)
+
+### T044: Write i18n config.spec.ts
+
+**File**: `src/lib/i18n/config.spec.ts`
+**Source**: `src/lib/i18n/config.ts`
+**Cases**: 6-7 | **Complexity**: Low
+
+- [ ] T044 Write i18n config tests:
+  - locales array contains expected values ['en', 'zh', 'es', 'ar']
+  - defaultLocale is 'en'
+  - localeLabels contains expected labels for each locale
+  - isRtl() returns true for 'ar'
+  - isRtl() returns false for LTR locales ('en', 'zh', 'es')
+  - Locale type exports are correct
+
+**Checkpoint**: Pure function tests complete - high coverage achieved
+
+---
+
+## Phase 9: Unit Tests with Mocks (P1-9 continued)
+
+**Purpose**: Test modules requiring external dependencies
+
+### T045: Write rate-limit.spec.ts
+
+**File**: `src/lib/rate-limit.spec.ts`
+**Source**: `src/lib/rate-limit.ts`
+**Cases**: 8-10 | **Complexity**: Medium
+
+- [ ] T045 Write rate-limit tests (use fake timers):
+  - beforeEach: vi.useFakeTimers(), vi.setSystemTime()
+  - afterEach: vi.useRealTimers()
+  - Allows first request (returns allowed: true)
+  - Decrements remaining count on each request
+  - Blocks after limit exceeded (default: 5)
+  - Returns correct resetAt timestamp
+  - Resets after window expires (advance 61s)
+  - Different identifiers tracked separately
+  - KV put called with correct TTL
+  - Handles KV read errors gracefully
+
+### T046: Write turnstile/verify.spec.ts
+
+**File**: `src/lib/turnstile/verify.spec.ts`
+**Source**: `src/lib/turnstile/verify.ts`
+**Cases**: 6-8 | **Complexity**: Medium
+
+- [ ] T046 Write verifyTurnstile tests:
+  - Returns success: true for valid token
+  - Returns success: false for invalid token
+  - Includes error-codes in failure response
+  - Handles network error (fetch rejects)
+  - Handles non-ok HTTP response
+  - Calls Cloudflare API with correct parameters
+  - Timeout handling (if implemented)
+
+### T047: Write api/resend.spec.ts
+
+**File**: `src/lib/api/resend.spec.ts`
+**Source**: `src/lib/api/resend.ts`
+**Cases**: 5-6 | **Complexity**: Medium
+
+- [ ] T047 Write Resend API tests:
+  - Sends email successfully (returns id)
+  - Handles API error response
+  - Handles network failure
+  - Constructs correct request body (from, to, subject, html)
+  - Uses correct Authorization header
+
+### T048: Write d1/client.spec.ts
+
+**File**: `src/lib/d1/client.spec.ts`
+**Source**: `src/lib/d1/client.ts`
+**Cases**: 6-8 | **Complexity**: Medium-High
+
+- [ ] T048 Write D1 client tests:
+  - Inserts lead successfully
+  - Handles insert failure
+  - Queries leads correctly
+  - Binds parameters in correct order
+  - Returns proper result structure
+  - Handles database errors
+
+**Checkpoint**: Mocked unit tests complete
+
+---
+
+## Phase 10: Server Action Tests (P1-10)
+
+**Purpose**: Test submit-lead Server Action with 80%+ coverage
+
+### T049: Write submit-lead.spec.ts
+
+**File**: `src/actions/submit-lead.spec.ts`
+**Source**: `src/actions/submit-lead.ts`
+**Cases**: 10-12 | **Complexity**: High
+
+- [ ] T049 Write submitLead Server Action tests:
+
+  **Setup**:
+  ```typescript
+  vi.mock('@opennextjs/cloudflare', () => ({
+    getCloudflareContext: vi.fn(),
+  }))
+  vi.mock('next-intl/server', () => ({
+    getLocale: vi.fn(() => Promise.resolve('en')),
+  }))
+  ```
+
+  **Test cases**:
+  - Returns validation_error for invalid email
+  - Returns validation_error for missing name
+  - Returns validation_error for missing turnstile token
+  - Returns turnstile_failed when verification fails
+  - Returns rate_limited when limit exceeded
+  - Returns success on valid submission
+  - Stores lead in D1 database
+  - Sends notification email via Resend
+  - Returns server_error on D1 insertLead failure
+  - Resend failure is caught and logged, but returns success (lead saved)
+  - Lead status updated to 'failed' on server_error
+  - Locale is correctly passed from getLocale()
+
+**Checkpoint**: Server Action tests complete
+
+---
+
+## Phase 11: Browser Component Tests (P1-11)
+
+**Purpose**: Test interactive components in real browser environment
+
+### T050: Write contact-form.browser.spec.tsx
+
+**File**: `src/components/forms/contact-form.browser.spec.tsx`
+**Source**: `src/components/forms/contact-form.tsx`
+**Cases**: 8-10 | **Complexity**: Medium
+
+- [ ] T050 Write ContactForm browser tests:
+
+  **Setup**:
+  ```typescript
+  vi.mock('next-intl', () => ({
+    useTranslations: () => (key: string) => key,
+  }))
+  vi.mock('@marsidev/react-turnstile', () => ({
+    Turnstile: ({ onSuccess }) => {
+      setTimeout(() => onSuccess('test-token'), 0)
+      return <div data-testid="turnstile-mock" />
+    },
+  }))
+  ```
+
+  **Test cases**:
+  - Renders all form fields (name, email, message)
+  - Renders submit button
+  - Shows validation error for empty required fields
+  - Shows validation error for invalid email
+  - Disables submit until Turnstile verified
+  - Calls server action on valid submit
+  - Shows success message after submission
+  - Shows error message on failure
+  - Clears form after successful submission
+
+### T051: Write locale-switcher.browser.spec.tsx
+
+**File**: `src/components/i18n/locale-switcher.browser.spec.tsx`
+**Source**: `src/components/i18n/locale-switcher.tsx`
+**Cases**: 4-5 | **Complexity**: Low
+
+- [ ] T051 Write LocaleSwitcher browser tests:
+  - Renders current locale
+  - Shows dropdown with all locales on click
+  - Navigates to correct path on locale select
+  - Highlights current locale in dropdown
+  - Handles RTL locale display correctly
+
+### T052: Write header.browser.spec.tsx
+
+**File**: `src/components/layout/header.browser.spec.tsx`
+**Source**: `src/components/layout/header.tsx`
+**Cases**: 4-5 | **Complexity**: Low
+
+- [ ] T052 Write Header browser tests:
+  - Renders logo/brand
+  - Renders navigation links
+  - Renders locale switcher
+  - Mobile menu toggles on hamburger click
+  - Navigation links have correct hrefs
+
+**Checkpoint**: Browser component tests complete
+
+---
+
+## Phase 12: CI Integration & Final Verification
+
+**Purpose**: Integrate coverage into CI pipeline and verify 85% target
+
+### T053: Update CI workflow for coverage
+
+**File**: `.github/workflows/ci.yml`
+
+- [ ] T053 Add coverage step to CI:
+  - Run `pnpm test:coverage` in CI
+  - Upload coverage report as artifact
+  - Fail build if below thresholds
+
+### T054: Add coverage badge (optional)
+
+- [ ] T054 [P] Add coverage badge to README.md (if using codecov/coveralls)
+
+### T055: Run full test suite with coverage
+
+- [ ] T055 Run `pnpm test:coverage` - expect ≥85% global coverage
+
+### T056: Verify per-file minimums
+
+- [ ] T056 Check coverage report for files below 70% threshold
+
+### T057: Run E2E tests
+
+- [ ] T057 Run `pnpm test:e2e` - verify existing E2E tests still pass
+
+### T058: Full CI validation
+
+- [ ] T058 Run `pnpm quality` - all checks must pass
+
+### T059: Commit test infrastructure
+
+- [ ] T059 Commit with message: `test: add test infrastructure and achieve 85% coverage`
+
+**Checkpoint**: Test coverage 85% achieved - ready for PR
+
+---
+
+## Execution Summary (Part 2)
+
+### Task Count by Phase
+
+| Phase | Tasks | Description |
+|-------|-------|-------------|
+| Phase 6 | T030-T038b (10) | Test infrastructure setup |
+| Phase 7 | T039-T041 (3) | Coverage configuration |
+| Phase 8 | T042-T044 (3) | Pure function tests |
+| Phase 9 | T045-T048 (4) | Mocked unit tests |
+| Phase 10 | T049 (1) | Server Action tests |
+| Phase 11 | T050-T052 (3) | Browser component tests |
+| Phase 12 | T053-T059 (7) | CI integration |
+| **Total** | **31 tasks** | |
+
+### Dependencies (Part 2)
+
+```
+Phase 6 (Infrastructure) → Phase 7 (Coverage Config) → Phase 8 (Pure Tests)
+                                                              ↓
+Phase 9 (Mocked Tests) → Phase 10 (Server Action) → Phase 11 (Browser)
+                                                              ↓
+                                                    Phase 12 (CI Integration)
+```
+
+### Parallel Opportunities
+
+**Phase 6**:
+- T031, T032, T033 can run in parallel (same file but independent functions)
+- T034, T035 can run in parallel (different files)
+- T036, T037 can run in parallel (different files)
+
+**Phase 8**:
+- T042, T043, T044 can run in parallel (different test files)
+
+**Phase 9**:
+- T045, T046, T047, T048 can run in parallel (different test files)
+
+**Phase 11**:
+- T050, T051, T052 can run in parallel (different test files)
+
+### Coverage Targets
+
+| Category | Target | Files |
+|----------|--------|-------|
+| Pure functions | 90%+ | cn.ts, lead.ts, config.ts |
+| Utility with mocks | 78-82% | rate-limit.ts, verify.ts, resend.ts, client.ts |
+| Server Actions | 80% | submit-lead.ts |
+| Browser components | 70% | contact-form.tsx, locale-switcher.tsx, header.tsx |
+| **Global** | **85%** | All covered files |
+
+### Files Created (Part 2)
+
+| File | Task | Purpose |
+|------|------|---------|
+| `src/tests/setup.ts` | T038 | Global test setup |
+| `src/tests/utils/server-action.ts` | T038b | Server action test helper |
+| `src/tests/mocks/cloudflare.ts` | T031-T033 | KV, D1, Env mocks |
+| `src/tests/mocks/turnstile.ts` | T034 | Turnstile API mock |
+| `src/tests/mocks/resend.ts` | T035 | Resend API mock |
+| `src/tests/fixtures/leads.ts` | T036 | Lead data factory |
+| `src/tests/fixtures/forms.ts` | T037 | FormData helper |
+| `src/lib/cn.spec.ts` | T042 | cn() tests |
+| `src/lib/schemas/lead.spec.ts` | T043 | leadSchema tests |
+| `src/lib/i18n/config.spec.ts` | T044 | i18n config tests |
+| `src/lib/rate-limit.spec.ts` | T045 | Rate limit tests |
+| `src/lib/turnstile/verify.spec.ts` | T046 | Turnstile tests |
+| `src/lib/api/resend.spec.ts` | T047 | Resend API tests |
+| `src/lib/d1/client.spec.ts` | T048 | D1 client tests |
+| `src/actions/submit-lead.spec.ts` | T049 | Server Action tests |
+| `src/components/forms/contact-form.browser.spec.tsx` | T050 | Form tests |
+| `src/components/i18n/locale-switcher.browser.spec.tsx` | T051 | Locale tests |
+| `src/components/layout/header.browser.spec.tsx` | T052 | Header tests |

@@ -7,6 +7,7 @@ import { flatConfigs as importX } from 'eslint-plugin-import-x'
 import jsxA11y from 'eslint-plugin-jsx-a11y'
 import node from 'eslint-plugin-n'
 import { configs as reactHooks } from 'eslint-plugin-react-hooks'
+import reactYouMightNotNeedAnEffect from 'eslint-plugin-react-you-might-not-need-an-effect'
 import security from 'eslint-plugin-security'
 import unicorn from 'eslint-plugin-unicorn'
 import globals from 'globals'
@@ -47,6 +48,7 @@ export default defineConfig(
   }),
   react.configs['recommended-type-checked'],
   reactHooks.recommended,
+  reactYouMightNotNeedAnEffect.configs.recommended,
   jsxA11y.flatConfigs.strict,
 
   ...compat.config({ extends: ['plugin:drizzle/all'] }),
@@ -165,6 +167,19 @@ export default defineConfig(
       'n/exports-style': ['error', 'exports'],
       'n/no-missing-import': 'off',
       'n/no-extraneous-import': 'off',
+
+      // React "You Might Not Need an Effect" rules
+      // https://github.com/NickvanDyke/eslint-plugin-react-you-might-not-need-an-effect
+      'react-you-might-not-need-an-effect/no-derived-state': 'error',
+      'react-you-might-not-need-an-effect/no-chain-state-updates': 'error',
+      'react-you-might-not-need-an-effect/no-event-handler': 'error',
+      'react-you-might-not-need-an-effect/no-adjust-state-on-prop-change': 'error',
+      'react-you-might-not-need-an-effect/no-reset-all-state-on-prop-change': 'error',
+      'react-you-might-not-need-an-effect/no-pass-live-state-to-parent': 'error',
+      'react-you-might-not-need-an-effect/no-pass-data-to-parent': 'error',
+      'react-you-might-not-need-an-effect/no-pass-ref-to-parent': 'error',
+      'react-you-might-not-need-an-effect/no-initialize-state': 'error',
+      'react-you-might-not-need-an-effect/no-empty-effect': 'error',
     },
   },
 

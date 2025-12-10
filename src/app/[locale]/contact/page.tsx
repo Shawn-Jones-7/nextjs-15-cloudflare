@@ -3,8 +3,10 @@ import { setRequestLocale } from 'next-intl/server'
 
 import ContactForm from '@/components/forms/contact-form'
 
+import type { Locale } from '@/lib/i18n/config'
+
 interface Properties {
-  params: Promise<{ locale: string }>
+  params: Promise<{ locale: Locale }>
 }
 
 export default async function ContactPage({ params }: Properties) {

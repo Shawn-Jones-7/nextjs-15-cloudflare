@@ -5,8 +5,10 @@ import { setRequestLocale } from 'next-intl/server'
 
 import { Link, routing } from '@/lib/i18n/routing'
 
+import type { Locale } from '@/lib/i18n/config'
+
 interface Properties {
-  params: Promise<{ locale: string; slug: string }>
+  params: Promise<{ locale: Locale; slug: string }>
 }
 
 const validSlugs = [

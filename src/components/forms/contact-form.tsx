@@ -1,6 +1,6 @@
 'use client'
 
-import { useActionState, useEffect, useRef, useState } from 'react'
+import { useActionState, useRef, useState } from 'react'
 
 import type { SubmitLeadState } from '@/actions/submit-lead'
 import type { TurnstileInstance } from '@marsidev/react-turnstile'
@@ -41,23 +41,27 @@ export default function ContactForm({
   const t = useTranslations('ContactPage.form')
   const locale = useLocale()
   const direction = locale === 'ar' ? 'rtl' : 'ltr'
+  const formReference = useRef<HTMLFormElement>(null)
+  const turnstileReference = useRef<TurnstileInstance>(null)
+  const lastSuccessReference = useRef<boolean | undefined>(undefined)
+  const [turnstileToken, setTurnstileToken] = useState<string>()
+
   const [state, action, isPending] = useActionState(submitLead, {
     success: undefined,
   } as SubmitLeadState)
-  const [turnstileToken, setTurnstileToken] = useState<string>()
-  const formReference = useRef<HTMLFormElement>(null)
-  const turnstileReference = useRef<TurnstileInstance>(null)
 
-  useEffect(() => {
-    if (state.success) {
+  // Handle success state change during render (not in effect)
+  if (state.success && lastSuccessReference.current !== state.success) {
+    lastSuccessReference.current = state.success
+    // Schedule DOM operations for after render
+    queueMicrotask(() => {
       formReference.current?.reset()
-      // Valid use case: resetting derived state after form submission
-      // eslint-disable-next-line @eslint-react/hooks-extra/no-direct-set-state-in-use-effect
-      setTurnstileToken(undefined)
       turnstileReference.current?.reset()
       onSuccess?.()
-    }
-  }, [state.success, onSuccess])
+    })
+  } else if (!state.success && lastSuccessReference.current) {
+    lastSuccessReference.current = state.success
+  }
 
   return (
     <form

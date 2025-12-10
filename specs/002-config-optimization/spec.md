@@ -36,6 +36,13 @@ Current configuration has several issues:
 | P1-3 | Migrate Vitest to projects config   | Replace `vitest.workspace.ts` with `test.projects` in `vitest.config.ts` |
 | P1-4 | Add verbatimModuleSyntax            | Enable in tsconfig for explicit import/export semantics                  |
 | P1-5 | Optimize next-intl messages loading | Implement per-namespace lazy loading for translations                    |
+| P1-6 | Configure test coverage at 85%      | Enable v8 coverage with 85/85/85/82 thresholds (stmt/lines/func/branch)  |
+| P1-7 | Write unit tests for lib/schemas    | leadSchema tests with 90%+ coverage; all validation paths tested         |
+| P1-8 | Write unit tests for lib/i18n       | config.ts tests with 90%+ coverage; RTL detection, locale list           |
+| P1-9 | Write unit tests for lib utilities  | cn.ts, rate-limit.ts, turnstile/verify.ts tests                          |
+| P1-10| Write Server Action tests           | submit-lead.ts tests with 80%+ coverage; all error branches              |
+| P1-11| Write browser component tests       | contact-form, locale-switcher, header component tests                    |
+| P1-12| Create test infrastructure          | Mock setup for Cloudflare bindings, external APIs, test fixtures         |
 
 ### P2 - Low (Future)
 
@@ -82,13 +89,17 @@ P2-* (deferred, no blocking dependencies)
 
 ## Success Metrics
 
-| Metric         | Target             | Measurement                  |
-| -------------- | ------------------ | ---------------------------- |
-| CI Pipeline    | All checks green   | GitHub Actions status        |
-| Build Time     | ≤ current baseline | `pnpm build` duration        |
-| Type Coverage  | 100% strict        | `pnpm typecheck` exit 0      |
-| Bundle Size    | No regression      | First Load JS <100KB         |
-| Test Pass Rate | 100%               | `pnpm test && pnpm test:e2e` |
+| Metric            | Target             | Measurement                  |
+| ----------------- | ------------------ | ---------------------------- |
+| CI Pipeline       | All checks green   | GitHub Actions status        |
+| Build Time        | ≤ current baseline | `pnpm build` duration        |
+| Type Coverage     | 100% strict        | `pnpm typecheck` exit 0      |
+| Bundle Size       | No regression      | First Load JS <100KB         |
+| Test Pass Rate    | 100%               | `pnpm test && pnpm test:e2e` |
+| Statement Coverage| ≥85%               | `pnpm test:coverage`         |
+| Line Coverage     | ≥85%               | `pnpm test:coverage`         |
+| Function Coverage | ≥85%               | `pnpm test:coverage`         |
+| Branch Coverage   | ≥82%               | `pnpm test:coverage`         |
 
 ## Risks
 

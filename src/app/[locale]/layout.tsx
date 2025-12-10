@@ -23,7 +23,7 @@ import { routing } from '@/lib/i18n/routing'
 
 interface Properties {
   children: ReactNode
-  params: Promise<{ locale: string }>
+  params: Promise<{ locale: Locale }>
 }
 
 export function generateStaticParams() {
@@ -35,14 +35,14 @@ export async function generateMetadata({
 }: Properties): Promise<Metadata> {
   const { locale } = await params
 
-  if (!routing.locales.includes(locale as Locale)) {
+  if (!routing.locales.includes(locale)) {
     notFound()
   }
 
   return buildPageMetadata({
     title: 'B2B Corporate Website',
     description: 'Your trusted partner for international trade solutions.',
-    locale: locale as Locale,
+    locale,
     pathname: '/',
   })
 }
@@ -50,7 +50,7 @@ export async function generateMetadata({
 export default async function LocaleLayout({ children, params }: Properties) {
   const { locale } = await params
 
-  if (!routing.locales.includes(locale as (typeof routing.locales)[number])) {
+  if (!routing.locales.includes(locale)) {
     notFound()
   }
 

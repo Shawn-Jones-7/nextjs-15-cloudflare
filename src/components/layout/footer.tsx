@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useSyncExternalStore } from 'react'
 
 import {
   ExternalLink,
@@ -16,18 +16,30 @@ import { useTheme } from 'next-themes'
 
 import { Link } from '@/lib/i18n/routing'
 
+function emptySubscribe() {
+  // useSyncExternalStore requires a subscribe function; return no-op unsubscribe
+  return function unsubscribe() {
+    /* intentionally empty */
+  }
+}
+function getClientSnapshot() {
+  return true
+}
+function getServerSnapshot() {
+  return false
+}
+
 export default function Footer() {
   const site = useTranslations('Site')
   const t = useTranslations('Footer')
   const nav = useTranslations('Navigation')
   const { theme, setTheme } = useTheme()
-  const [mounted, setMounted] = useState(false)
+  const mounted = useSyncExternalStore(
+    emptySubscribe,
+    getClientSnapshot,
+    getServerSnapshot,
+  )
   const currentYear = new Date().getFullYear()
-
-  useEffect(() => {
-    // eslint-disable-next-line @eslint-react/hooks-extra/no-direct-set-state-in-use-effect -- needed for hydration safety
-    setMounted(true)
-  }, [])
 
   const handleThemeToggle = () => {
     setTheme(theme === 'dark' ? 'light' : 'dark')
@@ -124,7 +136,7 @@ export default function Footer() {
             <button
               type='button'
               onClick={handleThemeToggle}
-              className='bg-background text-muted-foreground ring-border hover:bg-primary hover:text-primary-foreground focus-visible:outline-primary absolute right-4 bottom-4 flex items-center gap-2 rounded-full px-3 py-2 text-sm font-medium shadow-sm ring-1 transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 rtl:right-auto rtl:left-4'
+              className='bg-background text-muted-foreground ring-border hover:bg-primary hover:text-primary-foreground focus-visible:outline-primary absolute end-4 bottom-4 flex items-center gap-2 rounded-full px-3 py-2 text-sm font-medium shadow-sm ring-1 transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2'
               aria-label={t('themeToggle')}
             >
               {theme === 'dark' ? (
