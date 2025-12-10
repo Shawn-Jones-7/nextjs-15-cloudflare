@@ -89,3 +89,6 @@ words:
   - hrefs
   - مستخدم
   - اختبار
+  - codecov
+  - lcov
+  - unittests
