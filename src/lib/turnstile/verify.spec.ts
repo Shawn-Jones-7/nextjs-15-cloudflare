@@ -1,4 +1,5 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
+
 import { verifyTurnstile } from './verify'
 
 describe('verifyTurnstile', () => {
@@ -7,7 +8,7 @@ describe('verifyTurnstile', () => {
   })
 
   it('returns success: true for valid token', async () => {
-    global.fetch = vi.fn().mockResolvedValue({
+    globalThis.fetch = vi.fn().mockResolvedValue({
       ok: true,
       json: () => Promise.resolve({ success: true }),
     })
@@ -19,7 +20,7 @@ describe('verifyTurnstile', () => {
   })
 
   it('returns success: false for invalid token', async () => {
-    global.fetch = vi.fn().mockResolvedValue({
+    globalThis.fetch = vi.fn().mockResolvedValue({
       ok: true,
       json: () =>
         Promise.resolve({
@@ -35,7 +36,7 @@ describe('verifyTurnstile', () => {
   })
 
   it('includes error-codes in failure response', async () => {
-    global.fetch = vi.fn().mockResolvedValue({
+    globalThis.fetch = vi.fn().mockResolvedValue({
       ok: true,
       json: () =>
         Promise.resolve({
@@ -54,7 +55,7 @@ describe('verifyTurnstile', () => {
   })
 
   it('handles network error', async () => {
-    global.fetch = vi.fn().mockRejectedValue(new Error('Network error'))
+    globalThis.fetch = vi.fn().mockRejectedValue(new Error('Network error'))
 
     const result = await verifyTurnstile('token', 'test-secret')
 
@@ -63,7 +64,7 @@ describe('verifyTurnstile', () => {
   })
 
   it('handles non-ok HTTP response', async () => {
-    global.fetch = vi.fn().mockResolvedValue({
+    globalThis.fetch = vi.fn().mockResolvedValue({
       ok: false,
       status: 500,
       json: () => Promise.resolve({}),
@@ -80,7 +81,7 @@ describe('verifyTurnstile', () => {
       ok: true,
       json: () => Promise.resolve({ success: true }),
     })
-    global.fetch = mockFetch
+    globalThis.fetch = mockFetch
 
     await verifyTurnstile('test-token-123', 'secret-key-456')
 

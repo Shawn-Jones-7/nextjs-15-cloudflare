@@ -1,6 +1,6 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { render } from 'vitest-browser-react'
-import { userEvent } from '@vitest/browser/context'
+
 import LocaleSwitcher from './locale-switcher'
 
 // Hoist mock functions
@@ -49,7 +49,7 @@ describe('LocaleSwitcher', () => {
     await expect.element(select).toBeVisible()
 
     // Check the selected value is 'en'
-    const selectElement = select.element() as HTMLSelectElement
+    const selectElement = select.element() as unknown as HTMLSelectElement
     expect(selectElement.value).toBe('en')
   })
 
@@ -60,13 +60,13 @@ describe('LocaleSwitcher', () => {
     const select = container.querySelector('select')
     expect(select).toBeDefined()
 
-    const options = Array.from(select!.querySelectorAll('option'))
+    const options = [...select!.querySelectorAll('option')]
 
     // Should have 4 locales
     expect(options).toHaveLength(4)
 
     // Check locale values
-    const values = options.map((el) => el.value)
+    const values = options.map((element) => element.value)
     expect(values).toEqual(['en', 'zh', 'es', 'ar'])
   })
 
@@ -77,8 +77,10 @@ describe('LocaleSwitcher', () => {
 
     const select = getByRole('combobox')
 
-    // Change to Chinese
-    await userEvent.selectOptions(select, 'zh')
+    // Change to Chinese - use the native DOM element
+    const selectElement = select.element() as unknown as HTMLSelectElement
+    selectElement.value = 'zh'
+    selectElement.dispatchEvent(new Event('change', { bubbles: true }))
 
     // Wait for navigation
     await vi.waitFor(() => {
@@ -91,15 +93,15 @@ describe('LocaleSwitcher', () => {
     const { getByRole } = render(<LocaleSwitcher />)
 
     const select = getByRole('combobox')
-    const selectElement = select.element() as HTMLSelectElement
+    const selectElement = select.element() as unknown as HTMLSelectElement
 
     // Current value should be 'en' (from mock)
     expect(selectElement.value).toBe('en')
 
     // Find the selected option
     const selectedOption = selectElement.options[selectElement.selectedIndex]
-    expect(selectedOption.value).toBe('en')
-    expect(selectedOption.selected).toBe(true)
+    expect(selectedOption?.value).toBe('en')
+    expect(selectedOption?.selected).toBe(true)
   })
 
   it('handles RTL locale display correctly', async () => {
@@ -110,7 +112,7 @@ describe('LocaleSwitcher', () => {
     expect(select).toBeDefined()
 
     // Get all options from the select
-    const options = Array.from(select!.querySelectorAll('option'))
+    const options = [...select!.querySelectorAll('option')]
     const arabicOption = options.find((opt) => opt.value === 'ar')
 
     expect(arabicOption).toBeDefined()

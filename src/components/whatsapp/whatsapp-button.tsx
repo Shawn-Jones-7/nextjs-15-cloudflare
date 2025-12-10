@@ -76,7 +76,7 @@ export function WhatsAppButton({
       className={cn(
         'fixed z-50 flex size-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg transition-all hover:scale-110 hover:bg-[#128C7E] focus:ring-2 focus:ring-[#25D366] focus:ring-offset-2 focus:outline-none',
         position === 'bottom-right' && 'end-4 bottom-4',
-        position === 'bottom-left' && 'bottom-4 start-4',
+        position === 'bottom-left' && 'start-4 bottom-4',
         className,
       )}
       aria-label={t('buttonLabel')}

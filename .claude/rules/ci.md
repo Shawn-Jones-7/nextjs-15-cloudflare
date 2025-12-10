@@ -25,18 +25,18 @@ Runs on every PR (`.github/workflows/ci.yml`):
 
 ## Quality Thresholds
 
-| Gate               | Threshold            |
-| ------------------ | -------------------- |
-| TypeScript         | Zero errors          |
-| ESLint             | `--max-warnings=0`   |
-| Semgrep            | High/Medium = 0      |
-| Knip               | Unused exports = 0   |
-| dependency-cruiser | Circular deps = 0    |
-| jscpd              | Duplication ≤ 1%     |
-| Lighthouse P       | ≥ 90                 |
-| Lighthouse A       | ≥ 90                 |
-| Lighthouse BP      | ≥ 95                 |
-| Lighthouse SEO     | ≥ 90 (temp from 95)  |
+| Gate               | Threshold           |
+| ------------------ | ------------------- |
+| TypeScript         | Zero errors         |
+| ESLint             | `--max-warnings=0`  |
+| Semgrep            | High/Medium = 0     |
+| Knip               | Unused exports = 0  |
+| dependency-cruiser | Circular deps = 0   |
+| jscpd              | Duplication ≤ 1%    |
+| Lighthouse P       | ≥ 90                |
+| Lighthouse A       | ≥ 90                |
+| Lighthouse BP      | ≥ 95                |
+| Lighthouse SEO     | ≥ 90 (temp from 95) |
 
 ## Config Files
 

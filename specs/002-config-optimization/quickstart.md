@@ -25,11 +25,11 @@ pnpm test:e2e
 
 ## File Naming Conventions
 
-| Type | Pattern | Example |
-|------|---------|---------|
-| Unit tests | `*.spec.ts` | `lib/cn.spec.ts` |
+| Type          | Pattern              | Example                                          |
+| ------------- | -------------------- | ------------------------------------------------ |
+| Unit tests    | `*.spec.ts`          | `lib/cn.spec.ts`                                 |
 | Browser tests | `*.browser.spec.tsx` | `components/forms/contact-form.browser.spec.tsx` |
-| E2E tests | `e2e/*.spec.ts` | `e2e/contact-form.spec.ts` |
+| E2E tests     | `e2e/*.spec.ts`      | `e2e/contact-form.spec.ts`                       |
 
 ---
 
@@ -39,7 +39,9 @@ pnpm test:e2e
 
 ```typescript
 // lib/cn.spec.ts
-import { describe, it, expect } from 'vitest'
+
+import { describe, expect, it } from 'vitest'
+
 import { cn } from './cn'
 
 describe('cn', () => {
@@ -61,7 +63,9 @@ describe('cn', () => {
 
 ```typescript
 // lib/schemas/lead.spec.ts
-import { describe, it, expect } from 'vitest'
+
+import { describe, expect, it } from 'vitest'
+
 import { leadSchema } from './lead'
 
 describe('leadSchema', () => {
@@ -101,7 +105,9 @@ describe('leadSchema', () => {
 
 ```typescript
 // lib/turnstile/verify.spec.ts
-import { describe, it, expect, vi, beforeEach } from 'vitest'
+
+import { beforeEach, describe, expect, it, vi } from 'vitest'
+
 import { verifyTurnstile } from './verify'
 
 describe('verifyTurnstile', () => {
@@ -122,10 +128,11 @@ describe('verifyTurnstile', () => {
   it('returns failure for invalid token', async () => {
     global.fetch = vi.fn().mockResolvedValue({
       ok: true,
-      json: () => Promise.resolve({
-        success: false,
-        'error-codes': ['invalid-input-response'],
-      }),
+      json: () =>
+        Promise.resolve({
+          success: false,
+          'error-codes': ['invalid-input-response'],
+        }),
     })
 
     const result = await verifyTurnstile('invalid-token', 'secret')
@@ -147,9 +154,12 @@ describe('verifyTurnstile', () => {
 
 ```typescript
 // lib/rate-limit.spec.ts
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
-import { checkRateLimit } from './rate-limit'
+
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+
 import { createMockKV } from '@/tests/mocks/cloudflare'
+
+import { checkRateLimit } from './rate-limit'
 
 describe('checkRateLimit', () => {
   beforeEach(() => {
@@ -200,9 +210,13 @@ describe('checkRateLimit', () => {
 
 ```typescript
 // actions/submit-lead.spec.ts
-import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { submitLead } from './submit-lead'
+
+import { getCloudflareContext } from '@opennextjs/cloudflare'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
+
 import { createMockD1, createMockKV } from '@/tests/mocks/cloudflare'
+
+import { submitLead } from './submit-lead'
 
 // Mock modules
 vi.mock('@opennextjs/cloudflare', () => ({
@@ -212,8 +226,6 @@ vi.mock('@opennextjs/cloudflare', () => ({
 vi.mock('next-intl/server', () => ({
   getLocale: vi.fn(() => Promise.resolve('en')),
 }))
-
-import { getCloudflareContext } from '@opennextjs/cloudflare'
 
 describe('submitLead', () => {
   let mockEnv: CloudflareEnv
@@ -334,12 +346,12 @@ src/tests/
 
 ## Coverage Thresholds
 
-| Metric | Global | Per-File |
-|--------|--------|----------|
-| Statements | 85% | 70% |
-| Lines | 85% | 70% |
-| Functions | 85% | 65% |
-| Branches | 82% | 65% |
+| Metric     | Global | Per-File |
+| ---------- | ------ | -------- |
+| Statements | 85%    | 70%      |
+| Lines      | 85%    | 70%      |
+| Functions  | 85%    | 65%      |
+| Branches   | 82%    | 65%      |
 
 **New code must meet e85% coverage (hard gate).**
 
@@ -350,13 +362,14 @@ src/tests/
 ### Mocking Module Exports
 
 ```typescript
+// Import after mock setup
+
+import { getCloudflareContext } from '@opennextjs/cloudflare'
+
 // Mock before imports
 vi.mock('@opennextjs/cloudflare', () => ({
   getCloudflareContext: vi.fn(),
 }))
-
-// Import after mock setup
-import { getCloudflareContext } from '@opennextjs/cloudflare'
 
 // Use vi.mocked for type-safe mock access
 vi.mocked(getCloudflareContext).mockResolvedValue({ env: mockEnv })
@@ -366,9 +379,9 @@ vi.mocked(getCloudflareContext).mockResolvedValue({ env: mockEnv })
 
 ```typescript
 beforeEach(() => {
-  vi.clearAllMocks()  // Clear call history
+  vi.clearAllMocks() // Clear call history
   // OR
-  vi.resetAllMocks()  // Clear + reset implementations
+  vi.resetAllMocks() // Clear + reset implementations
 })
 ```
 

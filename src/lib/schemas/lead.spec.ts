@@ -1,4 +1,5 @@
-import { describe, it, expect } from 'vitest'
+import { describe, expect, it } from 'vitest'
+
 import { leadSchema } from './lead'
 
 describe('leadSchema', () => {
@@ -52,7 +53,7 @@ describe('leadSchema', () => {
       const result = leadSchema.safeParse(input)
       expect(result.success).toBe(false)
       if (!result.success) {
-        expect(result.error.issues[0].path).toContain('name')
+        expect(result.error.issues[0]?.path).toContain('name')
       }
     })
 
@@ -61,7 +62,7 @@ describe('leadSchema', () => {
       const result = leadSchema.safeParse(input)
       expect(result.success).toBe(false)
       if (!result.success) {
-        expect(result.error.issues[0].path).toContain('name')
+        expect(result.error.issues[0]?.path).toContain('name')
       }
     })
 
@@ -90,7 +91,7 @@ describe('leadSchema', () => {
       const result = leadSchema.safeParse(input)
       expect(result.success).toBe(false)
       if (!result.success) {
-        expect(result.error.issues[0].path).toContain('email')
+        expect(result.error.issues[0]?.path).toContain('email')
       }
     })
 
@@ -99,7 +100,7 @@ describe('leadSchema', () => {
       const result = leadSchema.safeParse(input)
       expect(result.success).toBe(false)
       if (!result.success) {
-        expect(result.error.issues[0].path).toContain('email')
+        expect(result.error.issues[0]?.path).toContain('email')
       }
     })
 
@@ -124,7 +125,7 @@ describe('leadSchema', () => {
       const result = leadSchema.safeParse(input)
       expect(result.success).toBe(false)
       if (!result.success) {
-        expect(result.error.issues[0].path).toContain('locale')
+        expect(result.error.issues[0]?.path).toContain('locale')
       }
     })
 
@@ -145,7 +146,7 @@ describe('leadSchema', () => {
       const result = leadSchema.safeParse(input)
       expect(result.success).toBe(false)
       if (!result.success) {
-        expect(result.error.issues[0].path).toContain('message')
+        expect(result.error.issues[0]?.path).toContain('message')
       }
     })
 
@@ -168,7 +169,7 @@ describe('leadSchema', () => {
       const result = leadSchema.safeParse(input)
       expect(result.success).toBe(false)
       if (!result.success) {
-        expect(result.error.issues[0].path).toContain('phone')
+        expect(result.error.issues[0]?.path).toContain('phone')
       }
     })
 
@@ -245,7 +246,7 @@ describe('leadSchema', () => {
       const result = leadSchema.safeParse(input)
       expect(result.success).toBe(false)
       if (!result.success) {
-        expect(result.error.issues[0].path).toContain('turnstileToken')
+        expect(result.error.issues[0]?.path).toContain('turnstileToken')
       }
     })
 

@@ -1,10 +1,11 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { insertLead, getLeadById, updateLeadStatus } from './client'
-import {
-  createMockD1,
-  type MockD1PreparedStatement,
-} from '@/tests/mocks/cloudflare'
 import type { LeadInput } from '@/lib/schemas/lead'
+import type { MockD1PreparedStatement } from '@/tests/mocks/cloudflare'
+
+import { beforeEach, describe, expect, it, vi } from 'vitest'
+
+import { createMockD1 } from '@/tests/mocks/cloudflare'
+
+import { getLeadById, insertLead, updateLeadStatus } from './client'
 
 describe('D1 Client', () => {
   let mockD1: ReturnType<typeof createMockD1>
@@ -84,9 +85,9 @@ describe('D1 Client', () => {
       const lastStatement = mockD1._lastStatement
       const boundValues = lastStatement!._boundValues
 
-      // eslint-disable-next-line unicorn/no-null
+       
       expect(boundValues[4]).toBe(null) // phone
-      // eslint-disable-next-line unicorn/no-null
+       
       expect(boundValues[5]).toBe(null) // company
       expect(boundValues[6]).toBe('') // message (always string)
     })
@@ -103,9 +104,9 @@ describe('D1 Client', () => {
       const lastStatement = mockD1._lastStatement
       const boundValues = lastStatement!._boundValues
 
-      // eslint-disable-next-line unicorn/no-null
+       
       expect(boundValues[4]).toBe(null) // phone
-      // eslint-disable-next-line unicorn/no-null
+       
       expect(boundValues[5]).toBe(null) // company
     })
   })
@@ -144,7 +145,7 @@ describe('D1 Client', () => {
 
       const result = await getLeadById(mockD1, 'non-existent-id')
 
-      // eslint-disable-next-line unicorn/no-null
+       
       expect(result).toBe(null)
     })
 
@@ -154,19 +155,19 @@ describe('D1 Client', () => {
         locale: 'en',
         name: 'John Doe',
         email: 'john@example.com',
-        // eslint-disable-next-line unicorn/no-null
+         
         phone: null,
-        // eslint-disable-next-line unicorn/no-null
+         
         company: null,
-        // eslint-disable-next-line unicorn/no-null
+         
         inquiry_type: null,
-        // eslint-disable-next-line unicorn/no-null
+         
         product_slug: null,
-        // eslint-disable-next-line unicorn/no-null
+         
         product_name: null,
-        // eslint-disable-next-line unicorn/no-null
+         
         form_page: null,
-        // eslint-disable-next-line unicorn/no-null
+         
         message: null,
         created_at: 1_704_067_200_000,
         status: 'pending',
@@ -202,12 +203,12 @@ describe('D1 Client', () => {
 
   describe('updateLeadStatus', () => {
     it('updates lead status successfully', async () => {
-      await updateLeadStatus(mockD1, 'test-id-123', 'completed')
+      await updateLeadStatus(mockD1, 'test-id-123', 'processed')
 
       expect(mockD1.prepare).toHaveBeenCalled()
       const lastStatement = mockD1._lastStatement
       expect(lastStatement).not.toBeNull()
-      expect(lastStatement?._boundValues).toEqual(['completed', 'test-id-123'])
+      expect(lastStatement?._boundValues).toEqual(['processed', 'test-id-123'])
     })
 
     it('handles update failure', async () => {

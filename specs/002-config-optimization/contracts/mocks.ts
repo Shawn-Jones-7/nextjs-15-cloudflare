@@ -12,10 +12,25 @@ import type { Mock } from 'vitest'
 // =============================================================================
 
 export interface MockKVNamespace {
-  get: Mock<(key: string, type?: 'text' | 'json' | 'arrayBuffer' | 'stream') => Promise<unknown>>
-  put: Mock<(key: string, value: string, options?: KVNamespacePutOptions) => Promise<void>>
+  get: Mock<
+    (
+      key: string,
+      type?: 'text' | 'json' | 'arrayBuffer' | 'stream',
+    ) => Promise<unknown>
+  >
+  put: Mock<
+    (
+      key: string,
+      value: string,
+      options?: KVNamespacePutOptions,
+    ) => Promise<void>
+  >
   delete: Mock<(key: string) => Promise<void>>
-  list: Mock<(options?: KVNamespaceListOptions) => Promise<KVNamespaceListResult<unknown, string>>>
+  list: Mock<
+    (
+      options?: KVNamespaceListOptions,
+    ) => Promise<KVNamespaceListResult<unknown, string>>
+  >
 
   // Test helper methods
   _store: Map<string, { value: string; expiration?: number }>
@@ -147,14 +162,16 @@ export type CreateMockD1 = () => MockD1Database
 /**
  * Creates a complete Cloudflare environment mock
  */
-export type CreateMockEnv = (overrides?: Partial<MockCloudflareEnv>) => MockCloudflareEnv
+export type CreateMockEnv = (
+  overrides?: Partial<MockCloudflareEnv>,
+) => MockCloudflareEnv
 
 /**
  * Creates a mock fetch function for Turnstile verification
  */
 export type CreateTurnstileFetchMock = (
   response: TurnstileVerifyResponse,
-  options?: { delay?: number; throwError?: boolean }
+  options?: { delay?: number; throwError?: boolean },
 ) => Mock
 
 /**
@@ -162,5 +179,5 @@ export type CreateTurnstileFetchMock = (
  */
 export type CreateResendFetchMock = (
   response: ResendEmailResponse,
-  options?: { status?: number; delay?: number }
+  options?: { status?: number; delay?: number },
 ) => Mock

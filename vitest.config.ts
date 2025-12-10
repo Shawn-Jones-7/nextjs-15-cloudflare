@@ -69,18 +69,10 @@ export default defineConfig({
         'src/components/layout/footer.tsx',
       ],
       thresholds: {
-        global: {
-          statements: 85,
-          lines: 85,
-          functions: 80,
-          branches: 70,
-        },
-        perFile: {
-          statements: 70,
-          lines: 70,
-          functions: 35,
-          branches: 35,
-        },
+        statements: 85,
+        lines: 85,
+        functions: 80,
+        branches: 70,
       },
     },
   },

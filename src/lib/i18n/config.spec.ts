@@ -1,6 +1,8 @@
-import { describe, it, expect } from 'vitest'
-import { locales, defaultLocale, localeLabels, isRtl } from './config'
 import type { Locale } from './config'
+
+import { describe, expect, it } from 'vitest'
+
+import { defaultLocale, isRtl, localeLabels, locales } from './config'
 
 describe('i18n config', () => {
   describe('locales', () => {

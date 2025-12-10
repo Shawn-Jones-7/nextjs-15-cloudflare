@@ -41,7 +41,7 @@ Set `localeDetection: false` in routing config to disable cookie/header detectio
 import type { Locale } from '@/lib/i18n/config'
 
 interface PageProps {
-  params: Promise<{ locale: Locale }>  // Promise required in Next.js 15
+  params: Promise<{ locale: Locale }> // Promise required in Next.js 15
 }
 ```
 

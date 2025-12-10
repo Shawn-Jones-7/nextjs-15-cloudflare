@@ -4,34 +4,36 @@
  * Helpers for testing Next.js Server Actions with mocked Cloudflare environment.
  */
 
+import type { MockCloudflareEnvironment } from '../mocks/cloudflare'
+
 import { vi } from 'vitest'
-import { createMockEnv, type MockCloudflareEnv } from '../mocks/cloudflare'
+
 import { createFormData } from '../fixtures/forms'
+import { createMockEnvironment } from '../mocks/cloudflare'
 
 /**
  * Sets up mocks for Server Action testing
  */
-export function setupServerActionMocks(envOverrides: Partial<MockCloudflareEnv> = {}) {
-  const mockEnv = createMockEnv(envOverrides)
+export function setupServerActionMocks(
+  environmentOverrides: Partial<MockCloudflareEnvironment> = {},
+) {
+  const mockEnvironment = createMockEnvironment(environmentOverrides)
 
-  // Get the mocked module
-  const cloudflareModule = vi.mocked(
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    require('@opennextjs/cloudflare') as {
-      getCloudflareContext: ReturnType<typeof vi.fn>
-    },
-  )
+  // Get the mocked module - using dynamic import pattern for test environment
+  const cloudflareModule = vi.mocked(require('@opennextjs/cloudflare') as {
+    getCloudflareContext: ReturnType<typeof vi.fn>
+  })
 
-  // Configure getCloudflareContext to return our mock env
+  // Configure getCloudflareContext to return our mock environment
   cloudflareModule.getCloudflareContext.mockResolvedValue({
-    env: mockEnv,
+    env: mockEnvironment,
     ctx: {
       waitUntil: vi.fn(),
       passThroughOnException: vi.fn(),
     },
   })
 
-  return mockEnv
+  return mockEnvironment
 }
 
 /**

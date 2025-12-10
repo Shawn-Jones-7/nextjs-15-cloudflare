@@ -1,16 +1,26 @@
+import type { MockCloudflareEnvironment } from '@/tests/mocks/cloudflare'
+
+// Import after mocks
+import { getCloudflareContext } from '@opennextjs/cloudflare'
+import { getLocale } from 'next-intl/server'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
+import { sendLeadNotification } from '@/lib/api/resend'
+import { getLeadById, insertLead, updateLeadStatus } from '@/lib/d1/client'
+import { checkRateLimit } from '@/lib/rate-limit'
+import { verifyTurnstile } from '@/lib/turnstile/verify'
 import { createFormData } from '@/tests/fixtures/forms'
 import {
   createMockD1,
-  createMockEnv,
+  createMockEnvironment,
   createMockKV,
-  type MockCloudflareEnv,
 } from '@/tests/mocks/cloudflare'
 import {
   mockTurnstileFailure,
   mockTurnstileSuccess,
 } from '@/tests/mocks/turnstile'
+
+import { submitLead } from './submit-lead'
 
 // Mock modules before imports
 vi.mock('@opennextjs/cloudflare', () => ({
@@ -39,24 +49,13 @@ vi.mock('@/lib/turnstile/verify', () => ({
   verifyTurnstile: vi.fn(),
 }))
 
-// Import after mocks
-import { getCloudflareContext } from '@opennextjs/cloudflare'
-import { getLocale } from 'next-intl/server'
-
-import { sendLeadNotification } from '@/lib/api/resend'
-import { getLeadById, insertLead, updateLeadStatus } from '@/lib/d1/client'
-import { checkRateLimit } from '@/lib/rate-limit'
-import { verifyTurnstile } from '@/lib/turnstile/verify'
-
-import { submitLead } from './submit-lead'
-
 describe('submitLead', () => {
-  let mockEnv: MockCloudflareEnv
+  let mockEnvironment: MockCloudflareEnvironment
 
   beforeEach(() => {
     vi.clearAllMocks()
 
-    mockEnv = createMockEnv({
+    mockEnvironment = createMockEnvironment({
       CONTACT_FORM_D1: createMockD1(),
       NEXT_INC_CACHE_KV: createMockKV(),
       TURNSTILE_SECRET_KEY: 'test-turnstile-secret',
@@ -65,7 +64,11 @@ describe('submitLead', () => {
       RESEND_TO_EMAIL: 'admin@test.com',
     })
 
-    vi.mocked(getCloudflareContext).mockResolvedValue({ env: mockEnv })
+    vi.mocked(getCloudflareContext).mockResolvedValue({
+      env: mockEnvironment as unknown as CloudflareEnv,
+      cf: undefined,
+      ctx: {} as ExecutionContext,
+    })
     vi.mocked(getLocale).mockResolvedValue('en')
 
     // Default mocks for successful flow
@@ -89,7 +92,7 @@ describe('submitLead', () => {
     vi.mocked(updateLeadStatus).mockResolvedValue()
 
     // Mock global fetch for Turnstile
-    global.fetch = mockTurnstileSuccess()
+    globalThis.fetch = mockTurnstileSuccess()
   })
 
   describe('Validation', () => {
@@ -140,7 +143,7 @@ describe('submitLead', () => {
 
   describe('Turnstile Verification', () => {
     it('returns turnstile_failed when verification fails', async () => {
-      global.fetch = mockTurnstileFailure()
+      globalThis.fetch = mockTurnstileFailure()
       vi.mocked(verifyTurnstile).mockResolvedValue({
         success: false,
         errorCodes: ['invalid-input-response'],
@@ -185,7 +188,7 @@ describe('submitLead', () => {
       expect(result.success).toBe(false)
       expect(result.message).toBe('rate_limited')
       expect(checkRateLimit).toHaveBeenCalledWith(
-        mockEnv.NEXT_INC_CACHE_KV,
+        mockEnvironment.NEXT_INC_CACHE_KV,
         'lead:test@example.com',
       )
     })
@@ -196,7 +199,7 @@ describe('submitLead', () => {
       await submitLead({}, formData)
 
       expect(checkRateLimit).toHaveBeenCalledWith(
-        mockEnv.NEXT_INC_CACHE_KV,
+        mockEnvironment.NEXT_INC_CACHE_KV,
         'lead:test@example.com',
       )
     })
@@ -229,7 +232,7 @@ describe('submitLead', () => {
       await submitLead({}, formData)
 
       expect(insertLead).toHaveBeenCalledWith(
-        mockEnv.CONTACT_FORM_D1,
+        mockEnvironment.CONTACT_FORM_D1,
         expect.objectContaining({
           name: 'John Doe',
           email: 'john@example.com',
@@ -265,7 +268,7 @@ describe('submitLead', () => {
       await submitLead({}, formData)
 
       expect(updateLeadStatus).toHaveBeenCalledWith(
-        mockEnv.CONTACT_FORM_D1,
+        mockEnvironment.CONTACT_FORM_D1,
         'test-lead-id-123',
         'processed',
       )
@@ -333,7 +336,7 @@ describe('submitLead', () => {
       expect(result.success).toBe(false)
       expect(result.message).toBe('server_error')
       expect(updateLeadStatus).toHaveBeenCalledWith(
-        mockEnv.CONTACT_FORM_D1,
+        mockEnvironment.CONTACT_FORM_D1,
         'test-lead-id-456',
         'failed',
       )
@@ -372,7 +375,7 @@ describe('submitLead', () => {
       await submitLead({}, formData)
 
       expect(insertLead).toHaveBeenCalledWith(
-        mockEnv.CONTACT_FORM_D1,
+        mockEnvironment.CONTACT_FORM_D1,
         expect.objectContaining({
           locale: 'zh',
         }),
@@ -388,7 +391,7 @@ describe('submitLead', () => {
 
       // getLocale result should override formData
       expect(insertLead).toHaveBeenCalledWith(
-        mockEnv.CONTACT_FORM_D1,
+        mockEnvironment.CONTACT_FORM_D1,
         expect.objectContaining({
           locale: 'es',
         }),
@@ -407,7 +410,7 @@ describe('submitLead', () => {
 
       expect(result.success).toBe(true)
       expect(insertLead).toHaveBeenCalledWith(
-        mockEnv.CONTACT_FORM_D1,
+        mockEnvironment.CONTACT_FORM_D1,
         expect.objectContaining({
           name: 'Minimal User',
           email: 'minimal@example.com',
@@ -439,7 +442,7 @@ describe('submitLead', () => {
 
       expect(result.success).toBe(true)
       expect(insertLead).toHaveBeenCalledWith(
-        mockEnv.CONTACT_FORM_D1,
+        mockEnvironment.CONTACT_FORM_D1,
         expect.objectContaining({
           name: 'Complete User',
           email: 'complete@example.com',
@@ -462,7 +465,7 @@ describe('submitLead', () => {
       await submitLead({}, formData)
 
       expect(insertLead).toHaveBeenCalledWith(
-        mockEnv.CONTACT_FORM_D1,
+        mockEnvironment.CONTACT_FORM_D1,
         expect.objectContaining({
           email: 'test@example.com',
         }),
@@ -479,7 +482,7 @@ describe('submitLead', () => {
 
       // But stored as lowercase
       expect(insertLead).toHaveBeenCalledWith(
-        mockEnv.CONTACT_FORM_D1,
+        mockEnvironment.CONTACT_FORM_D1,
         expect.objectContaining({
           email: 'test@example.com',
         }),
@@ -495,10 +498,12 @@ describe('submitLead', () => {
 
       vi.mocked(getCloudflareContext).mockResolvedValue({
         env: {
-          ...mockEnv,
-          // eslint-disable-next-line unicorn/no-null
+          ...mockEnvironment,
+           
           NEXT_INC_CACHE_KV: null as unknown as KVNamespace,
-        },
+        } as unknown as CloudflareEnv,
+        cf: undefined,
+        ctx: {} as ExecutionContext,
       })
 
       const formData = createFormData()

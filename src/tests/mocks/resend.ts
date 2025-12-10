@@ -1,10 +1,12 @@
+import type { Mock } from 'vitest'
+
+import { vi } from 'vitest'
+
 /**
  * Resend Email API Mock
  *
  * Mock factory for Resend email API responses.
  */
-
-import { vi, type Mock } from 'vitest'
 
 export interface ResendEmailResponse {
   id?: string

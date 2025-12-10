@@ -1,6 +1,8 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { sendLeadNotification } from './resend'
 import type { Lead } from '@/lib/schemas/lead'
+
+import { beforeEach, describe, expect, it, vi } from 'vitest'
+
+import { sendLeadNotification } from './resend'
 
 describe('sendLeadNotification', () => {
   const mockLead: Lead = {
@@ -31,7 +33,7 @@ describe('sendLeadNotification', () => {
   })
 
   it('sends email successfully', async () => {
-    global.fetch = vi.fn().mockResolvedValue({
+    globalThis.fetch = vi.fn().mockResolvedValue({
       ok: true,
       json: () => Promise.resolve({ id: 'email-id-123' }),
     })
@@ -43,7 +45,7 @@ describe('sendLeadNotification', () => {
   })
 
   it('handles API error response', async () => {
-    global.fetch = vi.fn().mockResolvedValue({
+    globalThis.fetch = vi.fn().mockResolvedValue({
       ok: false,
       status: 400,
       json: () =>
@@ -59,7 +61,7 @@ describe('sendLeadNotification', () => {
   })
 
   it('handles network failure', async () => {
-    global.fetch = vi.fn().mockRejectedValue(new Error('Network error'))
+    globalThis.fetch = vi.fn().mockRejectedValue(new Error('Network error'))
 
     await expect(sendLeadNotification(sendOptions)).rejects.toThrow(
       'Network error',
@@ -71,12 +73,17 @@ describe('sendLeadNotification', () => {
       ok: true,
       json: () => Promise.resolve({ id: 'email-id-123' }),
     })
-    global.fetch = mockFetch
+    globalThis.fetch = mockFetch
 
     await sendLeadNotification(sendOptions)
 
-    const callArgs = mockFetch.mock.calls[0]
-    const body = JSON.parse(callArgs[1].body)
+    const callArguments = mockFetch.mock.calls[0] as [string, RequestInit]
+    const body = JSON.parse(callArguments[1].body as string) as {
+      from: string
+      to: string
+      subject: string
+      html: string
+    }
 
     expect(body.from).toBe('noreply@test.com')
     expect(body.to).toBe('admin@test.com')
@@ -91,16 +98,17 @@ describe('sendLeadNotification', () => {
       ok: true,
       json: () => Promise.resolve({ id: 'email-id-123' }),
     })
-    global.fetch = mockFetch
+    globalThis.fetch = mockFetch
 
     await sendLeadNotification(sendOptions)
 
-    const callArgs = mockFetch.mock.calls[0]
-    expect(callArgs[1].headers.Authorization).toBe('Bearer test-api-key')
+    const callArguments = mockFetch.mock.calls[0] as [string, RequestInit]
+    const headers = callArguments[1].headers as Record<string, string>
+    expect(headers.Authorization).toBe('Bearer test-api-key')
   })
 
   it('handles response with error field', async () => {
-    global.fetch = vi.fn().mockResolvedValue({
+    globalThis.fetch = vi.fn().mockResolvedValue({
       ok: true,
       json: () =>
         Promise.resolve({
@@ -119,7 +127,7 @@ describe('sendLeadNotification', () => {
       ok: true,
       json: () => Promise.resolve({ id: 'email-id-123' }),
     })
-    global.fetch = mockFetch
+    globalThis.fetch = mockFetch
 
     const leadWithHtml: Lead = {
       ...mockLead,
@@ -132,8 +140,8 @@ describe('sendLeadNotification', () => {
       lead: leadWithHtml,
     })
 
-    const callArgs = mockFetch.mock.calls[0]
-    const body = JSON.parse(callArgs[1].body)
+    const callArguments = mockFetch.mock.calls[0] as [string, RequestInit]
+    const body = JSON.parse(callArguments[1].body as string) as { html: string }
 
     expect(body.html).toContain('&lt;script&gt;')
     expect(body.html).toContain('&amp;')

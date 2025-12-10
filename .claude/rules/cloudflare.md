@@ -27,8 +27,9 @@ export async function handler() {
   const { env } = await getCloudflareContext({ async: true })
 
   // D1 Database with prepared statement binding
-  await env.CONTACT_FORM_D1
-    .prepare('INSERT INTO leads (id, name, email) VALUES (?, ?, ?)')
+  await env.CONTACT_FORM_D1.prepare(
+    'INSERT INTO leads (id, name, email) VALUES (?, ?, ?)',
+  )
     .bind(id, name, email)
     .run()
 
@@ -64,10 +65,10 @@ await db.batch([
 ```typescript
 const kv = env.NEXT_INC_CACHE_KV
 
-await kv.put('key', 'value')                    // Set
-await kv.put('key', 'value', { expirationTtl: 60 })  // With TTL
-const value = await kv.get('key')               // Get
-await kv.delete('key')                          // Delete
+await kv.put('key', 'value') // Set
+await kv.put('key', 'value', { expirationTtl: 60 }) // With TTL
+const value = await kv.get('key') // Get
+await kv.delete('key') // Delete
 const keys = await kv.list({ prefix: 'user:' }) // List with prefix
 ```
 
@@ -81,12 +82,12 @@ export default {
     for (const message of batch.messages) {
       try {
         await processMessage(message.body, env)
-        message.ack()  // Acknowledge success
+        message.ack() // Acknowledge success
       } catch (error) {
         message.retry() // Retry on failure
       }
     }
-  }
+  },
 }
 ```
 

@@ -1,4 +1,5 @@
-import { describe, it, expect } from 'vitest'
+import { describe, expect, it } from 'vitest'
+
 import { cn } from './cn'
 
 describe('cn', () => {
@@ -7,7 +8,8 @@ describe('cn', () => {
   })
 
   it('handles conditional classes with false', () => {
-    expect(cn('foo', false && 'bar', 'baz')).toBe('foo baz')
+    // Test intentionally passes false to verify cn handles falsy values
+    expect(cn('foo', false as unknown as string, 'baz')).toBe('foo baz')
   })
 
   it('handles conditional classes with undefined', () => {

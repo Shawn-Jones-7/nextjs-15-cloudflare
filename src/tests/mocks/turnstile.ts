@@ -1,10 +1,12 @@
+import type { Mock } from 'vitest'
+
+import { vi } from 'vitest'
+
 /**
  * Turnstile API Mock
  *
  * Mock factory for Cloudflare Turnstile verification API responses.
  */
-
-import { vi, type Mock } from 'vitest'
 
 export interface TurnstileVerifyResponse {
   success: boolean
@@ -28,7 +30,11 @@ export function createTurnstileFetchMock(
   response: TurnstileVerifyResponse,
   options: CreateTurnstileFetchMockOptions = {},
 ): Mock {
-  const { delay = 0, throwError = false, errorMessage = 'Network error' } = options
+  const {
+    delay = 0,
+    throwError = false,
+    errorMessage = 'Network error',
+  } = options
 
   return vi.fn(async () => {
     if (delay > 0) {

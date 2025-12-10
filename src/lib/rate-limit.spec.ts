@@ -1,6 +1,8 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
-import { checkRateLimit } from './rate-limit'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+
 import { createMockKV } from '@/tests/mocks/cloudflare'
+
+import { checkRateLimit } from './rate-limit'
 
 describe('checkRateLimit', () => {
   beforeEach(() => {
@@ -37,7 +39,7 @@ describe('checkRateLimit', () => {
     const kv = createMockKV()
 
     // Make 5 requests (the limit)
-    for (let i = 0; i < 5; i++) {
+    for (let index = 0; index < 5; index++) {
       await checkRateLimit(kv, 'user-1')
     }
 
@@ -61,7 +63,7 @@ describe('checkRateLimit', () => {
     const kv = createMockKV()
 
     // Exhaust the limit
-    for (let i = 0; i < 5; i++) {
+    for (let index = 0; index < 5; index++) {
       await checkRateLimit(kv, 'user-1')
     }
 

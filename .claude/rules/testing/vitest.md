@@ -61,7 +61,7 @@ Always clear mocks between tests:
 import { beforeEach, vi } from 'vitest'
 
 beforeEach(() => {
-  vi.clearAllMocks()  // Clear call history
+  vi.clearAllMocks() // Clear call history
   // or vi.resetAllMocks() to also reset implementations
 })
 ```

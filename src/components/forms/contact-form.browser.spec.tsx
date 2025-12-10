@@ -1,6 +1,7 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { render } from 'vitest-browser-react'
 import { userEvent } from '@vitest/browser/context'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { render } from 'vitest-browser-react'
+
 import ContactForm from './contact-form'
 
 // Hoist mock function to be used in factory
@@ -16,8 +17,8 @@ vi.mock('next-intl', () => ({
 vi.mock('@marsidev/react-turnstile', () => ({
   Turnstile: ({ onSuccess }: { onSuccess: (token: string) => void }) => {
     // Auto-succeed in tests after a microtask
-    setTimeout(() => onSuccess('test-token'), 0)
-    return <div data-testid="turnstile-mock" />
+    setTimeout(() => { onSuccess('test-token'); }, 0)
+    return <div data-testid='turnstile-mock' />
   },
 }))
 
@@ -109,7 +110,7 @@ describe('ContactForm', () => {
     const element = submitButton.element() as HTMLButtonElement
     // Get the initial state by checking if disabled attribute exists
     // The mock Turnstile will enable it after setTimeout(0)
-    expect(element.disabled === true || element.disabled === false).toBe(true)
+    expect(element.disabled || !element.disabled).toBe(true)
   })
 
   it('calls server action on valid submit', async () => {

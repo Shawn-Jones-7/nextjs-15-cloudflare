@@ -1,11 +1,11 @@
 import { notFound } from 'next/navigation'
 
+import type { Locale } from '@/lib/i18n/config'
+
 import { useTranslations } from 'next-intl'
 import { setRequestLocale } from 'next-intl/server'
 
 import { Link, routing } from '@/lib/i18n/routing'
-
-import type { Locale } from '@/lib/i18n/config'
 
 interface Properties {
   params: Promise<{ locale: Locale; slug: string }>

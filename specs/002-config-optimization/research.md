@@ -175,6 +175,7 @@ Which coverage provider is best for ESM/Next.js 15/Cloudflare Workers?
 ### Finding
 
 Vitest 3.x supports two providers:
+
 - `v8`: Native V8 coverage, faster, better ESM support
 - `istanbul`: Traditional instrumentation, more accurate branches
 
@@ -223,16 +224,26 @@ export function createMockKV(): KVNamespace {
       }
       return type === 'json' ? JSON.parse(entry.value) : entry.value
     }),
-    put: vi.fn(async (key: string, value: string, options?: { expirationTtl?: number }) => {
-      store.set(key, {
-        value,
-        expiration: options?.expirationTtl
-          ? Math.floor(Date.now() / 1000) + options.expirationTtl
-          : undefined,
-      })
+    put: vi.fn(
+      async (
+        key: string,
+        value: string,
+        options?: { expirationTtl?: number },
+      ) => {
+        store.set(key, {
+          value,
+          expiration: options?.expirationTtl
+            ? Math.floor(Date.now() / 1000) + options.expirationTtl
+            : undefined,
+        })
+      },
+    ),
+    delete: vi.fn(async (key: string) => {
+      store.delete(key)
     }),
-    delete: vi.fn(async (key: string) => { store.delete(key) }),
-    list: vi.fn(async () => ({ keys: [...store.keys()].map(name => ({ name })) })),
+    list: vi.fn(async () => ({
+      keys: [...store.keys()].map((name) => ({ name })),
+    })),
   } as unknown as KVNamespace
 }
 
@@ -246,7 +257,9 @@ export function createMockD1(): D1Database {
   }
   return {
     prepare: vi.fn(() => preparedStatement),
-    batch: vi.fn(async (statements) => statements.map(() => ({ success: true }))),
+    batch: vi.fn(async (statements) =>
+      statements.map(() => ({ success: true })),
+    ),
     exec: vi.fn(async () => ({ count: 1 })),
   } as unknown as D1Database
 }
@@ -267,6 +280,7 @@ Best practice for testing Server Actions in Next.js 15?
 ### Finding
 
 Server Actions are async functions with `'use server'` directive. Test them by:
+
 1. Mocking `getCloudflareContext` to inject test bindings
 2. Mocking `getLocale` from next-intl
 3. Creating FormData programmatically
@@ -283,7 +297,7 @@ vi.mock('next-intl/server', () => ({
 describe('submitLead', () => {
   beforeEach(() => {
     vi.mocked(getCloudflareContext).mockResolvedValue({
-      env: { CONTACT_FORM_D1: createMockD1(), /* ... */ }
+      env: { CONTACT_FORM_D1: createMockD1() /* ... */ },
     })
   })
 

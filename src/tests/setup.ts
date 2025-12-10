@@ -12,7 +12,9 @@ import { vi } from 'vitest'
 // =============================================================================
 
 if (typeof process === 'undefined') {
-  ;(globalThis as unknown as { process: { env: Record<string, string> } }).process = {
+  ;(
+    globalThis as unknown as { process: { env: Record<string, string> } }
+  ).process = {
     env: {
       NEXT_PUBLIC_TURNSTILE_SITE_KEY: '1x00000000000000000000AA',
       NODE_ENV: 'test',

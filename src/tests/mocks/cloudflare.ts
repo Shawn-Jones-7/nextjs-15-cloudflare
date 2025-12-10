@@ -21,9 +21,9 @@ export function createMockKV(): MockKVNamespace {
 
   const mock = {
     _store: store,
-    _clear: () => store.clear(),
+    _clear: () => { store.clear(); },
 
-    get: vi.fn(async (key: string, options?: KVNamespaceGetOptions<'text'>) => {
+    get: vi.fn(async (key: string, options?: KVNamespaceGetOptions<string>) => {
       const entry = store.get(key)
       if (!entry) return null
 
@@ -33,7 +33,8 @@ export function createMockKV(): MockKVNamespace {
         return null
       }
 
-      const type = typeof options === 'string' ? options : options?.type ?? 'text'
+      const type =
+        typeof options === 'string' ? options : (options?.type ?? 'text')
       if (type === 'json') {
         return JSON.parse(entry.value)
       }
@@ -77,7 +78,11 @@ export function createMockKV(): MockKVNamespace {
       }
     }),
 
-    getWithMetadata: vi.fn(async () => ({ value: null, metadata: null, cacheStatus: null })),
+    getWithMetadata: vi.fn(async () => ({
+      value: null,
+      metadata: null,
+      cacheStatus: null,
+    })),
   } as unknown as MockKVNamespace
 
   return mock
@@ -102,7 +107,7 @@ export function createMockD1(): MockD1Database {
   let rows: Record<string, unknown>[] = []
   let lastStatement: MockD1PreparedStatement | null = null
 
-  const createStatement = (query: string): MockD1PreparedStatement => {
+  const createStatement = (_query: string): MockD1PreparedStatement => {
     const boundValues: unknown[] = []
 
     const statement: MockD1PreparedStatement = {
@@ -186,25 +191,41 @@ export function createMockD1(): MockD1Database {
 // Cloudflare Environment Mock
 // =============================================================================
 
-export interface MockCloudflareEnv {
+export interface MockCloudflareEnvironment {
   CONTACT_FORM_D1: MockD1Database
   NEXT_INC_CACHE_KV: MockKVNamespace
   TURNSTILE_SECRET_KEY: string
+  NEXT_PUBLIC_TURNSTILE_SITE_KEY: string
   RESEND_API_KEY: string
   RESEND_FROM_EMAIL: string
   RESEND_TO_EMAIL: string
+  AIRTABLE_API_KEY: string
+  AIRTABLE_BASE_ID: string
+  AIRTABLE_TABLE_NAME: string
+  NOTIFICATION_EMAIL: string
 }
 
-export function createMockEnv(
-  overrides: Partial<MockCloudflareEnv> = {},
-): MockCloudflareEnv {
+/** @deprecated Use MockCloudflareEnvironment instead */
+export type MockCloudflareEnv = MockCloudflareEnvironment
+
+export function createMockEnvironment(
+  overrides: Partial<MockCloudflareEnvironment> = {},
+): MockCloudflareEnvironment {
   return {
     CONTACT_FORM_D1: createMockD1(),
     NEXT_INC_CACHE_KV: createMockKV(),
     TURNSTILE_SECRET_KEY: 'test-turnstile-secret',
+    NEXT_PUBLIC_TURNSTILE_SITE_KEY: 'test-turnstile-site-key',
     RESEND_API_KEY: 'test-resend-api-key',
     RESEND_FROM_EMAIL: 'noreply@test.com',
     RESEND_TO_EMAIL: 'admin@test.com',
+    AIRTABLE_API_KEY: 'test-airtable-api-key',
+    AIRTABLE_BASE_ID: 'test-airtable-base-id',
+    AIRTABLE_TABLE_NAME: 'test-airtable-table',
+    NOTIFICATION_EMAIL: 'notification@test.com',
     ...overrides,
   }
 }
+
+/** @deprecated Use createMockEnvironment instead */
+export const createMockEnv = createMockEnvironment

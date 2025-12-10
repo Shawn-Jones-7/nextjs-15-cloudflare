@@ -23,11 +23,11 @@ export function createFormData(data: FormDataInput = {}): FormData {
   }
 
   // Apply overrides
-  const merged = { ...defaults }
+  const merged: Record<string, string> = { ...defaults }
 
   for (const [key, value] of Object.entries(data)) {
-    if (key === 'turnstileToken' && value) {
-      merged['cf-turnstile-response'] = value
+    if (key === 'turnstileToken') {
+      if (value) merged['cf-turnstile-response'] = String(value)
     } else if (value !== undefined) {
       merged[key] = String(value)
     }

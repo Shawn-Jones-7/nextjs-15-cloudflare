@@ -42,8 +42,9 @@ export async function submitLead(data: LeadData) {
   const { env } = await getCloudflareContext({ async: true })
 
   // D1 with prepared statement binding
-  await env.CONTACT_FORM_D1
-    .prepare('INSERT INTO leads (id, name, email) VALUES (?, ?, ?)')
+  await env.CONTACT_FORM_D1.prepare(
+    'INSERT INTO leads (id, name, email) VALUES (?, ?, ?)',
+  )
     .bind(id, name, email)
     .run()
 }

@@ -1,14 +1,13 @@
-import { describe, it, expect, vi } from 'vitest'
-import { render } from 'vitest-browser-react'
 import { userEvent } from '@vitest/browser/context'
+import { describe, expect, it, vi } from 'vitest'
+import { render } from 'vitest-browser-react'
+
 import Header from './header'
 
 // Mock next-intl hooks
 vi.mock('next-intl', () => ({
   useTranslations: (namespace: string) => (key: string) => {
-    if (namespace === 'Site') {
-      if (key === 'brandName') return 'Test Brand'
-    }
+    if (namespace === 'Site' && key === 'brandName') return 'Test Brand'
     if (namespace === 'Navigation') {
       const translations: Record<string, string> = {
         home: 'Home',
@@ -30,9 +29,7 @@ vi.mock('next-intl', () => ({
       }
       return translations[key] || key
     }
-    if (namespace === 'Common') {
-      if (key === 'language') return 'Language'
-    }
+    if (namespace === 'Common' && key === 'language') return 'Language'
     return key
   },
   useLocale: () => 'en',
@@ -60,7 +57,7 @@ vi.mock('@/lib/i18n/config', () => ({
 
 // Mock LocaleSwitcher component
 vi.mock('@/components/i18n/locale-switcher', () => ({
-  default: () => <div data-testid="locale-switcher">Locale Switcher</div>,
+  default: () => <div data-testid='locale-switcher'>Locale Switcher</div>,
 }))
 
 // Mock productCategories
@@ -152,7 +149,7 @@ describe('Header', () => {
 
     // Verify mobile navigation is visible
     const allLinks = container.querySelectorAll('a')
-    const hasHomeLink = Array.from(allLinks).some((link) =>
+    const hasHomeLink = [...allLinks].some((link) =>
       link.textContent?.includes('Home'),
     )
     expect(hasHomeLink).toBe(true)

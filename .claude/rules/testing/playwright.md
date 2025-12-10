@@ -51,7 +51,7 @@ Use built-in locators in this order:
 ## Example Test
 
 ```typescript
-import { test, expect } from '@playwright/test'
+import { expect, test } from '@playwright/test'
 
 test('contact form submits', async ({ page }) => {
   await page.goto('/en/contact')
