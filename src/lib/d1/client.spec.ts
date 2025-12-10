@@ -85,9 +85,8 @@ describe('D1 Client', () => {
       const lastStatement = mockD1._lastStatement
       const boundValues = lastStatement!._boundValues
 
-       
       expect(boundValues[4]).toBe(null) // phone
-       
+
       expect(boundValues[5]).toBe(null) // company
       expect(boundValues[6]).toBe('') // message (always string)
     })
@@ -104,9 +103,8 @@ describe('D1 Client', () => {
       const lastStatement = mockD1._lastStatement
       const boundValues = lastStatement!._boundValues
 
-       
       expect(boundValues[4]).toBe(null) // phone
-       
+
       expect(boundValues[5]).toBe(null) // company
     })
   })
@@ -145,7 +143,6 @@ describe('D1 Client', () => {
 
       const result = await getLeadById(mockD1, 'non-existent-id')
 
-       
       expect(result).toBe(null)
     })
 
@@ -155,19 +152,19 @@ describe('D1 Client', () => {
         locale: 'en',
         name: 'John Doe',
         email: 'john@example.com',
-         
+
         phone: null,
-         
+
         company: null,
-         
+
         inquiry_type: null,
-         
+
         product_slug: null,
-         
+
         product_name: null,
-         
+
         form_page: null,
-         
+
         message: null,
         created_at: 1_704_067_200_000,
         status: 'pending',

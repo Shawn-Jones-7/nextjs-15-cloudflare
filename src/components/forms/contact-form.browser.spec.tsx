@@ -17,7 +17,9 @@ vi.mock('next-intl', () => ({
 vi.mock('@marsidev/react-turnstile', () => ({
   Turnstile: ({ onSuccess }: { onSuccess: (token: string) => void }) => {
     // Auto-succeed in tests after a microtask
-    setTimeout(() => { onSuccess('test-token'); }, 0)
+    setTimeout(() => {
+      onSuccess('test-token')
+    }, 0)
     return <div data-testid='turnstile-mock' />
   },
 }))

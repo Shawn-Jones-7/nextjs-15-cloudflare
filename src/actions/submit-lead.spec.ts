@@ -499,7 +499,7 @@ describe('submitLead', () => {
       vi.mocked(getCloudflareContext).mockResolvedValue({
         env: {
           ...mockEnvironment,
-           
+
           NEXT_INC_CACHE_KV: null as unknown as KVNamespace,
         } as unknown as CloudflareEnv,
         cf: undefined,

@@ -21,7 +21,9 @@ export function createMockKV(): MockKVNamespace {
 
   const mock = {
     _store: store,
-    _clear: () => { store.clear(); },
+    _clear: () => {
+      store.clear()
+    },
 
     get: vi.fn(async (key: string, options?: KVNamespaceGetOptions<string>) => {
       const entry = store.get(key)

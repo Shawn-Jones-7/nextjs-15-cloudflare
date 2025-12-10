@@ -20,9 +20,11 @@ export function setupServerActionMocks(
   const mockEnvironment = createMockEnvironment(environmentOverrides)
 
   // Get the mocked module - using dynamic import pattern for test environment
-  const cloudflareModule = vi.mocked(require('@opennextjs/cloudflare') as {
-    getCloudflareContext: ReturnType<typeof vi.fn>
-  })
+  const cloudflareModule = vi.mocked(
+    require('@opennextjs/cloudflare') as {
+      getCloudflareContext: ReturnType<typeof vi.fn>
+    },
+  )
 
   // Configure getCloudflareContext to return our mock environment
   cloudflareModule.getCloudflareContext.mockResolvedValue({
