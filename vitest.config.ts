@@ -4,6 +4,9 @@ import { defaultExclude, defineConfig } from 'vitest/config'
 
 export default defineConfig({
   plugins: [react(), tsconfigPaths()],
+  optimizeDeps: {
+    include: ['next/navigation', 'next/headers'],
+  },
   test: {
     projects: [
       {
