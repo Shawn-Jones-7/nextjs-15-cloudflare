@@ -29,7 +29,7 @@
     "start": "next start",
     "test": "vitest --browser.headless --run",
     "test:browser": "vitest",
-    "test:coverage": "vitest run --coverage",
+    "test:coverage": "vitest run --coverage --browser.headless",
     "test:e2e": "playwright test",
     "test:watch": "vitest --browser.headless",
     "typecheck": "tsc",
