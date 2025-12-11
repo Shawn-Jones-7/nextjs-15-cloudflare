@@ -43,7 +43,7 @@ Contextual rules in `.claude/rules/` auto-load based on file path patterns. Read
 
 ## Stack
 
-Next.js 15, React 19, TypeScript 5, Tailwind CSS 4, next-intl, Cloudflare (D1, KV, Queue)
+Next.js 15, React 19, TypeScript 5, Tailwind CSS 4, Motion, next-intl, Cloudflare (D1, KV, Queue)
 
 ## Communication
 
@@ -53,6 +53,7 @@ Reply in Chinese. Technical terms stay in English.
 
 - TypeScript 5.8.3, Node.js 22+ + Next.js 15.3.2, React 19.1.0, Vitest 3.2.4, Playwright 1.52.0 (002-config-optimization)
 - Cloudflare D1 (CONTACT_FORM_D1), Cloudflare KV (NEXT_INC_CACHE_KV) (002-config-optimization)
+- Motion 12.x (animation library, successor to Framer Motion) (002-config-optimization)
 
 ## Recent Changes
 

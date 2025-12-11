@@ -7,7 +7,7 @@ Modern B2B corporate website template for international trade businesses. Built 
 
 ## Features
 
-- **Modern Tech Stack**: Next.js 15.3 + React 19 + TypeScript 5 + Tailwind CSS 4
+- **Modern Tech Stack**: Next.js 15.3 + React 19 + TypeScript 5 + Tailwind CSS 4 + Motion
 - **Cloud-Native**: Cloudflare Workers + D1 Database + KV Storage + Queue
 - **4-Language i18n**: English, Chinese, Spanish, Arabic with RTL support
 - **Lead Capture**: Secure contact forms with Turnstile protection
@@ -297,6 +297,7 @@ Products are defined in `src/data/products.ts` with translations in `messages/*.
 - **Next.js 15.3**: App Router, Server Components, Server Actions
 - **React 19**: Latest React features
 - **TypeScript 5**: Strict mode enabled
+- **Motion 12**: Animation library (successor to Framer Motion)
 
 ### Cloudflare Bindings
 

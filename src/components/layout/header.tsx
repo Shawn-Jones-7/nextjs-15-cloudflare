@@ -68,17 +68,16 @@ export default function Header() {
             <NavigationMenuList>
               {mainNav.map((item) => (
                 <NavigationMenuItem key={item.href}>
-                  <Link href={item.href} legacyBehavior passHref>
-                    <NavigationMenuLink
-                      className={cn(
-                        navigationMenuTriggerStyle(),
-                        'bg-transparent',
-                        isActive(item.href) && 'text-primary',
-                      )}
-                    >
-                      {item.label}
-                    </NavigationMenuLink>
-                  </Link>
+                  <NavigationMenuLink
+                    asChild
+                    className={cn(
+                      navigationMenuTriggerStyle(),
+                      'bg-transparent',
+                      isActive(item.href) && 'text-primary',
+                    )}
+                  >
+                    <Link href={item.href}>{item.label}</Link>
+                  </NavigationMenuLink>
                 </NavigationMenuItem>
               ))}
 

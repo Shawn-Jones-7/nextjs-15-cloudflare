@@ -125,6 +125,71 @@ Always use logical properties:
 - Forms: `label` + `aria-invalid` + `aria-describedby`
 - Screen reader text: `sr-only` class
 
+## Link with Radix UI Components
+
+Use `asChild` pattern to integrate `next-intl` Link with Radix primitives:
+
+```typescript
+// NavigationMenuLink
+<NavigationMenuLink asChild className={styles}>
+  <Link href="/about">{label}</Link>
+</NavigationMenuLink>
+
+// Button
+<Button asChild>
+  <Link href="/contact">Contact</Link>
+</Button>
+
+// DropdownMenuItem
+<DropdownMenuItem asChild>
+  <Link href="/settings">Settings</Link>
+</DropdownMenuItem>
+```
+
+`asChild` merges styles/props onto the child, letting `Link` render the final `<a>`.
+
+## Motion Animations
+
+Use `motion` (successor to Framer Motion) for animations. Import from `motion/react`:
+
+```typescript
+'use client'
+import { motion, AnimatePresence } from 'motion/react'
+
+// Basic animation
+<motion.div
+  initial={{ opacity: 0, y: 20 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.3 }}
+>
+  {children}
+</motion.div>
+
+// Scroll-triggered animation
+<motion.section
+  initial={{ opacity: 0 }}
+  whileInView={{ opacity: 1 }}
+  viewport={{ once: true }}
+>
+  {content}
+</motion.section>
+
+// Page transitions (wrap in layout)
+<AnimatePresence mode="wait">
+  <motion.div key={pathname} exit={{ opacity: 0 }}>
+    {children}
+  </motion.div>
+</AnimatePresence>
+```
+
+### Animation Guidelines
+
+- Use `'use client'` directive for animated components
+- Prefer `whileInView` over scroll listeners for performance
+- Set `viewport={{ once: true }}` to animate only on first view
+- Keep animations subtle for B2B: 0.2-0.4s duration, small transforms
+- Use `useReducedMotion` hook to respect user preferences
+
 ## Icons
 
 Lucide React, import individually:
