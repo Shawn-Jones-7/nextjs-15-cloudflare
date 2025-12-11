@@ -1,79 +1,59 @@
 # CLAUDE.md
 
-## WHAT
+## What
 
-- **Project**: B2B Foreign Trade Enterprise Website
-- **Stack**: Next.js 15.3 + React 19 + TypeScript 5 + Tailwind CSS 4 + next-intl + Cloudflare Workers
-- **Scope**: Multi-locale SSR marketing site (en/zh/es/ar) deployed on Cloudflare
+Enterprise website template | Next.js 15 + Cloudflare Workers | Multi-locale SSR/SSG
 
-## WHY
+## Why
 
-- Business goal: Present marketing site and collect leads across locales
-- Platform: Cloudflare with D1/KV/Queue bindings (see `wrangler.toml`)
-- i18n: Locales defined in `src/lib/i18n/config.ts`; translations in `messages/*.json`
-- Quality: CI in `.github/workflows/ci.yml` runs lint, typecheck, Vitest, Playwright
+**Philosophy**: Adopt latest compatible Next.js + Cloudflare stack to maximize new features for performance.
 
-## HOW
+**Purpose**: Production-ready template featuring:
 
-### Commands
+- Multi-locale i18n with SSR/SSG (en/zh primary, es/ar extended)
+- Enterprise-grade quality gates (14-step CI, strict TypeScript, Lighthouse 90+)
+- Edge deployment on Cloudflare (D1, KV, Queue bindings)
+
+## How
 
 ```bash
 pnpm dev       # Turbopack dev server
 pnpm build     # Production build
-pnpm typecheck # TypeScript
-pnpm lint      # ESLint
+pnpm typecheck # TypeScript strict check
+pnpm lint      # ESLint (zero warnings)
 pnpm test      # Vitest unit tests
 pnpm test:e2e  # Playwright E2E
 ```
 
-### Structure
+## Structure
 
 ```text
 src/
-├── app/[locale]/   # Pages + layouts
+├── app/[locale]/   # Pages + layouts (SSR/SSG)
 ├── components/     # UI (layout/, forms/, i18n/)
-├── lib/            # Utilities, D1, KV, Turnstile, schemas
-├── actions/        # Server Actions
-├── queue/          # Cloudflare Queue consumer
-└── middleware.ts   # next-intl middleware
+├── lib/            # Utilities, D1, KV, schemas
+├── actions/        # Server Actions (lead submission)
+└── middleware.ts   # next-intl locale detection
 messages/*.json     # Translations (en/zh/es/ar)
-config/             # Quality tools config
 ```
 
-### Cloudflare Bindings
+## Rules
 
-- D1: `NEXT_TAG_CACHE_D1`, `CONTACT_FORM_D1`
-- KV: `NEXT_INC_CACHE_KV`
-- Queue: `lead-notifications`
+Contextual rules in `.claude/rules/` auto-load based on file path patterns. Read as needed.
 
-### Constraints
+## Stack
 
-- User-facing text must use translation keys
-- Server Components by default; `"use client"` only for interactivity
-- Brand/contact data in `Site` namespace (`messages/*`)
-- Type safety enforced by strict tsconfig + ESLint
+Next.js 15, React 19, TypeScript 5, Tailwind CSS 4, next-intl, Cloudflare (D1, KV, Queue)
 
-### Progressive Detail
-
-Read `agent_docs/` as needed:
-
-- `architecture.md` — Routing, async APIs, RSC
-- `i18n.md` — Translations, RTL
-- `coding-standards.md` — Naming, imports
-- `testing.md` — Vitest, Playwright
-- `security.md` — Validation, rate limiting
-- `ui-system.md` — Tailwind, accessibility
-- `quality-gates.md` — CI pipeline
-
-### Communication
+## Communication
 
 Reply in Chinese. Technical terms stay in English.
 
 ## Active Technologies
 
-- TypeScript 5.8.3 + Next.js 15.3.2, Vitest 3.1.4, ESLint 9.27.0, Tailwind CSS 4.1.7, next-intl 4.5.8 (002-config-optimization)
-- D1 (Cloudflare), KV (Cloudflare) (002-config-optimization)
+- TypeScript 5.8.3, Node.js 22+ + Next.js 15.3.2, React 19.1.0, Vitest 3.2.4, Playwright 1.52.0 (002-config-optimization)
+- Cloudflare D1 (CONTACT_FORM_D1), Cloudflare KV (NEXT_INC_CACHE_KV) (002-config-optimization)
 
 ## Recent Changes
 
-- 002-config-optimization: Added TypeScript 5.8.3 + Next.js 15.3.2, Vitest 3.1.4, ESLint 9.27.0, Tailwind CSS 4.1.7, next-intl 4.5.8
+- 002-config-optimization: Added TypeScript 5.8.3, Node.js 22+ + Next.js 15.3.2, React 19.1.0, Vitest 3.2.4, Playwright 1.52.0

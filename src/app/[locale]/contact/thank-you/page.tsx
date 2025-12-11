@@ -1,10 +1,12 @@
+import type { Locale } from '@/lib/i18n/config'
+
 import { useTranslations } from 'next-intl'
 import { setRequestLocale } from 'next-intl/server'
 
 import { Link } from '@/lib/i18n/routing'
 
 interface Properties {
-  params: Promise<{ locale: string }>
+  params: Promise<{ locale: Locale }>
 }
 
 export default async function ThankYouPage({ params }: Properties) {

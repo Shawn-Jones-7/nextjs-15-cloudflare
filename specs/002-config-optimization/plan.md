@@ -1,35 +1,42 @@
-# Implementation Plan: Configuration Optimization
+# Implementation Plan: Configuration Optimization & Test Coverage 85%
 
-**Branch**: `002-config-optimization` | **Date**: 2025-12-09 | **Spec**: [spec.md](./spec.md)
+**Branch**: `002-config-optimization` | **Date**: 2025-12-10 | **Spec**: [spec.md](./spec.md)
 **Input**: Feature specification from `/specs/002-config-optimization/spec.md`
 
 ## Summary
 
-Optimize Next.js 15 + Cloudflare Workers project configuration to restore build quality gates, improve type safety, and align with ecosystem best practices. Changes span `next.config.ts`, `tsconfig.json`, `vitest.*.ts`, `eslint.config.js`, CI workflow, and i18n loading strategy.
+Optimize project configuration files (Next.js, TypeScript, Vitest, ESLint) and establish comprehensive test coverage infrastructure targeting 85% global coverage. This combines technical debt reduction with quality assurance foundation for AI-assisted development.
 
 ## Technical Context
 
-**Language/Version**: TypeScript 5.8.3
-**Primary Dependencies**: Next.js 15.3.2, Vitest 3.1.4, ESLint 9.27.0, Tailwind CSS 4.1.7, next-intl 4.5.8
-**Storage**: D1 (Cloudflare), KV (Cloudflare)
-**Testing**: Vitest (unit/browser), Playwright (E2E)
+**Language/Version**: TypeScript 5.8.3, Node.js 22+
+**Primary Dependencies**: Next.js 15.3.2, React 19.1.0, Vitest 3.2.4, Playwright 1.52.0
+**Storage**: Cloudflare D1 (CONTACT_FORM_D1), Cloudflare KV (NEXT_INC_CACHE_KV)
+**Testing**: Vitest (unit + browser), Playwright (E2E)
 **Target Platform**: Cloudflare Workers (Edge Runtime)
-**Project Type**: Web application (Next.js App Router)
-**Performance Goals**: First Load JS <100KB, LCP <2.5s
-**Constraints**: Edge-compatible only, no Node.js APIs
-**Scale/Scope**: 4 locales (en/zh/es/ar), ~50KB translations total
+**Project Type**: Web application (Next.js App Router, SSG/SSR)
+**Performance Goals**: Lighthouse ≥90, First Load JS <100KB
+**Constraints**: Edge-compatible only (no Node.js-only APIs), 85% test coverage threshold
+**Scale/Scope**: ~59 source files, ~12 testable lib files, ~70-90 test cases needed
 
 ## Constitution Check
 
 _GATE: Must pass before Phase 0 research. Re-check after Phase 1 design._
 
-| Principle                   | Status  | Notes                                                      |
-| --------------------------- | ------- | ---------------------------------------------------------- |
-| I. Server Components First  | ✅ PASS | Config changes only, no component impact                   |
-| II. i18n Completeness       | ✅ PASS | P1-5 improves i18n loading, no translation changes         |
-| III. Type Safety            | ✅ PASS | Enhances type safety (verbatimModuleSyntax, workers-types) |
-| IV. Edge-First Architecture | ✅ PASS | Improves Edge compatibility (images.unoptimized)           |
-| V. Quality Gates            | ✅ PASS | Restores build-time checks (P0-1)                          |
+| Principle                   | Status  | Notes                                              |
+| --------------------------- | ------- | -------------------------------------------------- |
+| I. Server Components First  | ✅ PASS | Tests don't affect component architecture          |
+| II. i18n Completeness       | ✅ PASS | Tests will validate i18n config & RTL detection    |
+| III. Type Safety            | ✅ PASS | Tests enforce strict TypeScript, no `any` in mocks |
+| IV. Edge-First Architecture | ✅ PASS | Mocks simulate Cloudflare bindings (D1, KV)        |
+| V. Quality Gates            | ✅ PASS | Coverage thresholds added to CI pipeline           |
+
+**Complexity Limits Check**:
+| Metric | Limit | Expected | Status |
+|--------|-------|----------|--------|
+| Test file lines | ≤800 | ~100-200 per file | ✅ PASS |
+| Test function lines | ≤700 | ~10-30 per test | ✅ PASS |
+| Cyclomatic complexity | ≤20 | Low (test assertions) | ✅ PASS |
 
 ## Project Structure
 
@@ -37,271 +44,157 @@ _GATE: Must pass before Phase 0 research. Re-check after Phase 1 design._
 
 ```text
 specs/002-config-optimization/
-├── spec.md              # Feature specification ✅
 ├── plan.md              # This file
+├── spec.md              # Feature specification (updated)
 ├── research.md          # Phase 0 output
-└── tasks.md             # Phase 2 output (via /speckit.tasks)
+├── data-model.md        # Phase 1 output (test data models)
+├── quickstart.md        # Phase 1 output (test writing guide)
+├── contracts/           # Phase 1 output (mock interfaces)
+└── tasks.md             # Phase 2 output (/speckit.tasks)
 ```
 
-### Source Code (files to modify)
+### Source Code (repository root)
 
 ```text
-/                              # Repository root
-├── next.config.ts             # P0-1, P0-2, P1-1
-├── tsconfig.json              # P1-2, P1-4
-├── vitest.config.ts           # P1-3
-├── vitest.workspace.ts        # P1-3 (delete)
-├── eslint.config.js           # P0-3
-├── package.json               # P1-2
-├── src/
-│   ├── app/[locale]/layout.tsx  # P1-5: messages loading
-│   └── i18n/request.ts          # P1-5: namespace splitting
-└── .github/workflows/ci.yml   # P2-1
+src/
+├── tests/                          # Test infrastructure (NEW)
+│   ├── setup.ts                    # Global test setup
+│   ├── mocks/
+│   │   ├── cloudflare.ts           # D1/KV/Env bindings mock
+│   │   ├── turnstile.ts            # Turnstile API mock
+│   │   └── resend.ts               # Resend API mock
+│   ├── fixtures/
+│   │   ├── leads.ts                # Lead data factory
+│   │   └── forms.ts                # Form payload fixtures
+│   └── utils/
+│       └── server-action.ts        # Server Action test helper
+├── lib/
+│   ├── cn.ts                       # TO_TEST: className utility
+│   ├── cn.spec.ts                  # NEW: cn tests
+│   ├── rate-limit.ts               # TO_TEST: rate limiting
+│   ├── rate-limit.spec.ts          # NEW: rate-limit tests
+│   ├── schemas/
+│   │   ├── lead.ts                 # TO_TEST: Zod schemas
+│   │   └── lead.spec.ts            # NEW: lead schema tests
+│   ├── i18n/
+│   │   ├── config.ts               # TO_TEST: locale config
+│   │   └── config.spec.ts          # NEW: i18n config tests
+│   ├── turnstile/
+│   │   ├── verify.ts               # TO_TEST: Turnstile verification
+│   │   └── verify.spec.ts          # NEW: turnstile tests
+│   ├── api/
+│   │   ├── resend.ts               # TO_TEST: Resend API
+│   │   └── resend.spec.ts          # NEW: resend tests
+│   └── d1/
+│       ├── client.ts               # TO_TEST: D1 operations
+│       └── client.spec.ts          # NEW: D1 client tests
+├── actions/
+│   ├── submit-lead.ts              # TO_TEST: Server Action
+│   └── submit-lead.spec.ts         # NEW: submit-lead tests
+└── components/
+    ├── forms/
+    │   └── contact-form.browser.spec.tsx    # NEW: form browser tests
+    ├── i18n/
+    │   └── locale-switcher.browser.spec.tsx # NEW: locale tests
+    └── layout/
+        └── header.browser.spec.tsx          # NEW: header tests
 ```
 
-**Structure Decision**: Single Next.js web application. Config files at root, i18n logic in `src/i18n/`.
+**Structure Decision**: Single Next.js application with test files co-located alongside source files (\*.spec.ts pattern). Test infrastructure centralized in `src/tests/`.
 
-## Phase 0: Research ✅
+## Test Coverage Strategy
 
-See [research.md](./research.md) for full details.
+### Global Thresholds (vitest.config.ts)
 
-| Topic                     | Decision                                     | Risk |
-| ------------------------- | -------------------------------------------- | ---- |
-| React Compiler            | Remove ESLint rule (not configured)          | None |
-| Vitest projects           | Migrate to inline `test.projects` config     | Low  |
-| verbatimModuleSyntax      | Safe to enable (code already compliant)      | Low  |
-| @cloudflare/workers-types | Install latest version                       | None |
-| next-intl lazy loading    | **Deferred to P2** (current size acceptable) | None |
+| Metric     | Threshold | Rationale                           |
+| ---------- | --------- | ----------------------------------- |
+| Statements | 85%       | High for template reusability       |
+| Lines      | 85%       | Matches statements                  |
+| Functions  | 85%       | Ensures all functions tested        |
+| Branches   | 82%       | Slightly lower (hardest to achieve) |
 
----
+### Per-File Minimum (prevent single file from dragging down)
 
-## Phase 1: Design
+| Metric     | Threshold |
+| ---------- | --------- |
+| Statements | 70%       |
+| Lines      | 70%       |
+| Functions  | 65%       |
+| Branches   | 65%       |
 
-### P0-1: Restore next.config.ts Build Checks
+### Differential Coverage (new/modified code)
 
-**File**: `next.config.ts`
+| Metric | Threshold | Enforcement           |
+| ------ | --------- | --------------------- |
+| All    | ≥85%      | Hard gate (blocks PR) |
 
-```diff
-const nextConfig: NextConfig = {
-  reactStrictMode: true,
--  eslint: {
--    ignoreDuringBuilds: true,
--  },
--  typescript: {
--    ignoreBuildErrors: true,
--  },
-  webpack: (config) => { ... }
-};
-```
+### Coverage by Category
 
-**Verification**: `pnpm typecheck && pnpm lint && pnpm build`
+| Category                                        | Target   | Files     |
+| ----------------------------------------------- | -------- | --------- |
+| Pure functions (schemas, i18n, cn)              | 90%+     | 3 files   |
+| Utility with mocks (rate-limit, turnstile, api) | 78-82%   | 4 files   |
+| Server Actions                                  | 80%      | 1 file    |
+| Custom components with logic                    | 70%      | 3 files   |
+| shadcn/ui wrappers                              | Excluded | ~25 files |
+| Pages/Server Components                         | Excluded | ~15 files |
 
----
+## Test File Inventory
 
-### P0-2: Reorganize VeliteWebpackPlugin
+| Priority | Test File                                          | Source File                           | Est. Cases | Complexity  |
+| -------- | -------------------------------------------------- | ------------------------------------- | ---------- | ----------- |
+| 1        | `lib/cn.spec.ts`                                   | `lib/cn.ts`                           | 3-4        | Very Low    |
+| 2        | `lib/schemas/lead.spec.ts`                         | `lib/schemas/lead.ts`                 | 8-10       | Low         |
+| 3        | `lib/i18n/config.spec.ts`                          | `lib/i18n/config.ts`                  | 6-7        | Low         |
+| 4        | `lib/rate-limit.spec.ts`                           | `lib/rate-limit.ts`                   | 8-10       | Medium      |
+| 5        | `lib/turnstile/verify.spec.ts`                     | `lib/turnstile/verify.ts`             | 6-8        | Medium      |
+| 6        | `lib/api/resend.spec.ts`                           | `lib/api/resend.ts`                   | 5-6        | Medium      |
+| 7        | `lib/d1/client.spec.ts`                            | `lib/d1/client.ts`                    | 6-8        | Medium-High |
+| 8        | `actions/submit-lead.spec.ts`                      | `actions/submit-lead.ts`              | 10-12      | High        |
+| 9        | `components/forms/contact-form.browser.spec.tsx`   | `components/forms/contact-form.tsx`   | 8-10       | Medium      |
+| 10       | `components/i18n/locale-switcher.browser.spec.tsx` | `components/i18n/locale-switcher.tsx` | 4-5        | Low         |
+| 11       | `components/layout/header.browser.spec.tsx`        | `components/layout/header.tsx`        | 4-5        | Low         |
 
-**File**: `next.config.ts`
+**Total**: ~12 test files, ~70-90 test cases
 
-```typescript
-// BEFORE: Class defined after usage (hoisting)
-// AFTER: Class defined before nextConfig
+## E2E Scenarios (Playwright)
 
-class VeliteWebpackPlugin {
-  static started = false
-  apply(compiler: {
-    hooks: {
-      beforeCompile: {
-        tapPromise: (name: string, callback: () => Promise<void>) => void
-      }
-    }
-  }) {
-    compiler.hooks.beforeCompile.tapPromise('VeliteWebpackPlugin', async () => {
-      if (VeliteWebpackPlugin.started) return
-      VeliteWebpackPlugin.started = true
-      const development = process.env.NODE_ENV !== 'production'
-      const { build } = await import('velite')
-      await build({ watch: development, clean: !development })
-    })
-  }
-}
+Must-have scenarios (not percentage-based):
 
-const nextConfig: NextConfig = {
-  reactStrictMode: true,
-  webpack: (config) => {
-    config.plugins.push(new VeliteWebpackPlugin())
-    return config
-  },
-}
-```
-
----
-
-### P0-3: Fix react-compiler ESLint Rule
-
-**File**: `eslint.config.js`
-
-```diff
-  {
-    rules: {
--      'react-hooks/react-compiler': 'error',
-      'n/exports-style': ['error', 'exports'],
-```
-
-**Rationale**: Rule requires `babel-plugin-react-compiler` which is not configured.
-
----
-
-### P1-1: Add Cloudflare Workers Config
-
-**File**: `next.config.ts`
-
-```diff
-const nextConfig: NextConfig = {
-  reactStrictMode: true,
-+  poweredByHeader: false,
-+  images: {
-+    unoptimized: true,
-+  },
-  webpack: (config) => { ... }
-};
-```
-
-**Rationale**:
-
-- `poweredByHeader: false` - Security best practice
-- `images.unoptimized: true` - Cloudflare Workers doesn't support Next.js Image Optimization
-
----
-
-### P1-2: Add TypeScript Cloudflare Types
-
-**Commands**:
-
-```bash
-pnpm add -D @cloudflare/workers-types
-```
-
-**File**: `tsconfig.json`
-
-```diff
-{
-  "compilerOptions": {
-+    "types": ["@cloudflare/workers-types"],
-    "strict": true,
-```
-
----
-
-### P1-3: Migrate Vitest to Projects Config
-
-**Delete**: `vitest.workspace.ts`
-
-**File**: `vitest.config.ts`
-
-```typescript
-import react from '@vitejs/plugin-react'
-import tsconfigPaths from 'vite-tsconfig-paths'
-import { defaultExclude, defineConfig } from 'vitest/config'
-
-export default defineConfig({
-  plugins: [react(), tsconfigPaths()],
-  test: {
-    projects: [
-      {
-        test: {
-          name: 'unit',
-          include: ['./src/**/*.{test,spec}.?(c|m)[jt]s?(x)'],
-          exclude: [
-            ...defaultExclude,
-            './src/**/*.browser.{test,spec}.?(c|m)[jt]s?(x)',
-          ],
-        },
-      },
-      {
-        test: {
-          name: 'browser',
-          include: ['./src/**/*.browser.{test,spec}.?(c|m)[jt]s?(x)'],
-          exclude: defaultExclude,
-          browser: {
-            enabled: true,
-            provider: 'playwright',
-            instances: [{ browser: 'chromium' }],
-          },
-        },
-      },
-    ],
-  },
-})
-```
-
-**Update**: `package.json` scripts
-
-```diff
--    "test": "vitest --workspace=vitest.workspace.ts --browser.headless --run",
--    "test:browser": "vitest --workspace=vitest.workspace.ts",
--    "test:watch": "vitest --workspace=vitest.workspace.ts --browser.headless",
-+    "test": "vitest --browser.headless --run",
-+    "test:browser": "vitest",
-+    "test:watch": "vitest --browser.headless",
-```
-
----
-
-### P1-4: Add verbatimModuleSyntax
-
-**File**: `tsconfig.json`
-
-```diff
-{
-  "compilerOptions": {
-+    "verbatimModuleSyntax": true,
-    "strict": true,
-```
-
-**Rationale**: Ensures explicit `import type` for type-only imports, improving tree-shaking and module semantics.
-
----
-
-### P1-5: Optimize next-intl Messages Loading
-
-**Status**: **DEFERRED TO P2**
-
-**Rationale**: Current translation files (~12KB/locale) are well below the 30KB performance threshold. Implementing namespace-based lazy loading adds complexity without measurable benefit.
-
-**Future Trigger**: When any locale file exceeds 30KB.
-
----
-
-### P2 Tasks (Future)
-
-| ID   | Task                                   | Notes                                         |
-| ---- | -------------------------------------- | --------------------------------------------- |
-| P2-1 | Optimize Playwright CI install         | Change to `chromium` only                     |
-| P2-2 | Document ESLint flat config status     | Track @next/eslint-plugin-next native support |
-| P2-3 | Verify tw-animate-css v4 compatibility | Test and document                             |
-| P2-4 | Evaluate Zod vs Arktype                | Analyze consolidation path                    |
-
----
-
-## Verification Checklist
-
-| Task    | Command                       | Expected                 |
-| ------- | ----------------------------- | ------------------------ |
-| P0-1    | `pnpm typecheck && pnpm lint` | Exit 0                   |
-| P0-2    | `pnpm build`                  | Success                  |
-| P0-3    | `pnpm lint`                   | No react-compiler errors |
-| P1-1    | `pnpm build`                  | No image warnings        |
-| P1-2    | `pnpm typecheck`              | CloudflareEnv resolved   |
-| P1-3    | `pnpm test`                   | All tests pass           |
-| P1-4    | `pnpm typecheck`              | No import errors         |
-| **All** | **Full CI**                   | **All checks green**     |
-
----
+1. Homepage load + key sections visible
+2. Language switching (LTR ↔ RTL routing)
+3. Lead form happy path (Turnstile test key)
+4. Form validation failure + error messages
+5. External service failure handling
+6. Rate limit feedback
+7. Main CTA navigation (products, contact)
+8. Mobile viewport smoke
+9. Accessibility basics (keyboard focus, ARIA on forms)
+10. SEO meta/structured data presence
 
 ## Complexity Tracking
 
-No constitution violations. All changes within limits:
+> No violations expected. Test infrastructure follows standard patterns.
 
-- File modifications: Config files only (<500 lines each)
-- No new runtime dependencies
-- No architectural changes
+| Violation | Why Needed | Simpler Alternative Rejected Because |
+| --------- | ---------- | ------------------------------------ |
+| N/A       | N/A        | N/A                                  |
+
+## Implementation Phases
+
+### Phase 0: Research (research.md)
+
+- Vitest v8 coverage provider compatibility with ESM/Next.js 15
+- Cloudflare bindings mock patterns
+- Server Action testing best practices
+- Browser component testing with Vitest + Playwright provider
+
+### Phase 1: Design (data-model.md, contracts/, quickstart.md)
+
+- Test data models (Lead fixtures, form payloads)
+- Mock interfaces (CloudflareEnv, Turnstile, Resend)
+- Test quickstart guide for contributors
+
+### Phase 2: Tasks (tasks.md via /speckit.tasks)
+
+- Detailed implementation tasks with dependencies

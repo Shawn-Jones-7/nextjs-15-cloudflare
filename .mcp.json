@@ -1,8 +1,8 @@
 {
   "mcpServers": {
-    "CC-nc": {
+    "tucsenberg-web-frontier": {
       "type": "http",
-      "url": "http://localhost:8000/mcp/CC-nc"
+      "url": "http://localhost:8000/mcp/tucsenberg-web-frontier"
     }
   }
 }

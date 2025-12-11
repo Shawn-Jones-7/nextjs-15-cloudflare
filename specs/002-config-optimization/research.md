@@ -164,6 +164,230 @@ const messages = {
 
 ---
 
+---
+
+## 6. Vitest v8 Coverage Provider
+
+### Question
+
+Which coverage provider is best for ESM/Next.js 15/Cloudflare Workers?
+
+### Finding
+
+Vitest 3.x supports two providers:
+
+- `v8`: Native V8 coverage, faster, better ESM support
+- `istanbul`: Traditional instrumentation, more accurate branches
+
+### Decision
+
+**Use `v8`** - Faster execution, native ESM support, no source map issues with dynamic imports.
+
+### Configuration
+
+```typescript
+coverage: {
+  provider: 'v8',
+  include: ['src/**/*.{ts,tsx}'],
+  exclude: [
+    'src/app/**/*',           // Pages/Server Components
+    'src/components/ui/**/*', // shadcn/ui
+    '**/*.spec.{ts,tsx}',
+    '**/*.d.ts',
+  ],
+}
+```
+
+---
+
+## 7. Cloudflare Bindings Mock Pattern
+
+### Question
+
+How to mock D1Database and KVNamespace for unit tests?
+
+### Finding
+
+Create lightweight in-memory mocks implementing the interfaces:
+
+```typescript
+// KVNamespace Mock
+export function createMockKV(): KVNamespace {
+  const store = new Map<string, { value: string; expiration?: number }>()
+  return {
+    get: vi.fn(async (key: string, type?: string) => {
+      const entry = store.get(key)
+      if (!entry) return null
+      if (entry.expiration && Date.now() / 1000 >= entry.expiration) {
+        store.delete(key)
+        return null
+      }
+      return type === 'json' ? JSON.parse(entry.value) : entry.value
+    }),
+    put: vi.fn(
+      async (
+        key: string,
+        value: string,
+        options?: { expirationTtl?: number },
+      ) => {
+        store.set(key, {
+          value,
+          expiration: options?.expirationTtl
+            ? Math.floor(Date.now() / 1000) + options.expirationTtl
+            : undefined,
+        })
+      },
+    ),
+    delete: vi.fn(async (key: string) => {
+      store.delete(key)
+    }),
+    list: vi.fn(async () => ({
+      keys: [...store.keys()].map((name) => ({ name })),
+    })),
+  } as unknown as KVNamespace
+}
+
+// D1Database Mock
+export function createMockD1(): D1Database {
+  const preparedStatement = {
+    bind: vi.fn().mockReturnThis(),
+    run: vi.fn(async () => ({ success: true, meta: {} })),
+    first: vi.fn(async () => null),
+    all: vi.fn(async () => ({ results: [] })),
+  }
+  return {
+    prepare: vi.fn(() => preparedStatement),
+    batch: vi.fn(async (statements) =>
+      statements.map(() => ({ success: true })),
+    ),
+    exec: vi.fn(async () => ({ count: 1 })),
+  } as unknown as D1Database
+}
+```
+
+### Decision
+
+**In-memory mocks** - Fast, type-safe, deterministic. Miniflare is too heavyweight for unit tests.
+
+---
+
+## 8. Server Action Testing
+
+### Question
+
+Best practice for testing Server Actions in Next.js 15?
+
+### Finding
+
+Server Actions are async functions with `'use server'` directive. Test them by:
+
+1. Mocking `getCloudflareContext` to inject test bindings
+2. Mocking `getLocale` from next-intl
+3. Creating FormData programmatically
+
+```typescript
+vi.mock('@opennextjs/cloudflare', () => ({
+  getCloudflareContext: vi.fn(),
+}))
+
+vi.mock('next-intl/server', () => ({
+  getLocale: vi.fn(() => 'en'),
+}))
+
+describe('submitLead', () => {
+  beforeEach(() => {
+    vi.mocked(getCloudflareContext).mockResolvedValue({
+      env: { CONTACT_FORM_D1: createMockD1() /* ... */ },
+    })
+  })
+
+  it('validates input', async () => {
+    const formData = new FormData()
+    formData.set('email', 'invalid')
+    const result = await submitLead({}, formData)
+    expect(result.success).toBe(false)
+  })
+})
+```
+
+### Decision
+
+**Direct function testing** with mocked dependencies. No HTTP simulation needed.
+
+---
+
+## 9. Browser Component Testing
+
+### Question
+
+How to test React components in browser environment?
+
+### Finding
+
+Current config uses Vitest browser mode with Playwright provider. Use `vitest-browser-react` for rendering:
+
+```typescript
+// *.browser.spec.tsx
+import { render, screen } from 'vitest-browser-react'
+import { userEvent } from '@vitest/browser/context'
+
+vi.mock('next-intl', () => ({
+  useTranslations: () => (key: string) => key,
+}))
+
+describe('ContactForm', () => {
+  it('shows validation error', async () => {
+    render(<ContactForm locale="en" />)
+    await userEvent.click(screen.getByRole('button', { name: /submit/i }))
+    await expect.element(screen.getByText(/required/i)).toBeVisible()
+  })
+})
+```
+
+### Decision
+
+**vitest-browser-react** with Playwright provider. File naming: `*.browser.spec.tsx`.
+
+---
+
+## 10. Fake Timers for Rate Limiting
+
+### Question
+
+How to test time-dependent rate-limit logic?
+
+### Finding
+
+Use Vitest fake timers:
+
+```typescript
+beforeEach(() => {
+  vi.useFakeTimers()
+  vi.setSystemTime(new Date('2025-01-01T00:00:00Z'))
+})
+
+afterEach(() => {
+  vi.useRealTimers()
+})
+
+it('resets after window expires', async () => {
+  const kv = createMockKV()
+  // Exhaust limit
+  for (let i = 0; i < 5; i++) await checkRateLimit(kv, 'user')
+  // Advance time past window (60s)
+  vi.advanceTimersByTime(61 * 1000)
+  // Should be allowed again
+  const result = await checkRateLimit(kv, 'user')
+  expect(result.allowed).toBe(true)
+})
+```
+
+### Decision
+
+**vi.useFakeTimers()** - Essential for deterministic rate-limit tests.
+
+---
+
 ## Summary
 
 | Topic                  | Decision                 | Risk |
@@ -173,3 +397,8 @@ const messages = {
 | verbatimModuleSyntax   | Enable                   | Low  |
 | workers-types          | Install latest           | None |
 | next-intl lazy loading | Defer to future          | None |
+| Coverage provider      | v8 (faster, ESM-native)  | None |
+| Cloudflare mocks       | In-memory Map-based      | None |
+| Server Action tests    | Direct function + mocks  | Low  |
+| Browser tests          | vitest-browser-react     | None |
+| Fake timers            | vi.useFakeTimers()       | None |
