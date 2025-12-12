@@ -27,8 +27,6 @@
     "eslint-config-next",
     "eslint-import-resolver-typescript",
     "postcss",
-    "lefthook",
-    "@commitlint/cli",
     "@mdx-js/react",
     "@mdx-js/loader",
     "@types/mdx",
@@ -39,6 +37,7 @@
     "markdownlint",
     "@radix-ui/react-dropdown-menu",
     "sonner",
+    "motion",
   ],
   "ignoreBinaries": ["semgrep"],
   "ignoreExportsUsedInFile": {
