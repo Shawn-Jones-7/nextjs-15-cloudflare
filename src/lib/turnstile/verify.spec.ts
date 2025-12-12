@@ -60,7 +60,8 @@ describe('verifyTurnstile', () => {
     const result = await verifyTurnstile('token', 'test-secret')
 
     expect(result.success).toBe(false)
-    expect(result.errorCodes).toEqual(['network_error'])
+    // fetchWithRetry classifies network errors as 'network'
+    expect(result.errorCodes).toEqual(['network'])
   })
 
   it('handles non-ok HTTP response', async () => {
@@ -73,7 +74,8 @@ describe('verifyTurnstile', () => {
     const result = await verifyTurnstile('token', 'test-secret')
 
     expect(result.success).toBe(false)
-    expect(result.errorCodes).toEqual(['http_error'])
+    // fetchWithRetry classifies 5xx as 'http_retriable'
+    expect(result.errorCodes).toEqual(['http_retriable'])
   })
 
   it('calls Cloudflare API with correct parameters', async () => {
@@ -87,14 +89,14 @@ describe('verifyTurnstile', () => {
 
     expect(mockFetch).toHaveBeenCalledWith(
       'https://challenges.cloudflare.com/turnstile/v0/siteverify',
-      {
+      expect.objectContaining({
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           secret: 'secret-key-456',
           response: 'test-token-123',
         }),
-      },
+      }),
     )
   })
 })
