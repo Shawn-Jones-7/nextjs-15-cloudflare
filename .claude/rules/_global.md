@@ -2,7 +2,7 @@
 
 ## Project Context
 
-B2B Foreign Trade Enterprise Website | Next.js 15.3 + React 19 + TypeScript 5 + Tailwind CSS 4 + Cloudflare Workers
+B2B Foreign Trade Enterprise Website | Next.js 15.3.8 + React 19.2.3 + TypeScript 5.9.3 + Tailwind CSS 4.1.18 + Cloudflare Workers
 
 ## Commands
 

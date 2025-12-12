@@ -3,11 +3,11 @@
 [![CI](https://github.com/Shawn-Jones-7/nextjs-15-cloudflare/actions/workflows/ci.yml/badge.svg)](https://github.com/Shawn-Jones-7/nextjs-15-cloudflare/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/Shawn-Jones-7/nextjs-15-cloudflare/graph/badge.svg)](https://codecov.io/gh/Shawn-Jones-7/nextjs-15-cloudflare)
 
-Modern B2B corporate website template for international trade businesses. Built with Next.js 15 + React 19 + TypeScript 5 + Tailwind CSS 4, featuring 4-language internationalization (en/zh/es/ar with RTL support) and Cloudflare Workers deployment.
+Modern B2B corporate website template for international trade businesses. Built with Next.js 15.3.8 + React 19.2.3 + TypeScript 5.9.3 + Tailwind CSS 4.1.18, featuring 4-language internationalization (en/zh/es/ar with RTL support) and Cloudflare Workers deployment.
 
 ## Features
 
-- **Modern Tech Stack**: Next.js 15.3 + React 19 + TypeScript 5 + Tailwind CSS 4 + Motion
+- **Modern Tech Stack**: Next.js 15.3.8 + React 19.2.3 + TypeScript 5.9.3 + Tailwind CSS 4.1.18 + Motion
 - **Cloud-Native**: Cloudflare Workers + D1 Database + KV Storage + Queue
 - **4-Language i18n**: English, Chinese, Spanish, Arabic with RTL support
 - **Lead Capture**: Secure contact forms with Turnstile protection
@@ -294,9 +294,9 @@ Products are defined in `src/data/products.ts` with translations in `messages/*.
 
 ### Core Framework
 
-- **Next.js 15.3**: App Router, Server Components, Server Actions
-- **React 19**: Latest React features
-- **TypeScript 5**: Strict mode enabled
+- **Next.js 15.3.8**: App Router, Server Components, Server Actions
+- **React 19.2.3**: Latest React features
+- **TypeScript 5.9.3**: Strict mode enabled
 - **Motion 12**: Animation library (successor to Framer Motion)
 
 ### Cloudflare Bindings
@@ -309,8 +309,8 @@ Products are defined in `src/data/products.ts` with translations in `messages/*.
 
 - **ESLint 9**: 10+ plugins for comprehensive linting
 - **Prettier**: Code formatting
-- **Lefthook**: Git hooks (pre-commit, commit-msg)
-- **Commitlint**: Conventional commit enforcement
+- **Lefthook 2**: Git hooks (pre-commit, commit-msg)
+- **Commitlint 20**: Conventional commit enforcement
 
 ### Quality Assurance
 
