@@ -73,6 +73,8 @@ rules:
         - '**/scripts/**'
         - '**/tests/**'
         - '**/content/**'
+        # Retry jitter uses Math.random() for non-cryptographic delay variance
+        - '**/src/lib/api/fetch-with-retry.ts'
     message: '避免使用不安全的随机数生成方法，使用crypto.randomBytes()或crypto.getRandomValues()'
     languages: [typescript, javascript]
     severity: WARNING
@@ -248,6 +250,10 @@ rules:
         - '**/src/actions/submit-lead.ts'
         # Metadata helper spreads controlled config objects
         - '**/src/lib/i18n/metadata.ts'
+        # Thank-you page spreads buildPageMetadata() with robots config
+        - '**/src/app/*/contact/thank-you/page.tsx'
+        # Fetch utility spreads controlled config and RequestInit objects
+        - '**/src/lib/api/fetch-with-retry.ts'
     message: '检测到潜在的对象注入：使用扩展运算符或Object.assign时需验证输入对象的安全性'
     languages: [typescript, javascript]
     severity: WARNING
