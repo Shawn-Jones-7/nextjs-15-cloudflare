@@ -1,6 +1,6 @@
-import { userEvent } from '@vitest/browser/context'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { render } from 'vitest-browser-react'
+import { userEvent } from 'vitest/browser'
 
 import ContactForm from './contact-form'
 
@@ -37,26 +37,26 @@ describe('ContactForm', () => {
   })
 
   it('renders all form fields', async () => {
-    const { getByLabelText } = render(<ContactForm />)
+    const screen = await render(<ContactForm />)
 
-    await expect.element(getByLabelText(/name/i)).toBeVisible()
-    await expect.element(getByLabelText(/email/i)).toBeVisible()
-    await expect.element(getByLabelText(/company/i)).toBeVisible()
-    await expect.element(getByLabelText(/message/i)).toBeVisible()
+    await expect.element(screen.getByLabelText(/name/i)).toBeVisible()
+    await expect.element(screen.getByLabelText(/email/i)).toBeVisible()
+    await expect.element(screen.getByLabelText(/company/i)).toBeVisible()
+    await expect.element(screen.getByLabelText(/message/i)).toBeVisible()
   })
 
   it('renders submit button', async () => {
-    const { getByRole } = render(<ContactForm />)
+    const screen = await render(<ContactForm />)
 
-    const submitButton = getByRole('button', { name: /submit/i })
+    const submitButton = screen.getByRole('button', { name: /submit/i })
     await expect.element(submitButton).toBeVisible()
   })
 
   it('shows validation error for empty required fields', async () => {
-    const { getByLabelText, getByRole } = render(<ContactForm />)
+    const screen = await render(<ContactForm />)
 
-    const nameInput = getByLabelText(/name/i)
-    const submitButton = getByRole('button', { name: /submit/i })
+    const nameInput = screen.getByLabelText(/name/i)
+    const submitButton = screen.getByRole('button', { name: /submit/i })
 
     // Wait for Turnstile to auto-succeed
     await vi.waitFor(
@@ -76,10 +76,10 @@ describe('ContactForm', () => {
   })
 
   it('shows validation error for invalid email', async () => {
-    const { getByLabelText, getByRole } = render(<ContactForm />)
+    const screen = await render(<ContactForm />)
 
-    const emailInput = getByLabelText(/email/i)
-    const submitButton = getByRole('button', { name: /submit/i })
+    const emailInput = screen.getByLabelText(/email/i)
+    const submitButton = screen.getByRole('button', { name: /submit/i })
 
     // Wait for Turnstile
     await vi.waitFor(
@@ -103,8 +103,8 @@ describe('ContactForm', () => {
     // The submit button should be disabled when turnstileToken is undefined
     // We'll test by checking initial state before Turnstile succeeds
 
-    const { getByRole } = render(<ContactForm />)
-    const submitButton = getByRole('button', { name: /submit/i })
+    const screen = await render(<ContactForm />)
+    const submitButton = screen.getByRole('button', { name: /submit/i })
 
     // Button should be disabled initially (turnstileToken is undefined)
     // Note: Due to setTimeout in mock, button will become enabled quickly
@@ -116,11 +116,11 @@ describe('ContactForm', () => {
   })
 
   it('calls server action on valid submit', async () => {
-    const { getByLabelText, getByRole } = render(<ContactForm />)
+    const screen = await render(<ContactForm />)
 
-    const nameInput = getByLabelText(/name/i)
-    const emailInput = getByLabelText(/email/i)
-    const submitButton = getByRole('button', { name: /submit/i })
+    const nameInput = screen.getByLabelText(/name/i)
+    const emailInput = screen.getByLabelText(/email/i)
+    const submitButton = screen.getByRole('button', { name: /submit/i })
 
     // Wait for Turnstile
     await vi.waitFor(
@@ -146,11 +146,11 @@ describe('ContactForm', () => {
   it('shows success message after submission', async () => {
     mockSubmitLead.mockResolvedValue({ success: true, message: 'success' })
 
-    const { getByLabelText, getByRole, getByText } = render(<ContactForm />)
+    const screen = await render(<ContactForm />)
 
-    const nameInput = getByLabelText(/name/i)
-    const emailInput = getByLabelText(/email/i)
-    const submitButton = getByRole('button', { name: /submit/i })
+    const nameInput = screen.getByLabelText(/name/i)
+    const emailInput = screen.getByLabelText(/email/i)
+    const submitButton = screen.getByRole('button', { name: /submit/i })
 
     // Wait for Turnstile
     await vi.waitFor(
@@ -167,7 +167,7 @@ describe('ContactForm', () => {
     // Wait for success message
     await vi.waitFor(
       async () => {
-        await expect.element(getByText(/success_message/i)).toBeVisible()
+        await expect.element(screen.getByText(/success_message/i)).toBeVisible()
       },
       { timeout: 2000 },
     )
@@ -179,11 +179,11 @@ describe('ContactForm', () => {
       message: 'server_error',
     })
 
-    const { getByLabelText, getByRole, getByText } = render(<ContactForm />)
+    const screen = await render(<ContactForm />)
 
-    const nameInput = getByLabelText(/name/i)
-    const emailInput = getByLabelText(/email/i)
-    const submitButton = getByRole('button', { name: /submit/i })
+    const nameInput = screen.getByLabelText(/name/i)
+    const emailInput = screen.getByLabelText(/email/i)
+    const submitButton = screen.getByRole('button', { name: /submit/i })
 
     // Wait for Turnstile
     await vi.waitFor(
@@ -200,7 +200,9 @@ describe('ContactForm', () => {
     // Wait for error message
     await vi.waitFor(
       async () => {
-        await expect.element(getByText(/errors\.server_error/i)).toBeVisible()
+        await expect
+          .element(screen.getByText(/errors\.server_error/i))
+          .toBeVisible()
       },
       { timeout: 2000 },
     )
@@ -209,12 +211,12 @@ describe('ContactForm', () => {
   it('clears form after successful submission', async () => {
     mockSubmitLead.mockResolvedValue({ success: true, message: 'success' })
 
-    const { getByLabelText, getByRole } = render(<ContactForm />)
+    const screen = await render(<ContactForm />)
 
-    const nameInput = getByLabelText(/name/i)
-    const emailInput = getByLabelText(/email/i)
-    const messageInput = getByLabelText(/message/i)
-    const submitButton = getByRole('button', { name: /submit/i })
+    const nameInput = screen.getByLabelText(/name/i)
+    const emailInput = screen.getByLabelText(/email/i)
+    const messageInput = screen.getByLabelText(/message/i)
+    const submitButton = screen.getByRole('button', { name: /submit/i })
 
     // Wait for Turnstile
     await vi.waitFor(

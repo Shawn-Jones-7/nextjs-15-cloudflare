@@ -6,19 +6,20 @@ import prettier from 'eslint-config-prettier'
 import { flatConfigs as importX } from 'eslint-plugin-import-x'
 import jsxA11y from 'eslint-plugin-jsx-a11y'
 import node from 'eslint-plugin-n'
-import { configs as reactHooks } from 'eslint-plugin-react-hooks'
+import reactHooks from 'eslint-plugin-react-hooks'
 import reactYouMightNotNeedAnEffect from 'eslint-plugin-react-you-might-not-need-an-effect'
 import security from 'eslint-plugin-security'
 import unicorn from 'eslint-plugin-unicorn'
 import globals from 'globals'
-import { config as defineConfig, configs as tseslint } from 'typescript-eslint'
+import tseslint from 'typescript-eslint'
 
 const compat = new FlatCompat({
   baseDirectory: import.meta.dirname,
 })
 
 /** @type {import('@typescript-eslint/utils').TSESLint.FlatConfig.ConfigArray} */
-export default defineConfig(
+// eslint-disable-next-line @typescript-eslint/no-deprecated -- tseslint.config still works, migration to ESLint core defineConfig can be done later
+export default tseslint.config(
   {
     ignores: [
       'node_modules',
@@ -35,8 +36,10 @@ export default defineConfig(
   },
 
   js.configs.recommended,
-  ...tseslint.strictTypeChecked,
-  ...tseslint.stylisticTypeChecked,
+  // eslint-disable-next-line import-x/no-named-as-default-member -- using tseslint.configs is the correct pattern
+  ...tseslint.configs.strictTypeChecked,
+  // eslint-disable-next-line import-x/no-named-as-default-member -- using tseslint.configs is the correct pattern
+  ...tseslint.configs.stylisticTypeChecked,
   importX.recommended,
   importX.typescript,
   comments.recommended,
@@ -49,7 +52,7 @@ export default defineConfig(
     extends: ['plugin:@next/next/recommended'],
   }),
   react.configs['recommended-type-checked'],
-  reactHooks.recommended,
+  reactHooks.configs.flat.recommended,
   reactYouMightNotNeedAnEffect.configs.recommended,
   jsxA11y.flatConfigs.strict,
 
@@ -169,6 +172,10 @@ export default defineConfig(
       'n/exports-style': ['error', 'exports'],
       'n/no-missing-import': 'off',
       'n/no-extraneous-import': 'off',
+      'n/no-unsupported-features/node-builtins': [
+        'error',
+        { version: '>=22.16.0' },
+      ],
 
       // React "You Might Not Need an Effect" rules
       // https://github.com/NickvanDyke/eslint-plugin-react-you-might-not-need-an-effect

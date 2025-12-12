@@ -142,6 +142,9 @@ dist
 /blob-report/
 /playwright/.cache/
 
+# Vitest browser screenshots
+**/__screenshots__/
+
 # Misc
 .DS_Store
 .todo

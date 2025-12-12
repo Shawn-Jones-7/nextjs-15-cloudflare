@@ -27,20 +27,48 @@ Two environments in `vitest.config.ts` using `test.projects`:
 2. **Browser** — Chromium via Playwright provider
 
 ```typescript
+import { playwright } from '@vitest/browser-playwright'
+
 browser: {
   enabled: true,
-  provider: 'playwright',  // String form (Vitest 3.x supports both)
+  provider: playwright(),  // Factory function (Vitest 4.x)
   instances: [{ browser: 'chromium' }]
 }
 ```
 
-**Note**: Vitest 3.x accepts both string (`'playwright'`) and function (`playwright()`) forms for provider. Project uses string form which is simpler and works correctly.
+**Note**: Vitest 4.x requires factory function form `playwright()` from `@vitest/browser-playwright` package.
+
+## vitest-browser-react v2 API
+
+`render()` is now async and returns a `screen` object:
+
+```typescript
+import { userEvent } from 'vitest/browser'
+import { describe, expect, it } from 'vitest'
+import { render } from 'vitest-browser-react'
+
+it('example test', async () => {
+  const screen = await render(<MyComponent />)
+  await expect.element(screen.getByRole('button')).toBeVisible()
+  await userEvent.click(screen.getByRole('button'))
+})
+```
+
+**Key changes from v1**:
+
+- `render()` returns a Promise — must be awaited
+- Use `screen.getByRole()` instead of destructured `{ getByRole }`
+- Import `userEvent` from `vitest/browser` (not `@vitest/browser/context`)
 
 ## vi.hoisted Usage
 
 ESM mocks require `vi.hoisted` for variables used before module loading:
 
 ```typescript
+// ❌ Error: cannot reference external imports
+
+import { helper } from './helpers'
+
 // ✅ Correct: inline literals only
 const mockFn = vi.hoisted(() => vi.fn())
 
@@ -48,8 +76,6 @@ vi.mock('@/lib/api', () => ({
   fetchData: mockFn,
 }))
 
-// ❌ Error: cannot reference external imports
-import { helper } from './helpers'
 const mockFn = vi.hoisted(() => helper()) // ESM error!
 ```
 

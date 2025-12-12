@@ -27,9 +27,9 @@ export function createFormData(data: FormDataInput = {}): FormData {
 
   for (const [key, value] of Object.entries(data)) {
     if (key === 'turnstileToken') {
-      if (value) merged['cf-turnstile-response'] = String(value)
+      if (value) merged['cf-turnstile-response'] = value
     } else if (value !== undefined) {
-      merged[key] = String(value)
+      merged[key] = value
     }
   }
 

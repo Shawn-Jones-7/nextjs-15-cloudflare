@@ -25,7 +25,7 @@ export async function verifyTurnstile(
 
     const result: TurnstileVerifyResponse = await response.json()
     return {
-      success: Boolean(result.success),
+      success: result.success,
       errorCodes: result['error-codes'],
     }
   } catch (error) {

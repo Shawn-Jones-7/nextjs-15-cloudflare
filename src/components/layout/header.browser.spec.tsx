@@ -1,6 +1,6 @@
-import { userEvent } from '@vitest/browser/context'
 import { describe, expect, it, vi } from 'vitest'
 import { render } from 'vitest-browser-react'
+import { userEvent } from 'vitest/browser'
 
 import Header from './header'
 
@@ -98,9 +98,9 @@ vi.mock('@/data/products', () => ({
 
 describe('Header', () => {
   it('renders logo/brand', async () => {
-    const { getByRole } = render(<Header />)
+    const screen = await render(<Header />)
 
-    const brandLink = getByRole('link', { name: /test brand/i })
+    const brandLink = screen.getByRole('link', { name: /test brand/i })
     await expect.element(brandLink).toBeVisible()
 
     // Check href points to home
@@ -109,12 +109,12 @@ describe('Header', () => {
   })
 
   it('renders navigation links', async () => {
-    const { getByRole } = render(<Header />)
+    const screen = await render(<Header />)
 
     // Check main navigation links
-    const homeLink = getByRole('link', { name: /^home$/i })
-    const aboutLink = getByRole('link', { name: /^about$/i })
-    const blogLink = getByRole('link', { name: /^blog$/i })
+    const homeLink = screen.getByRole('link', { name: /^home$/i })
+    const aboutLink = screen.getByRole('link', { name: /^about$/i })
+    const blogLink = screen.getByRole('link', { name: /^blog$/i })
 
     await expect.element(homeLink).toBeVisible()
     await expect.element(aboutLink).toBeVisible()
@@ -122,17 +122,17 @@ describe('Header', () => {
   })
 
   it('renders locale switcher', async () => {
-    const { getByTestId } = render(<Header />)
+    const screen = await render(<Header />)
 
-    const localeSwitcher = getByTestId('locale-switcher')
+    const localeSwitcher = screen.getByTestId('locale-switcher')
     await expect.element(localeSwitcher).toBeVisible()
   })
 
   it('mobile menu toggles on hamburger click', async () => {
-    const { getByRole, container } = render(<Header />)
+    const screen = await render(<Header />)
 
     // Find the hamburger button (mobile menu trigger)
-    const menuButton = getByRole('button', { name: /open menu/i })
+    const menuButton = screen.getByRole('button', { name: /open menu/i })
     await expect.element(menuButton).toBeVisible()
 
     // Click to open
@@ -141,14 +141,16 @@ describe('Header', () => {
     // Wait for mobile menu to appear by checking for sheet content in DOM
     await vi.waitFor(
       () => {
-        const sheetContent = container.querySelector('[data-state="open"]')
+        const sheetContent = screen.container.querySelector(
+          '[data-state="open"]',
+        )
         expect(sheetContent).toBeDefined()
       },
       { timeout: 2000 },
     )
 
     // Verify mobile navigation is visible
-    const allLinks = container.querySelectorAll('a')
+    const allLinks = screen.container.querySelectorAll('a')
     const hasHomeLink = [...allLinks].some((link) =>
       link.textContent?.includes('Home'),
     )
@@ -156,12 +158,12 @@ describe('Header', () => {
   })
 
   it('navigation links have correct hrefs', async () => {
-    const { getByRole } = render(<Header />)
+    const screen = await render(<Header />)
 
     // Check desktop navigation
-    const homeLink = getByRole('link', { name: /^home$/i })
-    const aboutLink = getByRole('link', { name: /^about$/i })
-    const blogLink = getByRole('link', { name: /^blog$/i })
+    const homeLink = screen.getByRole('link', { name: /^home$/i })
+    const aboutLink = screen.getByRole('link', { name: /^about$/i })
+    const blogLink = screen.getByRole('link', { name: /^blog$/i })
 
     const homeElement = homeLink.element() as HTMLAnchorElement
     const aboutElement = aboutLink.element() as HTMLAnchorElement

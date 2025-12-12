@@ -51,10 +51,18 @@ Reply in Chinese. Technical terms stay in English.
 
 ## Active Technologies
 
-- TypeScript 5.8.3, Node.js 22+ + Next.js 15.3.2, React 19.1.0, Vitest 3.2.4, Playwright 1.52.0 (002-config-optimization)
-- Cloudflare D1 (CONTACT_FORM_D1), Cloudflare KV (NEXT_INC_CACHE_KV) (002-config-optimization)
-- Motion 12.x (animation library, successor to Framer Motion) (002-config-optimization)
+- TypeScript 5.9.3, Node.js 22+ + Next.js 15.3.8, React 19.2.3, Vitest 4.0.15, Playwright 1.57.0
+- Cloudflare D1 (CONTACT_FORM_D1), Cloudflare KV (NEXT_INC_CACHE_KV)
+- Motion 12.x (animation library, successor to Framer Motion)
 
 ## Recent Changes
 
-- 002-config-optimization: Added TypeScript 5.8.3, Node.js 22+ + Next.js 15.3.2, React 19.1.0, Vitest 3.2.4, Playwright 1.52.0
+- Batch 2: Vitest 4.0.15 (vitest-browser-react v2 API), @eslint-react/eslint-plugin 2.3.13, eslint-plugin-unicorn 62, commitlint 20, lefthook 2
+- Batch 1: TypeScript 5.9.3, React 19.2.3, Tailwind CSS 4.1.18, Playwright 1.57.0, ESLint ecosystem updates
+- Security patch: Next.js 15.3.8 (CVE-2025-55184/55183), @opennextjs/cloudflare 1.14.5, wrangler 4.54.0
+
+## Codebase Exploration
+
+Use **Augment `codebase-retrieval`** for semantic/exploratory queries before attempting multiple Grep searches. Built-in tools (Grep, Glob, Read) suffice for precise symbol lookups.
+
+**Mandatory**: Before any coding action, use **Context7** (`resolve-library-id` → `get-library-docs`) to query official documentation, ensuring implementations align with latest APIs and best practices.

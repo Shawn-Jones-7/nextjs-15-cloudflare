@@ -25,7 +25,7 @@ export async function getAllPosts(locale: Locale): Promise<Post[]> {
   const posts = await loadPosts()
   return posts
     .filter((post) => post.locale === locale)
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+    .toSorted((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
 }
 
 export async function getPostBySlug(

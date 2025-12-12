@@ -43,9 +43,9 @@ describe('LocaleSwitcher', () => {
   })
 
   it('renders current locale', async () => {
-    const { getByRole } = render(<LocaleSwitcher />)
+    const screen = await render(<LocaleSwitcher />)
 
-    const select = getByRole('combobox')
+    const select = screen.getByRole('combobox')
     await expect.element(select).toBeVisible()
 
     // Check the selected value is 'en'
@@ -54,10 +54,10 @@ describe('LocaleSwitcher', () => {
   })
 
   it('shows dropdown with all locales', async () => {
-    const { container } = render(<LocaleSwitcher />)
+    const screen = await render(<LocaleSwitcher />)
 
     // Get the select element and its options
-    const select = container.querySelector('select')
+    const select = screen.container.querySelector('select')
     expect(select).toBeDefined()
 
     const options = [...select!.querySelectorAll('option')]
@@ -73,9 +73,9 @@ describe('LocaleSwitcher', () => {
   it('navigates to correct path on locale select', async () => {
     mockUsePathname.mockReturnValue('/about')
 
-    const { getByRole } = render(<LocaleSwitcher />)
+    const screen = await render(<LocaleSwitcher />)
 
-    const select = getByRole('combobox')
+    const select = screen.getByRole('combobox')
 
     // Change to Chinese - use the native DOM element
     const selectElement = select.element() as unknown as HTMLSelectElement
@@ -90,9 +90,9 @@ describe('LocaleSwitcher', () => {
 
   it('highlights current locale in dropdown', async () => {
     // The mock returns 'en' as the current locale
-    const { getByRole } = render(<LocaleSwitcher />)
+    const screen = await render(<LocaleSwitcher />)
 
-    const select = getByRole('combobox')
+    const select = screen.getByRole('combobox')
     const selectElement = select.element() as unknown as HTMLSelectElement
 
     // Current value should be 'en' (from mock)
@@ -105,10 +105,10 @@ describe('LocaleSwitcher', () => {
   })
 
   it('handles RTL locale display correctly', async () => {
-    const { container } = render(<LocaleSwitcher />)
+    const screen = await render(<LocaleSwitcher />)
 
     // Get the select element
-    const select = container.querySelector('select')
+    const select = screen.container.querySelector('select')
     expect(select).toBeDefined()
 
     // Get all options from the select

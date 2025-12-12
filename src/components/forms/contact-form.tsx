@@ -1,6 +1,6 @@
 'use client'
 
-import { useActionState, useRef, useState } from 'react'
+import { useActionState, useEffect, useRef, useState } from 'react'
 
 import type { SubmitLeadState } from '@/actions/submit-lead'
 import type { TurnstileInstance } from '@marsidev/react-turnstile'
@@ -43,25 +43,20 @@ export default function ContactForm({
   const direction = locale === 'ar' ? 'rtl' : 'ltr'
   const formReference = useRef<HTMLFormElement>(null)
   const turnstileReference = useRef<TurnstileInstance>(null)
-  const lastSuccessReference = useRef<boolean | undefined>(undefined)
   const [turnstileToken, setTurnstileToken] = useState<string>()
 
   const [state, action, isPending] = useActionState(submitLead, {
     success: undefined,
   } as SubmitLeadState)
 
-  // Handle success state change during render (not in effect)
-  if (state.success && lastSuccessReference.current !== state.success) {
-    lastSuccessReference.current = state.success
-    // Schedule DOM operations for after render
-    queueMicrotask(() => {
+  // Handle success state change in effect (React 19 compliant)
+  useEffect(() => {
+    if (state.success) {
       formReference.current?.reset()
       turnstileReference.current?.reset()
       onSuccess?.()
-    })
-  } else if (!state.success && lastSuccessReference.current) {
-    lastSuccessReference.current = state.success
-  }
+    }
+  }, [state.success, onSuccess])
 
   return (
     <form
