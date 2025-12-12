@@ -92,6 +92,7 @@ Always use `@/` alias. No deep relative imports.
 
 ```typescript
 // ✅ Good
+
 import { cn } from '@/lib/cn'
 
 // ❌ Bad

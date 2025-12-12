@@ -120,7 +120,7 @@
 
 ### Phase Dependencies
 
-```
+```text
 Phase 1 (Pre-flight) → Phase 2 (P0 Critical) → Phase 3 (P1 High) → Phase 5 (Verification)
                                                      ↓
                                               Phase 4 (P2 Deferred - skip)
@@ -224,7 +224,7 @@ Stop after Phase 2 (P0 Critical) if time-constrained:
 **Date**: 2025-12-09
 **Executor**: Claude (连续模式 + Codex Review)
 
-### Summary
+### Part 1 Summary
 
 - **P0 Critical**: ✅ All completed - build quality gates restored
 - **P1-1**: ✅ Cloudflare config added (poweredByHeader, images.unoptimized)
@@ -239,7 +239,7 @@ Stop after Phase 2 (P0 Critical) if time-constrained:
 2. ⚠️ Fixed: Added `node` to types array per Codex recommendation (ensures Node.js globals like `process` remain available)
 3. ✅ Code quality and best practices followed
 
-### Notes
+### Implementation Notes
 
 - Vitest upgraded from 3.1.4 → 3.2.4 to enable inline `test.projects` config
 - Removed deprecated `vitest.workspace.ts` and `--workspace` CLI flags
@@ -247,11 +247,11 @@ Stop after Phase 2 (P0 Critical) if time-constrained:
 
 ---
 
-# Part 2: Test Coverage 85% Implementation
+## Part 2: Test Coverage 85% Implementation
 
 **Date**: 2025-12-10 | **Target**: 85% global test coverage
 
-## Overview
+### Overview
 
 This part extends the configuration optimization to achieve 85% test coverage through:
 
@@ -415,7 +415,6 @@ mkdir -p src/tests/{mocks,fixtures,utils}
   ```
 
   **Exclusion Rationale**:
-
   - `src/app/**/*`: Server Components/Pages tested via E2E
   - `src/components/ui/**/*`: shadcn/ui external library
   - `src/env.ts`: TypeScript env declarations
@@ -583,7 +582,6 @@ mkdir -p src/tests/{mocks,fixtures,utils}
   ```
 
   **Test cases**:
-
   - Returns validation_error for invalid email
   - Returns validation_error for missing name
   - Returns validation_error for missing turnstile token
@@ -628,7 +626,6 @@ mkdir -p src/tests/{mocks,fixtures,utils}
   ```
 
   **Test cases**:
-
   - Renders all form fields (name, email, message)
   - Renders submit button
   - Shows validation error for empty required fields
@@ -733,7 +730,7 @@ mkdir -p src/tests/{mocks,fixtures,utils}
 
 ### Dependencies (Part 2)
 
-```
+```text
 Phase 6 (Infrastructure) → Phase 7 (Coverage Config) → Phase 8 (Pure Tests)
                                                               ↓
 Phase 9 (Mocked Tests) → Phase 10 (Server Action) → Phase 11 (Browser)
@@ -741,7 +738,7 @@ Phase 9 (Mocked Tests) → Phase 10 (Server Action) → Phase 11 (Browser)
                                                     Phase 12 (CI Integration)
 ```
 
-### Parallel Opportunities
+### Parallel Opportunities (Part 2)
 
 **Phase 6**:
 
@@ -801,7 +798,7 @@ Phase 9 (Mocked Tests) → Phase 10 (Server Action) → Phase 11 (Browser)
 **Date**: 2025-12-10
 **Executor**: Claude (连续模式)
 
-### Summary
+### Part 2 Summary
 
 - **Phase 6**: ✅ All completed - test infrastructure setup
 - **Phase 7**: ✅ Coverage configuration done
@@ -821,7 +818,7 @@ Phase 9 (Mocked Tests) → Phase 10 (Server Action) → Phase 11 (Browser)
 | E2E Tests  | ✅     | 5 tests passed (9.5s)                       |
 | Coverage   | ✅     | 97.09% statements, 76% branches (above 85%) |
 
-### Notes
+### Implementation Notes
 
 - T054 (coverage badge) marked as optional, not implemented
 - All test infrastructure files created and verified

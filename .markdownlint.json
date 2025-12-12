@@ -1,4 +1,7 @@
 {
   "default": true,
-  "extends": "markdownlint/style/prettier"
+  "extends": "markdownlint/style/prettier",
+  "MD024": { "siblings_only": true },
+  "MD033": { "allowed_elements": ["Option"] },
+  "MD041": { "front_matter_title": "^\\s*(description|name)\\s*[:=]" }
 }
