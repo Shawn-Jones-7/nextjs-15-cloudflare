@@ -8,13 +8,10 @@ import type { Metadata } from 'next'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 
 import { ProductActions } from '@/components/products/product-actions'
-import {
-  getAllProducts,
-  getCategoryBySlug,
-  getProductBySlug,
-} from '@/data/products'
+import { getAllProducts, getProductBySlug } from '@/data/products'
 import { locales } from '@/lib/i18n/config'
 import { buildAlternates } from '@/lib/i18n/metadata'
+import { getProductDisplayData } from '@/lib/products/get-product-display'
 
 interface Properties {
   params: Promise<{ locale: Locale; slug: string }>
@@ -59,17 +56,13 @@ export default async function ProductDetailPage({ params }: Properties) {
     notFound()
   }
 
-  const t = await getTranslations({ locale, namespace: 'Products.items' })
-  const tSpecs = await getTranslations({ locale, namespace: 'Products.specs' })
-  const tNav = await getTranslations({
-    locale,
-    namespace: 'Navigation.categories',
-  })
-  const tPage = await getTranslations({ locale, namespace: 'ProductsPage' })
+  const [displayData, t, tSpecs] = await Promise.all([
+    getProductDisplayData(product, locale),
+    getTranslations({ locale, namespace: 'Products.items' }),
+    getTranslations({ locale, namespace: 'Products.specs' }),
+  ])
 
-  const category = getCategoryBySlug(product.categorySlug)
-  const categoryName = category ? tNav(category.i18nKey) : product.categorySlug
-  const productName = t(`${product.slug}.name`)
+  const { productName, categoryName, description, getQuoteLabel } = displayData
 
   return (
     <div className='container ms-auto me-auto py-16 ps-4 pe-4 sm:ps-6 sm:pe-6 lg:ps-8 lg:pe-8'>
@@ -98,7 +91,7 @@ export default async function ProductDetailPage({ params }: Properties) {
 
           <div className='mb-8 max-w-none'>
             <p className='text-muted-foreground text-lg leading-relaxed'>
-              {t(`${product.slug}.description`)}
+              {description}
             </p>
           </div>
 
@@ -126,7 +119,7 @@ export default async function ProductDetailPage({ params }: Properties) {
           <div className='mt-auto'>
             <ProductActions
               product={{ slug: product.slug, name: productName }}
-              label={tPage('getQuote')}
+              label={getQuoteLabel}
             />
           </div>
         </div>

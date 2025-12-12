@@ -2,11 +2,9 @@ import Image from 'next/image'
 
 import type { Product } from '@/data/products'
 
-import { getTranslations } from 'next-intl/server'
-
-import { getCategoryBySlug } from '@/data/products'
 import { type Locale } from '@/lib/i18n/config'
 import { Link } from '@/lib/i18n/routing'
+import { getProductDisplayData } from '@/lib/products/get-product-display'
 
 import { ProductActions } from './product-actions'
 
@@ -16,16 +14,8 @@ interface ProductCardProperties {
 }
 
 export async function ProductCard({ product, locale }: ProductCardProperties) {
-  const t = await getTranslations({ locale, namespace: 'Products.items' })
-  const tNav = await getTranslations({
-    locale,
-    namespace: 'Navigation.categories',
-  })
-  const tPage = await getTranslations({ locale, namespace: 'ProductsPage' })
-
-  const category = getCategoryBySlug(product.categorySlug)
-  const categoryName = category ? tNav(category.i18nKey) : product.categorySlug
-  const productName = t(`${product.slug}.name`)
+  const { productName, categoryName, description, getQuoteLabel } =
+    await getProductDisplayData(product, locale)
 
   return (
     <div className='group bg-card text-card-foreground flex h-full flex-col overflow-hidden rounded-lg border shadow-sm transition-shadow hover:shadow-md'>
@@ -50,12 +40,12 @@ export async function ProductCard({ product, locale }: ProductCardProperties) {
           </h3>
         </Link>
         <p className='text-muted-foreground mb-6 line-clamp-3 flex-1 text-sm'>
-          {t(`${product.slug}.description`)}
+          {description}
         </p>
         <div className='mt-auto'>
           <ProductActions
             product={{ slug: product.slug, name: productName }}
-            label={tPage('getQuote')}
+            label={getQuoteLabel}
           />
         </div>
       </div>
