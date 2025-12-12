@@ -1,3 +1,27 @@
+/**
+ * Queue Consumer for Async Lead Processing
+ *
+ * STATUS: Ready for activation (requires Workers Paid plan)
+ *
+ * This consumer handles lead notifications asynchronously:
+ * - Sends email notifications via Resend
+ * - Syncs lead data to Airtable (if configured)
+ * - Manages lead status in D1 database
+ *
+ * ACTIVATION STEPS:
+ * 1. Upgrade to Workers Paid plan
+ * 2. Uncomment queue bindings in wrangler.toml
+ * 3. Regenerate types: pnpm wrangler types
+ * 4. Update submit-lead.ts to use Queue (see comments there)
+ * 5. Deploy: pnpm wrangler deploy
+ *
+ * BENEFITS OF QUEUE-BASED PROCESSING:
+ * - Faster user response (form submission returns immediately)
+ * - Automatic retries on failure (message.retry())
+ * - Better error isolation (failures don't affect user experience)
+ * - Batch processing capability (max_batch_size=10)
+ */
+
 import { syncLeadToAirtable } from '@/lib/api/airtable'
 import { sendLeadNotification } from '@/lib/api/resend'
 import { getLeadById, updateLeadStatus } from '@/lib/d1/client'

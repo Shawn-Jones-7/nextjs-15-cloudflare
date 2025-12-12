@@ -20,6 +20,15 @@
     "backToTop": "Back to top",
     "language": "Language"
   },
+  "NotFound": {
+    "title": "Page Not Found",
+    "description": "The page you are looking for does not exist or has been moved."
+  },
+  "Error": {
+    "title": "Something Went Wrong",
+    "description": "An unexpected error occurred. Please try again.",
+    "retry": "Try Again"
+  },
   "Navigation": {
     "home": "Home",
     "about": "About",

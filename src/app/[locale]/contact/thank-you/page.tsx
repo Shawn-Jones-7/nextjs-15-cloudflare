@@ -1,12 +1,31 @@
 import type { Locale } from '@/lib/i18n/config'
+import type { Metadata } from 'next'
 
 import { useTranslations } from 'next-intl'
-import { setRequestLocale } from 'next-intl/server'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
 
+import { buildPageMetadata } from '@/lib/i18n/metadata'
 import { Link } from '@/lib/i18n/routing'
 
 interface Properties {
   params: Promise<{ locale: Locale }>
+}
+
+export async function generateMetadata({
+  params,
+}: Properties): Promise<Metadata> {
+  const { locale } = await params
+  const t = await getTranslations({ locale, namespace: 'ThankYouPage' })
+
+  return {
+    ...buildPageMetadata({
+      title: t('title'),
+      description: t('description'),
+      locale,
+      pathname: '/contact/thank-you',
+    }),
+    robots: { index: false, follow: false },
+  }
 }
 
 export default async function ThankYouPage({ params }: Properties) {

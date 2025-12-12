@@ -1,8 +1,10 @@
-import * as React from 'react'
-
 import { cn } from '@/lib/cn'
 
-function Input({ className, type, ...props }: React.ComponentProps<'input'>) {
+interface InputProperties extends React.ComponentProps<'input'> {
+  ref?: React.Ref<HTMLInputElement>
+}
+
+function Input({ className, type, ref, ...props }: InputProperties) {
   return (
     <input
       type={type}
@@ -13,6 +15,7 @@ function Input({ className, type, ...props }: React.ComponentProps<'input'>) {
         'aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive',
         className,
       )}
+      ref={ref}
       {...props}
     />
   )

@@ -91,7 +91,7 @@ export default function ContactForm({
           role='alert'
           aria-live='assertive'
         >
-          {t(`errors.${state.message}`)}
+          {t(`errors.${state.message}` as const)}
         </div>
       )}
 

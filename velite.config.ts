@@ -14,7 +14,7 @@ const posts = defineCollection({
       tags: s.array(s.string()).default([]),
       // eslint-disable-next-line security/detect-unsafe-regex
       slug: s.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
-      content: s.mdx(),
+      content: s.raw(), // Raw MDX for server-side compilation with next-mdx-remote
     })
     .transform((data, { meta }) => {
       const pathSegments = meta.path.split('/')

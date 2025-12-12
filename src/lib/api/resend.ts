@@ -1,5 +1,7 @@
 import type { Lead } from '@/lib/schemas/lead'
 
+import { FetchRetryError, fetchWithRetry } from './fetch-with-retry'
+
 interface SendEmailOptions {
   lead: Lead
   apiKey: string
@@ -12,50 +14,78 @@ interface ResendResponse {
   error?: { message: string }
 }
 
+/** Email sending timeout: 15s (email APIs can be slower) */
+const RESEND_TIMEOUT_MS = 15_000
+
+/**
+ * Send lead notification email via Resend API.
+ * Includes automatic retry with exponential backoff for transient failures.
+ */
 export async function sendLeadNotification({
   lead,
   apiKey,
   fromEmail,
   toEmail,
 }: SendEmailOptions): Promise<{ success: boolean; error?: string }> {
-  const response = await fetch('https://api.resend.com/emails', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${apiKey}`,
-    },
-    body: JSON.stringify({
-      from: fromEmail,
-      to: toEmail,
-      subject: `New Lead: ${lead.name} from ${lead.company ?? 'N/A'}`,
-      html: `
-        <h2>New Contact Form Submission</h2>
-        <table style="border-collapse: collapse; width: 100%;">
-          <tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>Name</strong></td><td style="padding: 8px; border: 1px solid #ddd;">${escapeHtml(lead.name)}</td></tr>
-          <tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>Email</strong></td><td style="padding: 8px; border: 1px solid #ddd;"><a href="mailto:${escapeHtml(lead.email)}">${escapeHtml(lead.email)}</a></td></tr>
-          <tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>Phone</strong></td><td style="padding: 8px; border: 1px solid #ddd;">${escapeHtml(lead.phone ?? '-')}</td></tr>
-          <tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>Company</strong></td><td style="padding: 8px; border: 1px solid #ddd;">${escapeHtml(lead.company ?? '-')}</td></tr>
-          <tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>Inquiry Type</strong></td><td style="padding: 8px; border: 1px solid #ddd;">${escapeHtml(lead.inquiryType ?? '-')}</td></tr>
-          <tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>Product</strong></td><td style="padding: 8px; border: 1px solid #ddd;">${escapeHtml(lead.productName ?? '-')}</td></tr>
-          <tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>Form Page</strong></td><td style="padding: 8px; border: 1px solid #ddd;">${escapeHtml(lead.formPage ?? '-')}</td></tr>
-          <tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>Locale</strong></td><td style="padding: 8px; border: 1px solid #ddd;">${lead.locale}</td></tr>
-          <tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>Message</strong></td><td style="padding: 8px; border: 1px solid #ddd;">${escapeHtml(lead.message ?? '').replaceAll('\n', '<br>')}</td></tr>
-        </table>
-        <p style="color: #666; font-size: 12px; margin-top: 16px;">Lead ID: ${lead.id} | Submitted at: ${new Date(lead.createdAt).toISOString()}</p>
-      `,
-    }),
-  })
+  try {
+    const result = await fetchWithRetry<ResendResponse>(
+      'https://api.resend.com/emails',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${apiKey}`,
+        },
+        body: JSON.stringify({
+          from: fromEmail,
+          to: toEmail,
+          subject: `New Lead: ${lead.name} from ${lead.company ?? 'N/A'}`,
+          html: buildEmailHtml(lead),
+        }),
+      },
+      { timeoutMs: RESEND_TIMEOUT_MS },
+    )
 
-  const result: ResendResponse = await response.json()
-
-  if (!response.ok || result.error) {
-    return {
-      success: false,
-      error: result.error?.message ?? 'Failed to send email',
+    if (result.error) {
+      return { success: false, error: result.error.message }
     }
-  }
 
-  return { success: true }
+    return { success: true }
+  } catch (error) {
+    if (error instanceof FetchRetryError) {
+      const apiError = extractResendError(error.responseBody)
+      return { success: false, error: apiError ?? error.message }
+    }
+    throw error
+  }
+}
+
+function buildEmailHtml(lead: Lead): string {
+  return `
+    <h2>New Contact Form Submission</h2>
+    <table style="border-collapse: collapse; width: 100%;">
+      ${tableRow('Name', escapeHtml(lead.name))}
+      ${tableRow('Email', `<a href="mailto:${escapeHtml(lead.email)}">${escapeHtml(lead.email)}</a>`)}
+      ${tableRow('Phone', escapeHtml(lead.phone ?? '-'))}
+      ${tableRow('Company', escapeHtml(lead.company ?? '-'))}
+      ${tableRow('Inquiry Type', escapeHtml(lead.inquiryType ?? '-'))}
+      ${tableRow('Product', escapeHtml(lead.productName ?? '-'))}
+      ${tableRow('Form Page', escapeHtml(lead.formPage ?? '-'))}
+      ${tableRow('Locale', lead.locale)}
+      ${tableRow('Message', escapeHtml(lead.message ?? '').replaceAll('\n', '<br>'))}
+    </table>
+    <p style="color: #666; font-size: 12px; margin-top: 16px;">Lead ID: ${lead.id} | Submitted at: ${new Date(lead.createdAt).toISOString()}</p>
+  `
+}
+
+function tableRow(label: string, value: string): string {
+  return `<tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>${label}</strong></td><td style="padding: 8px; border: 1px solid #ddd;">${value}</td></tr>`
+}
+
+function extractResendError(body: unknown): string | undefined {
+  if (typeof body !== 'object' || body === null) return undefined
+  const error = (body as { error?: { message?: string } }).error
+  return error?.message
 }
 
 function escapeHtml(text: string): string {

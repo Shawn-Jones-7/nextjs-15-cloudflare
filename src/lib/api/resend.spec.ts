@@ -60,12 +60,13 @@ describe('sendLeadNotification', () => {
     expect(result.error).toBe('Invalid email address')
   })
 
-  it('handles network failure', async () => {
+  it('handles network failure with retries', async () => {
     globalThis.fetch = vi.fn().mockRejectedValue(new Error('Network error'))
 
-    await expect(sendLeadNotification(sendOptions)).rejects.toThrow(
-      'Network error',
-    )
+    const result = await sendLeadNotification(sendOptions)
+
+    expect(result.success).toBe(false)
+    expect(result.error).toBe('Network error')
   })
 
   it('constructs correct request body', async () => {

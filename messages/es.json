@@ -20,6 +20,15 @@
     "backToTop": "Volver arriba",
     "language": "Idioma"
   },
+  "NotFound": {
+    "title": "Página No Encontrada",
+    "description": "La página que busca no existe o ha sido movida."
+  },
+  "Error": {
+    "title": "Algo Salió Mal",
+    "description": "Ocurrió un error inesperado. Por favor, inténtelo de nuevo.",
+    "retry": "Reintentar"
+  },
   "Navigation": {
     "home": "Inicio",
     "about": "Nosotros",

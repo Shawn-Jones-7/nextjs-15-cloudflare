@@ -1,3 +1,6 @@
+import type { Locale } from '@/lib/i18n/config'
+import type { Messages } from 'next-intl'
+
 import { getRequestConfig } from 'next-intl/server'
 
 import { routing } from '@/lib/i18n/routing'
@@ -13,10 +16,10 @@ export default getRequestConfig(async ({ requestLocale }) => {
   }
 
   const messages = (await import(`../../messages/${locale}.json`)) as {
-    default: Record<string, unknown>
+    default: Messages
   }
   return {
-    locale,
+    locale: locale as Locale,
     messages: messages.default,
   }
 })

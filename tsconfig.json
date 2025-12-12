@@ -47,6 +47,7 @@
     "reset.d.ts",
     "cloudflare-env.d.ts",
     "eslint-types.d.ts",
+    "src/types/**/*.d.ts",
     "next.config.ts",
     "open-next.config.ts",
     "vitest.config.ts",

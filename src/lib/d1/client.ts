@@ -1,5 +1,15 @@
 import type { Lead, LeadInput } from '@/lib/schemas/lead'
 
+import {
+  LEAD_STATUS,
+  LEADS_COLUMNS,
+  LEADS_INSERT_COLUMNS,
+  LEADS_INSERT_PLACEHOLDERS,
+  LEADS_TABLE,
+} from './schema'
+
+const col = LEADS_COLUMNS
+
 function toNullable(value?: string): string | null {
   // D1/SQL requires null for empty values (not undefined)
   // eslint-disable-next-line unicorn/no-null
@@ -18,8 +28,8 @@ export async function insertLead(
 
   await db
     .prepare(
-      `INSERT INTO leads (id, locale, name, email, phone, company, message, inquiry_type, product_slug, product_name, form_page, created_at, status)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending')`,
+      `INSERT INTO ${LEADS_TABLE} (${LEADS_INSERT_COLUMNS.join(', ')})
+       VALUES (${LEADS_INSERT_PLACEHOLDERS})`,
     )
     .bind(
       id,
@@ -34,6 +44,7 @@ export async function insertLead(
       toNullable(data.productName),
       toNullable(data.formPage),
       createdAt,
+      LEAD_STATUS.pending,
     )
     .run()
 
@@ -45,7 +56,7 @@ export async function getLeadById(
   id: string,
 ): Promise<Lead | null> {
   const result = await db
-    .prepare('SELECT * FROM leads WHERE id = ?')
+    .prepare(`SELECT * FROM ${LEADS_TABLE} WHERE ${col.id} = ?`)
     .bind(id)
     .first<{
       id: string
@@ -90,7 +101,7 @@ export async function updateLeadStatus(
   status: Lead['status'],
 ): Promise<void> {
   await db
-    .prepare('UPDATE leads SET status = ? WHERE id = ?')
+    .prepare(`UPDATE ${LEADS_TABLE} SET ${col.status} = ? WHERE ${col.id} = ?`)
     .bind(status, id)
     .run()
 }

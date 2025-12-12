@@ -216,7 +216,7 @@ describe('submitLead', () => {
       const result = await submitLead({}, formData)
 
       expect(result.success).toBe(true)
-      expect(result.message).toBe('success')
+      expect(result.message).toBeUndefined()
     })
 
     it('stores lead in D1 database', async () => {
@@ -311,7 +311,7 @@ describe('submitLead', () => {
       const result = await submitLead({}, formData)
 
       expect(result.success).toBe(true)
-      expect(result.message).toBe('success')
+      expect(result.message).toBeUndefined()
       expect(consoleErrorSpy).toHaveBeenCalledWith(
         'Email notification failed:',
         expect.any(Error),

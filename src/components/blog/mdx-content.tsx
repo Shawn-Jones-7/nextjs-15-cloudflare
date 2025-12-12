@@ -1,29 +1,14 @@
-'use client'
-
-import { useMemo } from 'react'
-
-import * as runtime from 'react/jsx-runtime'
+import { MDXRemote } from 'next-mdx-remote/rsc'
 
 interface MDXContentProperties {
-  code: string
+  source: string
   className?: string
 }
 
-export function MDXContent({ code, className }: MDXContentProperties) {
-  // Velite compiles MDX to a function string that expects jsx-runtime
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  const Component = useMemo(() => {
-    // eslint-disable-next-line @typescript-eslint/no-implied-eval
-    const mdxFunction = new Function(code)
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-assignment
-    const { default: MDXComponent } = mdxFunction(runtime)
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    return MDXComponent
-  }, [code])
-
+export function MDXContent({ source, className }: MDXContentProperties) {
   return (
     <div className={className}>
-      <Component />
+      <MDXRemote source={source} />
     </div>
   )
 }

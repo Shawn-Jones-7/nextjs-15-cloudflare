@@ -2,6 +2,7 @@ import Image from 'next/image'
 import { notFound } from 'next/navigation'
 
 import type { Locale } from '@/lib/i18n/config'
+import type { ProductSpecKey } from '@/types/intl.d'
 import type { Metadata } from 'next'
 
 import { getTranslations, setRequestLocale } from 'next-intl/server'
@@ -42,8 +43,8 @@ export async function generateMetadata({
   const t = await getTranslations({ locale, namespace: 'Products.items' })
 
   return {
-    title: t(`${slug}.name`),
-    description: t(`${slug}.description`),
+    title: t(`${product.slug}.name`),
+    description: t(`${product.slug}.description`),
     alternates: buildAlternates(locale, `/products/${slug}`),
   }
 }
@@ -110,10 +111,11 @@ export default async function ProductDetailPage({ params }: Properties) {
                     className='group hover:bg-muted/50 transition-colors'
                   >
                     <td className='text-muted-foreground bg-muted/20 w-1/3 p-4 font-medium'>
-                      {tSpecs(specKey)}
+                      {tSpecs(specKey as ProductSpecKey)}
                     </td>
                     <td className='p-4 font-medium'>
-                      {t(`${product.slug}.specs.${specKey}`)}
+                      {/* @ts-expect-error - Dynamic nested key; validated by Product.slug typing */}
+                      {t.raw(`${product.slug}.specs.${specKey}`)}
                     </td>
                   </tr>
                 ))}

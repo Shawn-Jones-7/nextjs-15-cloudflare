@@ -1,0 +1,23 @@
+# Cloudflare Worker Local Development Secrets
+# Copy this file to .dev.vars and replace with your actual values
+# NEVER commit .dev.vars to version control
+
+# Cloudflare Turnstile - https://dash.cloudflare.com/turnstile
+# For testing, use Cloudflare's always-pass test keys:
+# Site Key: 1x00000000000000000000AA (always passes)
+# Secret Key: 1x0000000000000000000000000000000AA (always passes)
+TURNSTILE_SECRET_KEY=YOUR_TURNSTILE_SECRET_KEY
+NEXT_PUBLIC_TURNSTILE_SITE_KEY=YOUR_TURNSTILE_SITE_KEY
+
+# Resend Email Service - https://resend.com/api-keys
+RESEND_API_KEY=re_YOUR_RESEND_API_KEY
+RESEND_FROM_EMAIL=noreply@yourdomain.com
+RESEND_TO_EMAIL=sales@yourdomain.com
+
+# Airtable CRM (Optional) - https://airtable.com/create/tokens
+AIRTABLE_API_KEY=YOUR_AIRTABLE_API_KEY
+AIRTABLE_BASE_ID=appXXXXXXXXXXXXXX
+AIRTABLE_TABLE_NAME=Leads
+
+# Notification Email
+NOTIFICATION_EMAIL=sales@yourdomain.com

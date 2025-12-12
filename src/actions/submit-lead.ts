@@ -1,5 +1,7 @@
 'use server'
 
+import type { ContactFormErrorKey } from '@/types/intl.d'
+
 import { getCloudflareContext } from '@opennextjs/cloudflare'
 import { getLocale } from 'next-intl/server'
 
@@ -11,7 +13,7 @@ import { verifyTurnstile } from '@/lib/turnstile/verify'
 
 export interface SubmitLeadState {
   success?: boolean
-  message?: string
+  message?: ContactFormErrorKey
   errors?: Record<string, string[]>
 }
 
@@ -58,6 +60,10 @@ export async function submitLead(
 
   try {
     const turnstileSecretKey = env.TURNSTILE_SECRET_KEY
+    if (!turnstileSecretKey) {
+      console.error('TURNSTILE_SECRET_KEY not configured')
+      return { success: false, message: 'server_error' }
+    }
     const turnstileResult = await verifyTurnstile(
       parsed.data.turnstileToken,
       turnstileSecretKey,
@@ -90,8 +96,27 @@ export async function submitLead(
 
     leadId = await insertLead(env.CONTACT_FORM_D1, normalizedLead)
 
-    // Process lead synchronously (Queue requires Workers Paid plan)
-    // When Queue is available, replace this block with: await env.LEAD_QUEUE.send({ leadId });
+    // ------------------------------------------------------------------
+    // QUEUE ENABLEMENT: Async Lead Processing
+    // ------------------------------------------------------------------
+    // Current: Synchronous processing (email sent inline during request)
+    // Target:  Async processing via Cloudflare Queue (requires Workers Paid plan)
+    //
+    // To enable Queue-based processing:
+    // 1. Upgrade to Workers Paid plan
+    // 2. Uncomment queue bindings in wrangler.toml:
+    //    [[queues.producers]]
+    //    queue = "lead-notifications"
+    //    binding = "LEAD_QUEUE"
+    //    [[queues.consumers]]
+    //    queue = "lead-notifications"
+    //    max_batch_size = 10
+    //    max_batch_timeout = 30
+    // 3. Add LEAD_QUEUE to CloudflareEnv type (regenerate with: wrangler types)
+    // 4. Replace the synchronous block below with:
+    //    await env.LEAD_QUEUE.send({ leadId })
+    // 5. The consumer in src/queue/consumer.ts handles email + Airtable sync
+    // ------------------------------------------------------------------
     const lead = await getLeadById(env.CONTACT_FORM_D1, leadId)
     if (
       lead &&
@@ -110,7 +135,7 @@ export async function submitLead(
       await updateLeadStatus(env.CONTACT_FORM_D1, leadId, 'processed')
     }
 
-    return { success: true, message: 'success' }
+    return { success: true }
   } catch (error) {
     console.error('submitLead failed', error)
     if (leadId) {

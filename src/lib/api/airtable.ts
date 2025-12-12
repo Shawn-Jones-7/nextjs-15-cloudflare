@@ -1,5 +1,7 @@
 import type { Lead } from '@/lib/schemas/lead'
 
+import { FetchRetryError, fetchWithRetry } from './fetch-with-retry'
+
 interface AirtableSyncOptions {
   lead: Lead
   apiKey: string
@@ -12,6 +14,13 @@ interface AirtableResponse {
   error?: { type: string; message: string }
 }
 
+/** Airtable API timeout: 10s */
+const AIRTABLE_TIMEOUT_MS = 10_000
+
+/**
+ * Sync lead data to Airtable.
+ * Includes automatic retry with exponential backoff for transient failures.
+ */
 export async function syncLeadToAirtable({
   lead,
   apiKey,
@@ -22,6 +31,37 @@ export async function syncLeadToAirtable({
   recordId?: string
   error?: string
 }> {
+  const fields = buildAirtableFields(lead)
+
+  try {
+    const result = await fetchWithRetry<AirtableResponse>(
+      `https://api.airtable.com/v0/${baseId}/${encodeURIComponent(tableName)}`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${apiKey}`,
+        },
+        body: JSON.stringify({ fields }),
+      },
+      { timeoutMs: AIRTABLE_TIMEOUT_MS },
+    )
+
+    if (result.error) {
+      return { success: false, error: result.error.message }
+    }
+
+    return { success: true, recordId: result.id }
+  } catch (error) {
+    if (error instanceof FetchRetryError) {
+      const apiError = extractAirtableError(error.responseBody)
+      return { success: false, error: apiError ?? error.message }
+    }
+    throw error
+  }
+}
+
+function buildAirtableFields(lead: Lead): Record<string, string> {
   const fields: Record<string, string> = {
     'Lead ID': lead.id,
     Name: lead.name,
@@ -34,39 +74,16 @@ export async function syncLeadToAirtable({
     'Created At': new Date(lead.createdAt).toISOString(),
   }
 
-  if (lead.inquiryType) {
-    fields['Inquiry Type'] = lead.inquiryType
-  }
-  if (lead.productName) {
-    fields['Product Name'] = lead.productName
-  }
-  if (lead.productSlug) {
-    fields['Product Slug'] = lead.productSlug
-  }
-  if (lead.formPage) {
-    fields['Form Page'] = lead.formPage
-  }
+  if (lead.inquiryType) fields['Inquiry Type'] = lead.inquiryType
+  if (lead.productName) fields['Product Name'] = lead.productName
+  if (lead.productSlug) fields['Product Slug'] = lead.productSlug
+  if (lead.formPage) fields['Form Page'] = lead.formPage
 
-  const response = await fetch(
-    `https://api.airtable.com/v0/${baseId}/${encodeURIComponent(tableName)}`,
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${apiKey}`,
-      },
-      body: JSON.stringify({ fields }),
-    },
-  )
+  return fields
+}
 
-  const result: AirtableResponse = await response.json()
-
-  if (!response.ok || result.error) {
-    return {
-      success: false,
-      error: result.error?.message ?? 'Failed to sync to Airtable',
-    }
-  }
-
-  return { success: true, recordId: result.id }
+function extractAirtableError(body: unknown): string | undefined {
+  if (typeof body !== 'object' || body === null) return undefined
+  const error = (body as { error?: { message?: string } }).error
+  return error?.message
 }

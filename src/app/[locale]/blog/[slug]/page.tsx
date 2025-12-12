@@ -135,7 +135,7 @@ export default async function BlogPostPage({ params }: Properties) {
         )}
 
         <MDXContent
-          code={post.content}
+          source={post.content}
           className='prose prose-slate dark:prose-invert prose-headings:scroll-m-20 prose-headings:font-semibold prose-headings:tracking-tight prose-h2:mt-10 prose-h2:border-b prose-h2:pb-2 prose-h2:text-3xl prose-h2:first:mt-0 prose-h3:mt-8 prose-h3:text-2xl prose-p:leading-7 prose-p:[&:not(:first-child)]:mt-6 prose-a:font-medium prose-a:text-primary prose-a:underline prose-a:underline-offset-4 hover:prose-a:text-primary/80 prose-blockquote:border-s-4 prose-blockquote:bg-muted/30 prose-blockquote:py-1 prose-blockquote:ps-4 prose-blockquote:italic prose-ul:my-6 prose-ul:ms-6 prose-ul:list-disc prose-ol:my-6 prose-ol:ms-6 prose-ol:list-decimal prose-li:mt-2 prose-img:rounded-lg prose-img:border prose-img:border-border prose-hr:my-8 max-w-none'
         />
 

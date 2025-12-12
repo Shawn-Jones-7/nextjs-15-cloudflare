@@ -2,6 +2,7 @@
 
 import { useTransition } from 'react'
 
+import type { Locale } from '@/lib/i18n/config'
 import type { ChangeEvent } from 'react'
 
 import { useLocale, useTranslations } from 'next-intl'
@@ -17,7 +18,7 @@ export default function LocaleSwitcher() {
   const [isPending, startTransition] = useTransition()
 
   function onSelectChange(event: ChangeEvent<HTMLSelectElement>) {
-    const nextLocale = event.target.value
+    const nextLocale = event.target.value as Locale
     startTransition(() => {
       router.replace(pathname, { locale: nextLocale })
     })

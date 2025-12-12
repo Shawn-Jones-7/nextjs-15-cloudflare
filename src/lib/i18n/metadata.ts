@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import type { Locale } from './config'
 
-import { defaultLocale } from './config'
+import { defaultLocale, locales } from './config'
 
 const rawSiteUrl =
   process.env.NEXT_PUBLIC_SITE_URL ??
@@ -20,13 +20,10 @@ export function buildAlternates(
 
   const buildUrl = (loc: string) => `${siteUrl}/${loc}${localizedPath}`
 
-  const languages = {
-    'x-default': buildUrl(defaultLocale),
-    en: buildUrl('en'),
-    zh: buildUrl('zh'),
-    es: buildUrl('es'),
-    ar: buildUrl('ar'),
-  } as const
+  const languages = Object.fromEntries([
+    ['x-default', buildUrl(defaultLocale)],
+    ...locales.map((loc) => [loc, buildUrl(loc)]),
+  ]) as Record<'x-default' | Locale, string>
 
   const canonical = buildUrl(locale)
 

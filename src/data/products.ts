@@ -1,3 +1,5 @@
+import type { CategoryI18nKey, ProductItemKey } from '@/types/intl.d'
+
 export type ProductCategorySlug =
   | 'industrial-pumps'
   | 'valves'
@@ -6,7 +8,7 @@ export type ProductCategorySlug =
   | 'accessories'
 
 export interface Product {
-  slug: string
+  slug: ProductItemKey
   categorySlug: ProductCategorySlug
   image: string
   specKeys: string[]
@@ -14,7 +16,7 @@ export interface Product {
 
 export interface ProductCategory {
   slug: ProductCategorySlug
-  i18nKey: string
+  i18nKey: CategoryI18nKey
   icon: string
   products: Product[]
 }

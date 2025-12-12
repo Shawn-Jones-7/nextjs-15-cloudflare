@@ -1,19 +1,30 @@
 import type { Locale } from '@/lib/i18n/config'
+import type { Metadata } from 'next'
 
 import { useTranslations } from 'next-intl'
-import { setRequestLocale } from 'next-intl/server'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
 
+import { caseStudies } from '@/data/cases'
+import { buildPageMetadata } from '@/lib/i18n/metadata'
 import { Link } from '@/lib/i18n/routing'
 
 interface Properties {
   params: Promise<{ locale: Locale }>
 }
 
-const caseStudies = [
-  { slug: 'logistics-optimization', industry: 'logistics' },
-  { slug: 'supply-chain-integration', industry: 'manufacturing' },
-  { slug: 'global-expansion', industry: 'retail' },
-]
+export async function generateMetadata({
+  params,
+}: Properties): Promise<Metadata> {
+  const { locale } = await params
+  const t = await getTranslations({ locale, namespace: 'CasesPage' })
+
+  return buildPageMetadata({
+    title: t('title'),
+    description: t('description'),
+    locale,
+    pathname: '/cases',
+  })
+}
 
 export default async function CasesPage({ params }: Properties) {
   const { locale } = await params

@@ -27,5 +27,15 @@
   ],
 
   // Typescript
-  "typescript.tsdk": "node_modules/typescript/lib"
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "i18n-ally.localesPaths": [
+    "messages",
+    "src/i18n",
+    "coverage/components/i18n",
+    "coverage/lib/i18n",
+    "src/components/i18n",
+    "src/lib/i18n",
+    "coverage/lcov-report/components/i18n",
+    "coverage/lcov-report/lib/i18n"
+  ]
 }

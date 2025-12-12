@@ -91,4 +91,6 @@ words:
   - اختبار
   - codecov
   - lcov
+  - retriable
+  - Retriable
   - unittests
