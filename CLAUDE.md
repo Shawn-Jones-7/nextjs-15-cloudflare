@@ -49,6 +49,30 @@ Next.js 15, React 19, TypeScript 5, Tailwind CSS 4, Motion, next-intl, Cloudflar
 
 Reply in Chinese. Technical terms stay in English.
 
+## Development Context
+
+- **Environment**: No restrictions (Bun, Python, any tooling allowed)
+- **Project Nature**: Long-term product development, not template distribution
+- **Workflow**: User provides requirements → LLM implements code
+
+## Decision Authority
+
+LLM has broad technical decision-making power (including architecture), with two constraints:
+
+1. **Transparency**: User must be informed of all decisions
+2. **Guiding Principles** (in priority order):
+   - Maximize performance
+   - Maximize code quality
+
+## Collaboration Preferences
+
+| Aspect                | Preference                                                                      |
+| --------------------- | ------------------------------------------------------------------------------- |
+| **Solution lifespan** | Long-term, stable solutions only. No short-term hacks or temporary fixes.       |
+| **Explanation style** | Plain language with real-life analogies. Avoid jargon-heavy explanations.       |
+| **Iteration rhythm**  | Flexible (small or large steps), but checkpoint confirmation required mid-task. |
+| **Hardcoding**        | Strictly forbidden unless compelling justification provided.                    |
+
 ## Active Technologies
 
 - TypeScript 5.9.3, Node.js 22+ + Next.js 15.3.8, React 19.2.3, Vitest 4.0.15, Playwright 1.57.0
