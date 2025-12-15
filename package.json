@@ -15,7 +15,7 @@
     "d1:migrate": "wrangler d1 migrations apply CONTACT_FORM_D1 --local",
     "d1:migrate:remote": "wrangler d1 migrations apply CONTACT_FORM_D1 --remote",
     "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
-    "dev": "next dev --turbopack",
+    "dev": "npx @react-grab/claude-code@latest && next dev --turbopack",
     "format": "pnpm format:check --write",
     "format:check": "prettier \"**/*\" --ignore-unknown --list-different",
     "lint": "next lint --dir . --max-warnings=0",

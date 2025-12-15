@@ -2,6 +2,7 @@ import '../globals.css'
 
 import dynamic from 'next/dynamic'
 import { notFound } from 'next/navigation'
+import Script from 'next/script'
 
 import type { Locale } from '@/lib/i18n/config'
 import type { Metadata } from 'next'
@@ -97,6 +98,18 @@ export default async function LocaleLayout({ children, params }: Properties) {
     <html lang={locale} dir={direction} suppressHydrationWarning>
       <head>
         <OrganizationJsonLd />
+        {process.env.NODE_ENV === 'development' && (
+          <>
+            <Script
+              src='//unpkg.com/react-grab/dist/index.global.js'
+              strategy='beforeInteractive'
+            />
+            <Script
+              src='//unpkg.com/@react-grab/claude-code/dist/client.global.js'
+              strategy='lazyOnload'
+            />
+          </>
+        )}
       </head>
       <body className='flex min-h-screen flex-col'>
         <ThemeProvider attribute='class' disableTransitionOnChange>
